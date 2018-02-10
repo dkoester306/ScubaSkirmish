@@ -2,21 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using NUnit.Framework;
 
 public class SwimmerCharacter2D : MonoBehaviour {
-	[SerializeField] private float m_MaxSpeed = 6f;			// The fastest the player can travel in any direction
+	[SerializeField] private float m_MaxSpeed = 6f;				// The fastest the player can travel in any directions
+	[SerializeField] private float m_MinX=-8.21f;						// The smallest x value the player can be in
+	[SerializeField] private float m_MaxX = 8.4f;						// The smallest x value the player can be in
+	[SerializeField] private float m_MinY=-4.88f;						// The smallest x value the player can be in
+	[SerializeField] private float m_MaxY=4.85f;						// The smallest x value the player can be in
+
 	private Rigidbody2D m_RigidBody;
 	private bool m_FacingRight = true;
+	private Vector3 m_Position;
+
+
 
 	void Awake()
 	{
 		// setting up the references
-		m_RigidBody =  GetComponent<Rigidbody2D>();
+		m_RigidBody =  GetComponent<Rigidbody2D>(); 
+
 	}
 
 	// Use this for initialization
 	void Start () {
-		
+		m_Position = this.transform.position;
 	}
 
 	/// <summary>
@@ -55,6 +65,28 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		
+		UpdatePosition ();
 	}
+
+	void LateUpdate()
+	{
+		BoundaryCollision ();
+	}
+
+
+
+	void BoundaryCollision()
+	{
+		Vector3 newPos = m_Position;
+		newPos.x = Mathf.Clamp (m_Position.x, m_MinX, m_MaxX);
+		newPos.y = Mathf.Clamp (m_Position.y, m_MinY, m_MaxY);
+		this.transform.position = newPos;
+	}
+
+
+	void UpdatePosition()
+	{
+		m_Position = this.transform.position;
+	}
+		
 }
