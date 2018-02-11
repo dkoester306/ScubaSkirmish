@@ -1,0 +1,490 @@
+fileFormatVersion: 2
+guid: bdd7f3b3e8446f64c86b6931e483b41d
+timeCreated: 1518316256
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: fishspritesheet_0
+    21300002: fishspritesheet_1
+    21300004: fishspritesheet_2
+    21300006: fishspritesheet_3
+    21300008: fishspritesheet_4
+    21300010: fishspritesheet_5
+    21300012: fishspritesheet_6
+    21300014: fishspritesheet_7
+    21300016: fishspritesheet_8
+    21300018: fishspritesheet_9
+    21300020: fishspritesheet_10
+    21300022: fishspritesheet_11
+    21300024: fishspritesheet_12
+    21300026: fishspritesheet_13
+    21300028: fishspritesheet_14
+    21300030: fishspritesheet_15
+    21300032: fishspritesheet_16
+    21300034: fishspritesheet_17
+    21300036: fishspritesheet_18
+    21300038: fishspritesheet_19
+    21300040: fishspritesheet_20
+    21300042: fishspritesheet_21
+    21300044: fishspritesheet_22
+    21300046: fishspritesheet_23
+    21300048: fishspritesheet_24
+    21300050: fishspritesheet_25
+    21300052: fishspritesheet_26
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fishspritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 1390
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 1385
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 1385
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 1385
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 1205
+        y: 1385
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 1170
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 1160
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 1160
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 1170
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 1205
+        y: 1170
+        width: 200
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 930
+        width: 220
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 930
+        width: 220
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 930
+        width: 220
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 930
+        width: 220
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 1205
+        y: 930
+        width: 220
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 640
+        width: 190
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 630
+        width: 190
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 620
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 925
+        y: 620
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 625
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 355
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 355
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 355
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 925
+        y: 355
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 1225
+        y: 355
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 70
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fishspritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 85
+        width: 210
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
