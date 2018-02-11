@@ -58,7 +58,7 @@ public class SwimmerCharacter2D : MonoBehaviour {
 
 		// Multiply the player's x local scale by -1
 		Vector3 theScale = transform.localScale;
-		theScale.y *= -1;
+		theScale.x *= -1;
 		transform.localScale = theScale;
 
 
@@ -88,5 +88,7 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	{
 		m_Position = this.transform.position;
 	}
+
+
 		
 }
