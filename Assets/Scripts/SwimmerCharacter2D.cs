@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using NUnit.Framework;
+using UnityEngine.SceneManagement;
 
 public class SwimmerCharacter2D : MonoBehaviour {
 	[SerializeField] private float m_MaxSpeed = 6f;				// The fastest the player can travel in any directions
@@ -72,6 +72,9 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		UpdatePosition ();
+		if (m_PlayerHealth <= 0)
+			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+			
 	}
 
 	void LateUpdate()
