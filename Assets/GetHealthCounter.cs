@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GetFishCount : MonoBehaviour {
+public class GetHealthCounter : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -12,6 +12,6 @@ public class GetFishCount : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		GetComponent<Text> ().text = GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().FishCount+"";
+		GetComponent<Text> ().text = GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().PlayerHealth+"";
 	}
 }

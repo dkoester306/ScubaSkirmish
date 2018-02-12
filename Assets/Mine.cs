@@ -16,5 +16,18 @@ public class Mine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		m_RigidBody.velocity = new Vector2 (m_SpeedX, 0);
+		if (this.transform.position.x < -12f)
+			DestroyObject (gameObject);
 	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Player")
+		{
+			GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().PlayerHealth--;
+			DestroyObject (this.gameObject);
+		}
+	}
+
+
 }

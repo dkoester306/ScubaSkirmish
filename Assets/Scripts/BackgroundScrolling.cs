@@ -42,7 +42,6 @@ public class BackgroundScrolling : MonoBehaviour {
 		if (m_RightIndex < 0)
 			m_RightIndex = m_Layers.Length - 1;
 
-		Debug.Log (m_LeftIndex+"  "+m_RightIndex);
 
 	}
 

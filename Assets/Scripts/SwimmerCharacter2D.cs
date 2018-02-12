@@ -15,7 +15,11 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	private bool m_FacingRight = true;
 	private Vector3 m_Position;
 
+	private int fishCount;
+	private int m_PlayerHealth;
 
+	public int FishCount{get{return fishCount;}}
+	public int PlayerHealth{get{return m_PlayerHealth;}set{m_PlayerHealth = value;}}
 
 	void Awake()
 	{
@@ -27,6 +31,8 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_Position = this.transform.position;
+		fishCount = 0;
+		m_PlayerHealth = 10;
 	}
 
 	/// <summary>
@@ -89,6 +95,18 @@ public class SwimmerCharacter2D : MonoBehaviour {
 		m_Position = this.transform.position;
 	}
 
+	public void IncreaseFishCount()
+	{
+		fishCount++;
+	}
 
+	void CheckZeroHealth()
+	{
+		if(m_PlayerHealth<=0)
+		{
+			
+		}
+	}
+		
 		
 }
