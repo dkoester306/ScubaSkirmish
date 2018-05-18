@@ -1,7 +1,14 @@
 fileFormatVersion: 2
 guid: aa6ae1ccfe46b784282fe3f3daf30b52
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: scubaspritesheet_0
+    21300002: scubaspritesheet_1
+    21300004: scubaspritesheet_2
+    21300006: scubaspritesheet_3
+    21300008: scubaspritesheet_4
+    21300010: scubaspritesheet_5
+    21300012: scubaspritesheet_6
   externalObjects: {}
   serializedVersion: 6
   mipmaps:
@@ -40,7 +47,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -82,7 +89,147 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: scubaspritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 262
+        width: 111
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6d3e7c9e3b32884f8299ff508d5a0d3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scubaspritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 261
+        width: 113
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23a09e2553e5995448d141b16529681e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scubaspritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 194
+        width: 113
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08e5185eb85bb644dbd5f6718a70ed69
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scubaspritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 203
+        width: 115
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e6ee93f1bb0ed84f9774f4ac83bf7ee
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scubaspritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 135
+        width: 111
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8a548570fa5c094ca674f730e90c113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scubaspritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 135
+        width: 115
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb0f5072ac96f9047b3e691a535d68e9
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scubaspritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 53
+        width: 100
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18e366bc72cebd04ebec2e87077fa549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
