@@ -16,6 +16,7 @@ public class Swimmer2DUserControl : MonoBehaviour {
         airGravity = GetComponent<SwimmerAirGravity>();
 	}
 	
+	
 	// Update is called once per frame
 	void Update () {
 		
@@ -32,7 +33,8 @@ public class Swimmer2DUserControl : MonoBehaviour {
         {
             m_Character.Move(h, v);
         }
-            
+
 		    
+
 	}
 }

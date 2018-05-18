@@ -6,10 +6,10 @@ public class Anchor : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.tag == "Player")
+		if (other.tag == "Swimmer")
 		{
-			GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().PlayerHealth--;
-			DestroyObject (this.gameObject);
+			GameObject.FindGameObjectWithTag("Swimmer").GetComponent<SwimmerCharacter2D> ().PlayerHealth--;
+			GameObject.Destroy(gameObject);
 		}
 			
 	}
@@ -17,7 +17,7 @@ public class Anchor : MonoBehaviour {
 	void Update()
 	{
 		if (this.transform.position.y < -6f)
-			DestroyObject (gameObject);
+			GameObject.Destroy(gameObject);
 	}
 		
 }

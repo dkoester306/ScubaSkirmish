@@ -11,6 +11,8 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	[SerializeField] private float m_MinY=-4.88f;						// The smallest x value the player can be in
 	[SerializeField] private float m_MaxY=4.85f;						// The smallest x value the player can be in
 
+	[SerializeField] private int startingHealth;				// The amount of health that the player will have
+
 	private Rigidbody2D m_RigidBody;
 	private bool m_FacingRight = true;
 	private Vector3 m_Position;
@@ -32,7 +34,7 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	void Start () {
 		m_Position = this.transform.position;
 		fishCount = 0;
-		m_PlayerHealth = 10;
+		m_PlayerHealth = startingHealth;
 	}
 
 	/// <summary>
@@ -103,13 +105,6 @@ public class SwimmerCharacter2D : MonoBehaviour {
 		fishCount++;
 	}
 
-	void CheckZeroHealth()
-	{
-		if(m_PlayerHealth<=0)
-		{
-			
-		}
-	}
 		
 		
 }
