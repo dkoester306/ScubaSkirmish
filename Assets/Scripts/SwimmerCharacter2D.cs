@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 public class SwimmerCharacter2D : MonoBehaviour {
 	[SerializeField] private float m_MaxSpeed = 6f;				// The fastest the player can travel in any directions
 	[SerializeField] private float m_MinX=-8.21f;						// The smallest x value the player can be in
-	[SerializeField] private float m_MaxX = 8.4f;						// The smallest x value the player can be in
-	[SerializeField] private float m_MinY=-4.88f;						// The smallest x value the player can be in
+	[SerializeField] private float m_MaxX = 8.21f;						// The smallest x value the player can be in
+	[SerializeField] private float m_MinY=-4.85f;						// The smallest x value the player can be in
 	[SerializeField] private float m_MaxY=4.85f;						// The smallest x value the player can be in
 
 	[SerializeField] private int startingHealth;				// The amount of health that the player will have
@@ -46,7 +46,7 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	{
 		// move the character
 		m_RigidBody.velocity = new Vector2 (moveH * m_MaxSpeed, moveV * m_MaxSpeed);
-
+		Debug.Log(m_RigidBody.velocity);
 		// if the player is moving right, then make the player face left
 		if(moveH>0&& !m_FacingRight )
 		{

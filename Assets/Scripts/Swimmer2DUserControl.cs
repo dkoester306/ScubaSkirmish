@@ -31,7 +31,7 @@ public class Swimmer2DUserControl : MonoBehaviour {
 
         if (inAir == false)
         {
-            m_Character.Move(h, v);
+            m_Character.Move(h*1.1f, v);
         }
 
 		    
