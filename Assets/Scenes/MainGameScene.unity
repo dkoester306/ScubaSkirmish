@@ -554,7 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e177baff7c4f25947a5b364affdfc4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Mine: {fileID: 1161693108041676, guid: 79421a3172661b34aaf749db013f5682, type: 2}
+  m_Mine: {fileID: 1297329356192060, guid: 8677fe320f8fdad4d93a965ca4ee9e99, type: 2}
   m_Fish: {fileID: 1777938882072510, guid: b74e72453cbcb5e419be238cd1cc5d69, type: 2}
   m_Anchor: {fileID: 1132286919364728, guid: 2ada94055a9ee294780cc36ecf57a0bf, type: 2}
   m_MinX: 20
@@ -743,7 +743,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 439127628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56ac0ac7cb1a39f499a74decdd0e65ce, type: 3}
+  m_Script: {fileID: 11500000, guid: fd1a384648667cf46bca625082a78f66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthIcons:

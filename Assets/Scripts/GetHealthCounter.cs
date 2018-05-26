@@ -8,7 +8,6 @@ public class GetHealthCounter : MonoBehaviour {
 	int currentHealth;
 	public List<GameObject> healthIcons;
 	
-	
 	void Awake()
 	{
 		currentHealth = GameObject.FindGameObjectWithTag("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth;

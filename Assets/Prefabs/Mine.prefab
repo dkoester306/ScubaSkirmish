@@ -9,35 +9,21 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-<<<<<<< HEAD
-  m_RootGameObject: {fileID: 1161693108041676}
-  m_IsPrefabAsset: 1
---- !u!1 &1161693108041676
-=======
   m_RootGameObject: {fileID: 1297329356192060}
   m_IsPrefabAsset: 1
 --- !u!1 &1297329356192060
->>>>>>> master
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
-  - component: {fileID: 4972040866850488}
-  - component: {fileID: 212263140802312528}
-  - component: {fileID: 114360390342089452}
-  - component: {fileID: 50432951835009544}
-  - component: {fileID: 58995058242295402}
-=======
   - component: {fileID: 4874314538177662}
   - component: {fileID: 212549961533310462}
   - component: {fileID: 114000768002971084}
   - component: {fileID: 50355372370474532}
   - component: {fileID: 61931784361480216}
   - component: {fileID: 95209658535432230}
->>>>>>> master
   m_Layer: 0
   m_Name: Mine
   m_TagString: Untagged
@@ -52,13 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1297329356192060}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-<<<<<<< HEAD
-  m_LocalPosition: {x: -0.5163374, y: -0.6167108, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
-=======
   m_LocalPosition: {x: 5.4166465, y: 0.75206625, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
->>>>>>> master
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,13 +64,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 2
-<<<<<<< HEAD
---- !u!58 &58995058242295402
-CircleCollider2D:
-=======
 --- !u!61 &61931784361480216
 BoxCollider2D:
->>>>>>> master
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -100,12 +76,6 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-<<<<<<< HEAD
-  m_Offset: {x: 0, y: 0.42}
-  serializedVersion: 2
-  m_Radius: 0.73
---- !u!114 &114360390342089452
-=======
   m_Offset: {x: -0.05692482, y: 2.4268706}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,7 +108,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114000768002971084
->>>>>>> master
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,11 +154,7 @@ SpriteRenderer:
   m_SortingLayerID: 1878244255
   m_SortingLayer: 3
   m_SortingOrder: 0
-<<<<<<< HEAD
-  m_Sprite: {fileID: 21300000, guid: a918abc3dcdeb8d4c93dfb2f2b9cba0c, type: 3}
-=======
   m_Sprite: {fileID: 21300000, guid: 8e4557299fad29040a238bdfd5dfcac8, type: 3}
->>>>>>> master
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -56,11 +56,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102095839205707640}
-<<<<<<< HEAD:Assets/Animations/scubaspritesheet_0.controller
-    m_Position: {x: 408, y: 24, z: 0}
-=======
     m_Position: {x: 324, y: 204, z: 0}
->>>>>>> master:Assets/Prefabs/Animations/scubaspritesheet_0.controller
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
