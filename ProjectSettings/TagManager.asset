@@ -8,6 +8,9 @@ TagManager:
   - Air
   - Swimmer
   - GameTitle
+  - Anchor
+  - Mine
+  - Fish
   layers:
   - Default
   - TransparentFX
