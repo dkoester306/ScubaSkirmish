@@ -567,8 +567,8 @@ MonoBehaviour:
   m_AnchorMaxY: 20
   m_MineMinX: 20
   m_MineMaxX: 42
-  m_MineMinY: -3.5
-  m_MineMaxY: 3.5
+  m_MineMinY: -6
+  m_MineMaxY: 2.5
   fishTimer:
   - 0.5
   - 3
