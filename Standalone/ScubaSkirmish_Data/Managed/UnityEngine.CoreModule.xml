@@ -6824,11 +6824,10 @@ Windows Store Apps: tablets are treated as desktop machines, thus DeviceType.Han
       <param name="rectTransform">The RectTransform to be driven.</param>
       <param name="drivenProperties">The properties to be driven.</param>
     </member>
-    <member name="M:UnityEngine.DrivenRectTransformTracker.Clear()">
+    <member name="M:UnityEngine.DrivenRectTransformTracker.Clear">
       <summary>
         <para>Clear the list of RectTransforms being driven.</para>
       </summary>
-      <param name="revertValues"></param>
     </member>
     <member name="T:UnityEngine.DrivenTransformProperties">
       <summary>
@@ -17822,17 +17821,22 @@ The Player ID is always 1, because only one Editor can be connected.</param>
     </member>
     <member name="F:UnityEngine.Playables.DataStreamType.Animation">
       <summary>
-        <para>Describes that the information flowing in and out of the Playable is of type Animation.</para>
+        <para>Describes that the information flowing in and out of the Playable is of Animation type.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.Playables.DataStreamType.Audio">
       <summary>
-        <para>Describes that the information flowing in and out of the Playable is Audio.</para>
+        <para>Describes that the information flowing in and out of the Playable is of Audio type.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.Playables.DataStreamType.None">
       <summary>
         <para>Describes that the Playable does not have any particular type. This is use for Playables that execute script code, or that create their own playable graphs, such as the Sequence.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.Playables.DataStreamType.Video">
+      <summary>
+        <para>Describes that the information flowing in and out of the Playable is of Video type.</para>
       </summary>
     </member>
     <member name="T:UnityEngine.Playables.DirectorUpdateMode">
@@ -17962,7 +17966,7 @@ The Player ID is always 1, because only one Editor can be connected.</param>
     </member>
     <member name="T:UnityEngine.Playables.Playable">
       <summary>
-        <para>Playables are customizable runtime objects that can be connected together in a tree contained in a PlayableGraph to create complex behaviours.</para>
+        <para>Playables are customizable runtime objects that can be connected together and are contained in a PlayableGraph to create complex behaviours.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Playables.Playable.Null">
@@ -18045,7 +18049,7 @@ The Player ID is always 1, because only one Editor can be connected.</param>
       <param name="playable">The Playable that owns the current PlayableBehaviour.</param>
       <param name="info">A FrameData structure that contains information about the current frame context.</param>
     </member>
-    <member name="M:UnityEngine.Playables.PlayableBehaviour.ProcessFrame">
+    <member name="M:UnityEngine.Playables.PlayableBehaviour.ProcessFrame(UnityEngine.Playables.Playable,UnityEngine.Playables.FrameData,System.Object)">
       <summary>
         <para>This function is called during the ProcessFrame phase of the PlayableGraph.</para>
       </summary>
@@ -18105,7 +18109,7 @@ The Player ID is always 1, because only one Editor can be connected.</param>
         <para>The index of the newly created input port.</para>
       </returns>
     </member>
-    <member name="M:UnityEngine.Playables.PlayableExtensions.ConnectInput(U,System.Int32,V,System.Int32)">
+    <member name="M:UnityEngine.Playables.PlayableExtensions.ConnectInput(U,System.Int32,V,System.Int32,System.Single)">
       <summary>
         <para>Connect the output port of a Playable to one of the input ports.</para>
       </summary>
@@ -18113,6 +18117,7 @@ The Player ID is always 1, because only one Editor can be connected.</param>
       <param name="inputIndex">The input port index.</param>
       <param name="sourcePlayable">The Playable to connect to.</param>
       <param name="sourceOutputIndex">The output port of the Playable.</param>
+      <param name="weight">The weight of the input port.</param>
     </member>
     <member name="M:UnityEngine.Playables.PlayableExtensions.Destroy(U)">
       <summary>
@@ -18316,10 +18321,10 @@ The Player ID is always 1, because only one Editor can be connected.</param>
     </member>
     <member name="T:UnityEngine.Playables.PlayableGraph">
       <summary>
-        <para>The PlayableGraph is used to manage Playable creation, destruction and connections.</para>
+        <para>Use the PlayableGraph to manage Playable creations and destructions.</para>
       </summary>
     </member>
-    <member name="M:UnityEngine.Playables.PlayableGraph.Connect">
+    <member name="M:UnityEngine.Playables.PlayableGraph.Connect(U,System.Int32,V,System.Int32)">
       <summary>
         <para>Connects two Playable instances.</para>
       </summary>
@@ -18335,6 +18340,9 @@ The Player ID is always 1, because only one Editor can be connected.</param>
       <summary>
         <para>Creates a PlayableGraph.</para>
       </summary>
+      <returns>
+        <para>The newly created PlayableGraph.</para>
+      </returns>
     </member>
     <member name="M:UnityEngine.Playables.PlayableGraph.Destroy">
       <summary>
@@ -18347,26 +18355,32 @@ The Player ID is always 1, because only one Editor can be connected.</param>
       </summary>
       <param name="output">The output to destroy.</param>
     </member>
-    <member name="M:UnityEngine.Playables.PlayableGraph.DestroyPlayable">
+    <member name="M:UnityEngine.Playables.PlayableGraph.DestroyPlayable(U)">
       <summary>
         <para>Destroys the Playable.</para>
       </summary>
       <param name="playable">The playable to destroy.</param>
     </member>
-    <member name="M:UnityEngine.Playables.PlayableGraph.DestroySubgraph">
+    <member name="M:UnityEngine.Playables.PlayableGraph.DestroySubgraph(U)">
       <summary>
-        <para>Recursively destroys the given Playable and all children connected to its inputs.</para>
+        <para>Destroys the Playable and all its inputs, recursively.</para>
       </summary>
-      <param name="playable">The playable to destroy.</param>
+      <param name="playable">The Playable to destroy.</param>
     </member>
-    <member name="M:UnityEngine.Playables.PlayableGraph.Disconnect">
+    <member name="M:UnityEngine.Playables.PlayableGraph.Disconnect(U,System.Int32)">
       <summary>
-        <para>Disconnects Playable.  The connections determine the topology of the PlayableGraph and how its is evaluated.</para>
+        <para>Disconnects the Playable. The connections determine the topology of the PlayableGraph and how it is evaluated.</para>
       </summary>
-      <param name="playable">The source playabe or its handle.</param>
+      <param name="input">The source playabe or its handle.</param>
       <param name="inputPort">The port used in the source playable.</param>
     </member>
     <member name="M:UnityEngine.Playables.PlayableGraph.Evaluate(System.Single)">
+      <summary>
+        <para>Evaluates all the PlayableOutputs in the graph, and updates all the connected Playables in the graph.</para>
+      </summary>
+      <param name="deltaTime">The time in seconds by which to advance each Playable in the graph.</param>
+    </member>
+    <member name="M:UnityEngine.Playables.PlayableGraph.Evaluate()">
       <summary>
         <para>Evaluates all the PlayableOutputs in the graph, and updates all the connected Playables in the graph.</para>
       </summary>
@@ -18376,23 +18390,35 @@ The Player ID is always 1, because only one Editor can be connected.</param>
       <summary>
         <para>Get PlayableOutput at the given index in the graph.</para>
       </summary>
-      <param name="index"></param>
+      <param name="index">The output index.</param>
+      <returns>
+        <para>The PlayableOutput at this given index, otherwise null.</para>
+      </returns>
     </member>
     <member name="M:UnityEngine.Playables.PlayableGraph.GetOutputByType(System.Int32)">
       <summary>
         <para>Get PlayableOutput of the requested type at the given index in the graph.</para>
       </summary>
-      <param name="index"></param>
+      <param name="index">The output index.</param>
+      <returns>
+        <para>The PlayableOutput at the given index among all the PlayableOutput of the same type T.</para>
+      </returns>
     </member>
     <member name="M:UnityEngine.Playables.PlayableGraph.GetOutputCount">
       <summary>
-        <para>Get the number of PlayableOutput in the graph.</para>
+        <para>Returns the number of PlayableOutput in the graph.</para>
       </summary>
+      <returns>
+        <para>The number of PlayableOutput in the graph.</para>
+      </returns>
     </member>
     <member name="M:UnityEngine.Playables.PlayableGraph.GetOutputCountByType">
       <summary>
         <para>Get the number of PlayableOutput of the requested type in the graph.</para>
       </summary>
+      <returns>
+        <para>The number of PlayableOutput of the same type T in the graph.</para>
+      </returns>
     </member>
     <member name="M:UnityEngine.Playables.PlayableGraph.GetPlayableCount">
       <summary>
@@ -18459,7 +18485,7 @@ The Player ID is always 1, because only one Editor can be connected.</param>
       <summary>
         <para>Changes how time is incremented when playing back.</para>
       </summary>
-      <param name="value"></param>
+      <param name="value">The new DirectorUpdateMode.</param>
     </member>
     <member name="M:UnityEngine.Playables.PlayableGraph.Stop">
       <summary>
@@ -18496,11 +18522,11 @@ The Player ID is always 1, because only one Editor can be connected.</param>
         <para>A IPlayableOutput implementation that contains a script output for the a PlayableGraph.</para>
       </summary>
     </member>
-    <member name="M:UnityEngine.Playables.ScriptPlayableOutput.Create">
+    <member name="M:UnityEngine.Playables.ScriptPlayableOutput.Create(UnityEngine.Playables.PlayableGraph,System.String)">
       <summary>
         <para>Creates a new ScriptPlayableOutput in the associated PlayableGraph.</para>
       </summary>
-      <param name="graph">The PlayableGraph that will own this ScriptPlayableOutput.</param>
+      <param name="graph">The PlayableGraph that will contain the ScriptPlayableOutput.</param>
       <param name="name">The name of this ScriptPlayableOutput.</param>
       <returns>
         <para>The created ScriptPlayableOutput.</para>
@@ -25373,6 +25399,11 @@ A scene may be invalid if, for example, you tried to open a scene that does not 
         <para>All fullscreen resolutions supported by the monitor (Read Only).</para>
       </summary>
     </member>
+    <member name="P:UnityEngine.Screen.safeArea">
+      <summary>
+        <para>Returns the safe area of the screen in pixels (Read Only).</para>
+      </summary>
+    </member>
     <member name="P:UnityEngine.Screen.sleepTimeout">
       <summary>
         <para>A power saving setting, allowing the screen to dim some time after the last active user interaction.</para>
@@ -26536,12 +26567,45 @@ Returns NULL if there is no associated alpha texture for the source sprite. This
       <param name="meshType">Controls the type of mesh generated for the sprite.</param>
       <param name="border">The border sizes of the sprite (X=left, Y=bottom, Z=right, W=top).</param>
     </member>
+    <member name="M:UnityEngine.Sprite.GetPhysicsShape">
+      <summary>
+        <para>Gets a physics shape from the Sprite by its index.</para>
+      </summary>
+      <param name="shapeIdx">The index of the physics shape to retrieve.</param>
+      <param name="physicsShape">An ordered list of the points in the selected physics shape to store points in.</param>
+      <returns>
+        <para>The number of points stored in the given list.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.Sprite.GetPhysicsShapeCount">
+      <summary>
+        <para>The number of physics shapes for the Sprite.</para>
+      </summary>
+      <returns>
+        <para>The number of physics shapes for the Sprite.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.Sprite.GetPhysicsShapePointCount(System.Int32)">
+      <summary>
+        <para>The number of points in the selected physics shape for the Sprite.</para>
+      </summary>
+      <param name="shapeIdx">The index of the physics shape to retrieve the number of points from.</param>
+      <returns>
+        <para>The number of points in the selected physics shape for the Sprite.</para>
+      </returns>
+    </member>
     <member name="M:UnityEngine.Sprite.OverrideGeometry(UnityEngine.Vector2[],System.UInt16[])">
       <summary>
         <para>Sets up new Sprite geometry.</para>
       </summary>
       <param name="vertices">Array of vertex positions in Sprite Rect space.</param>
       <param name="triangles">Array of sprite mesh triangle indices.</param>
+    </member>
+    <member name="M:UnityEngine.Sprite.OverridePhysicsShape(System.Collections.Generic.IList`1&lt;UnityEngine.Vector2[]&gt;)">
+      <summary>
+        <para>Sets up a new Sprite physics shape.</para>
+      </summary>
+      <param name="physicsShapes">A multidimensional list of points in Sprite.rect space denoting the physics shape outlines.</param>
     </member>
     <member name="T:UnityEngine.SpriteAlignment">
       <summary>
@@ -27063,6 +27127,11 @@ Returns NULL if there is no associated alpha texture for the source sprite. This
     <member name="P:UnityEngine.SystemInfo.supportsStencil">
       <summary>
         <para>Is the stencil buffer supported? (Read Only)</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.SystemInfo.supportsTextureWrapMirrorOnce">
+      <summary>
+        <para>Returns true if the 'Mirror Once' texture wrap mode is supported. (Read Only)</para>
       </summary>
     </member>
     <member name="P:UnityEngine.SystemInfo.supportsVibration">

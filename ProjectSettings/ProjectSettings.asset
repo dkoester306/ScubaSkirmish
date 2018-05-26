@@ -4,7 +4,11 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 15
+<<<<<<< HEAD
   productGUID: 5c8fa346778381d4883b8787f2d154a1
+=======
+  productGUID: bc1658c08fc15d84fbfd0571df29fb41
+>>>>>>> master
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -124,7 +128,7 @@ PlayerSettings:
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
   xboxOneDisableKinectGpuReservation: 0
-  xboxOneEnable7thCore: 0
+  xboxOneEnable7thCore: 1
   vrSettings:
     cardboard:
       depthFormat: 0
@@ -166,7 +170,11 @@ PlayerSettings:
   APKExpansionFiles: 0
   keepLoadedShadersAlive: 0
   StripUnusedMeshComponents: 0
+<<<<<<< HEAD
   VertexChannelCompressionMask: 214
+=======
+  VertexChannelCompressionMask: 4054
+>>>>>>> master
   iPhoneSdkVersion: 988
   iOSTargetOSVersionString: 8.0
   tvOSSdkVersion: 0
@@ -238,7 +246,11 @@ PlayerSettings:
   clonedFromGUID: 00000000000000000000000000000000
   templatePackageId: 
   templateDefaultScene: 
+<<<<<<< HEAD
   AndroidTargetArchitectures: 5
+=======
+  AndroidTargetArchitectures: 1
+>>>>>>> master
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: 
@@ -268,6 +280,7 @@ PlayerSettings:
     Android: 1
     iPhone: 1
     tvOS: 1
+<<<<<<< HEAD
   m_BuildTargetGroupLightmapEncodingQuality:
   - m_BuildTarget: Standalone
     m_EncodingQuality: 1
@@ -275,6 +288,9 @@ PlayerSettings:
     m_EncodingQuality: 1
   - m_BuildTarget: PS4
     m_EncodingQuality: 1
+=======
+  m_BuildTargetGroupLightmapEncodingQuality: []
+>>>>>>> master
   m_BuildTargetGroupLightmapSettings: []
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
@@ -439,7 +455,7 @@ PlayerSettings:
   ps4RemotePlayKeyAssignment: -1
   ps4RemotePlayKeyMappingDir: 
   ps4PlayTogetherPlayerCount: 0
-  ps4EnterButtonAssignment: 1
+  ps4EnterButtonAssignment: 2
   ps4ApplicationParam1: 0
   ps4ApplicationParam2: 0
   ps4ApplicationParam3: 0
@@ -459,7 +475,7 @@ PlayerSettings:
   ps4ReprojectionSupport: 0
   ps4UseAudio3dBackend: 0
   ps4SocialScreenEnabled: 0
-  ps4ScriptOptimizationLevel: 0
+  ps4ScriptOptimizationLevel: 2
   ps4Audio3dVirtualSpeakerCount: 14
   ps4attribCpuUsage: 0
   ps4PatchPkgPath: 
@@ -523,14 +539,18 @@ PlayerSettings:
   psp2UseLibLocation: 0
   psp2InfoBarOnStartup: 0
   psp2InfoBarColor: 0
+<<<<<<< HEAD
   psp2ScriptOptimizationLevel: 0
+=======
+  psp2ScriptOptimizationLevel: 2
+>>>>>>> master
   splashScreenBackgroundSourceLandscape: {fileID: 0}
   splashScreenBackgroundSourcePortrait: {fileID: 0}
   spritePackerPolicy: 
   webGLMemorySize: 256
   webGLExceptionSupport: 1
   webGLNameFilesAsHashes: 0
-  webGLDataCaching: 0
+  webGLDataCaching: 1
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
@@ -544,9 +564,6 @@ PlayerSettings:
     4: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     7: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     14: MOBILE_INPUT
-    17: MOBILE_INPUT
-    20: MOBILE_INPUT
-    22: MOBILE_INPUT
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}
@@ -611,7 +628,7 @@ PlayerSettings:
   XboxOneCapability: []
   XboxOneGameRating: {}
   XboxOneIsContentPackage: 0
-  XboxOneEnableGPUVariability: 0
+  XboxOneEnableGPUVariability: 1
   XboxOneSockets: {}
   XboxOneSplashScreen: {fileID: 0}
   XboxOneAllowedProductIds: []
