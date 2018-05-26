@@ -7,6 +7,7 @@ TagManager:
   - Background
   - Air
   - Swimmer
+  - GameTitle
   layers:
   - Default
   - TransparentFX
@@ -53,4 +54,3 @@ TagManager:
   - name: Foreground
     uniqueID: 1878244255
     locked: 0
-
