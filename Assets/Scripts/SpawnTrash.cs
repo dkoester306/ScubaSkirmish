@@ -11,18 +11,28 @@ public class SpawnTrash : MonoBehaviour {
 	private List<GameObject> m_Fishes;
 	private List<GameObject> m_Anchors;
 
-	// bounds for the mine and fish objects
+	// bounds for thefish objects
+	[Header("Fish Bounds")]
 	[SerializeField] private float m_MinX;
 	[SerializeField] private float m_MaxX;
 	[SerializeField] private float m_MinY;
 	[SerializeField] private float m_MaxY;
 
 	// bounds for the anchor
+	[Header("Anchor Bounds")]
 	[SerializeField] private float m_AnchorMinX;
 	[SerializeField] private float m_AnchorMaxX;
 	[SerializeField] private float m_AnchorMinY;
 	[SerializeField] private float m_AnchorMaxY;
 
+// bounds for the mine
+	[Header("Anchor Bounds")]
+	[SerializeField] private float m_MineMinX;
+	[SerializeField] private float m_MineMaxX;
+	[SerializeField] private float m_MineMinY;
+	[SerializeField] private float m_MineMaxY;
+
+	[Header("Timers")]
 	[SerializeField] private float[] fishTimer = { 0.5f, 3f };
 	[SerializeField] private float[] mineTimer = { 1f, 4f };
 	[SerializeField] private float[] anchorTimer = { 1f, 3f };
@@ -94,7 +104,7 @@ public class SpawnTrash : MonoBehaviour {
 
 	GameObject SpawnMine()
 	{
-		Vector3 newPos = RandomPosition ();
+		Vector3 newPos = RandomPosition(m_MineMinX,m_MineMaxX,m_MineMinY,m_MineMaxY);
 		GameObject temp = Instantiate (m_Mine, newPos,new Quaternion(0,0,0,0));
 		return temp;
 	}
@@ -114,6 +124,14 @@ public class SpawnTrash : MonoBehaviour {
 		return newPos;
 	}
 
+	Vector3 RandomPosition(float minX, float maxX, float minY, float maxY)
+	{
+		float x = Random.Range (minX, maxX);
+		float y = Random.Range (minY, maxY);
+		Vector3 newPos = new Vector3 (x, y, 0);
+		return newPos;
+	}
+
 	Vector3 RandomPositionAnchor()
 	{
 		float x = Random.Range (m_AnchorMinX, m_AnchorMaxX);
@@ -121,6 +139,8 @@ public class SpawnTrash : MonoBehaviour {
 		Vector3 newPos = new Vector3 (x, y, 0);
 		return newPos;
 	}
+
+
 
 	// Creates a random time amount for each object
 	float RandomTime(float min,float max)
