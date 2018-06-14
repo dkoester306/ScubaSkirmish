@@ -11,6 +11,12 @@ TagManager:
   - Anchor
   - Mine
   - Fish
+  - GameOverText
+  - FishCountUI
+  - HealthCountUI
+  - RestartGameText
+  - GameUI
+  - GameOverUI
   layers:
   - Default
   - TransparentFX

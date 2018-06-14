@@ -20,6 +20,8 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	private int fishCount;
 	private int m_PlayerHealth;
 
+	private bool isGameOver;
+
 	public int FishCount{get{return fishCount;}}
 	public int PlayerHealth{get{return m_PlayerHealth;}set{m_PlayerHealth = value;}}
 
@@ -27,6 +29,8 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	{
 		// setting up the references
 		m_RigidBody =  GetComponent<Rigidbody2D>(); 
+		isGameOver = false;
+		
 
 	}
 
@@ -74,8 +78,7 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		UpdatePosition ();
-		if (m_PlayerHealth <= 0)
-			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+		CheckHealth();
 			
 	}
 
@@ -103,6 +106,35 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	public void IncreaseFishCount()
 	{
 		fishCount++;
+	}
+
+
+	public void CheckHealth()
+	{
+		// If no health left, open GameOverScreen
+		if (m_PlayerHealth <= 0)
+		{
+			if(isGameOver == false)
+			{
+				GameObject.FindGameObjectWithTag("GameUI").GetComponent<Canvas>().enabled=false;
+				GameObject.FindGameObjectWithTag("GameOverUI").GetComponent<Canvas>().enabled = true;
+
+				// turn off the players hitbox and sprite renderer
+				gameObject.GetComponent<SpriteRenderer>().enabled = false;
+				gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
+				isGameOver = true;
+			}
+			else
+			{
+				if(Input.GetKeyDown(KeyCode.R))
+					SceneManager.LoadScene("MainGameScene");
+				else if(Input.GetKeyDown(KeyCode.Escape))
+					SceneManager.LoadScene("TitleScreen");
+			}
+		}
+
+			//SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
 	}
 
 		
