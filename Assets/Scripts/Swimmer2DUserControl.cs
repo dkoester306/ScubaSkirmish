@@ -14,6 +14,7 @@ public class Swimmer2DUserControl : MonoBehaviour {
 	void Awake () {
 		m_Character = GetComponent<SwimmerCharacter2D> ();
         airGravity = GetComponent<SwimmerAirGravity>();
+
 	}
 	
 	
