@@ -50,7 +50,6 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	{
 		// move the character
 		m_RigidBody.velocity = new Vector2 (moveH * m_MaxSpeed, moveV * m_MaxSpeed);
-		Debug.Log(m_RigidBody.velocity);
 		// if the player is moving right, then make the player face left
 		if(moveH>0&& !m_FacingRight )
 		{

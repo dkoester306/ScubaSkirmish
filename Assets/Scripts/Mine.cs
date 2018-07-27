@@ -17,7 +17,7 @@ public class Mine : MonoBehaviour {
 	void Update () {
 		m_RigidBody.velocity = new Vector2 (m_SpeedX, 0);
 		if (this.transform.position.x < -12f)
-			GameObject.Destroy(gameObject);
+			SpawnTrash.RemoveMine(gameObject);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -25,7 +25,7 @@ public class Mine : MonoBehaviour {
 		if (other.tag == "Swimmer")
 		{
 			GameObject.FindGameObjectWithTag("Swimmer").GetComponent<SwimmerCharacter2D> ().PlayerHealth--;
-			GameObject.Destroy(gameObject);
+			SpawnTrash.RemoveMine(gameObject);
 		}
 	}
 

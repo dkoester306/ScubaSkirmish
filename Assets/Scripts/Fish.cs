@@ -18,7 +18,10 @@ public class Fish : MonoBehaviour {
 	void Update () {
 		m_RigidBody.velocity = new Vector2 (m_SpeedX, 0);
 		if (this.transform.position.x < -12f)
-			GameObject.Destroy(gameObject);
+		{
+			SpawnTrash.RemoveFish(gameObject);
+		}
+			
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -26,7 +29,7 @@ public class Fish : MonoBehaviour {
 		if (other.tag == "Swimmer")
 		{
 			GameObject.FindGameObjectWithTag("Swimmer").GetComponent<SwimmerCharacter2D> ().IncreaseFishCount ();
-			GameObject.Destroy(gameObject);
+			SpawnTrash.RemoveFish(gameObject);
 		}
 			
 	}

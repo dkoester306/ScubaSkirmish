@@ -7,9 +7,9 @@ public class SpawnTrash : MonoBehaviour {
 	[SerializeField] private GameObject m_Fish;
 	[SerializeField] private GameObject m_Anchor;
 
-	private List<GameObject> m_Mines;
-	private List<GameObject> m_Fishes;
-	private List<GameObject> m_Anchors;
+	public static int mineCount=0;
+	public static int fishCount=0;
+	public static int anchorCount=0;
 
 	// bounds for thefish objects
 	[Header("Fish Bounds")]
@@ -39,8 +39,6 @@ public class SpawnTrash : MonoBehaviour {
 
 	private float[] allTimes;
 
-	private float m_LastAnchorTime;
-
 	float fishRand;
 	float anchorRand;
 	float mineRand;
@@ -67,6 +65,7 @@ public class SpawnTrash : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		Debug.Log("Anchor Count: "+anchorCount);
 		// if timer goes over, spawn new fish
 		if (Time.time>=allTimes[0]+fishRand)
 		{
@@ -99,6 +98,7 @@ public class SpawnTrash : MonoBehaviour {
 	{
 		Vector3 newPos = RandomPosition ();
 		GameObject temp = Instantiate (m_Fish, newPos,this.transform.rotation);
+		fishCount++;
 		return temp;
 	}
 
@@ -106,6 +106,7 @@ public class SpawnTrash : MonoBehaviour {
 	{
 		Vector3 newPos = RandomPosition(m_MineMinX,m_MineMaxX,m_MineMinY,m_MineMaxY);
 		GameObject temp = Instantiate (m_Mine, newPos,new Quaternion(0,0,0,0));
+		mineCount++;
 		return temp;
 	}
 
@@ -113,6 +114,7 @@ public class SpawnTrash : MonoBehaviour {
 	{
 		Vector3 newPos = RandomPositionAnchor ();
 		GameObject temp = Instantiate (m_Anchor, newPos,this.transform.rotation);
+		anchorCount++;
 		return temp;
 	}
 
@@ -142,6 +144,7 @@ public class SpawnTrash : MonoBehaviour {
 
 
 
+
 	// Creates a random time amount for each object
 	float RandomTime(float min,float max)
 	{
@@ -149,13 +152,33 @@ public class SpawnTrash : MonoBehaviour {
 		return rand;
 	}
 
-	void RemoveOffScreenObject()
+	public static void RemoveFish()
 	{
-		
+		fishCount--;
 	}
-		
-	void NewRandomTimers()
+	public static void RemoveFish(GameObject fish)
 	{
-		
+		fishCount--;
+		GameObject.Destroy(fish);
+	}
+
+	public static void RemoveAnchor()
+	{
+		anchorCount--;
+	}
+	public static void RemoveAnchor(GameObject anchor)
+	{
+		anchorCount--;
+		GameObject.Destroy(anchor);
+	}
+
+	public static void RemoveMine()
+	{
+		mineCount--;
+	}
+	public static void RemoveMine(GameObject mine)
+	{
+		mineCount--;
+		GameObject.Destroy(mine);
 	}
 }
