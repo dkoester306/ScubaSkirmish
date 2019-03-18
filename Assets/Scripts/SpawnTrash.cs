@@ -6,6 +6,7 @@ public class SpawnTrash : MonoBehaviour {
 	[SerializeField] private GameObject m_Mine;
 	[SerializeField] private GameObject m_Fish;
 	[SerializeField] private GameObject m_Anchor;
+    [SerializeField] private GameObject m_Shark;
 
 	private List<GameObject> m_Mines;
 	private List<GameObject> m_Fishes;
@@ -26,19 +27,27 @@ public class SpawnTrash : MonoBehaviour {
 	[SerializeField] private float[] fishTimer = { 0.5f, 3f };
 	[SerializeField] private float[] mineTimer = { 1f, 4f };
 	[SerializeField] private float[] anchorTimer = { 1f, 3f };
+    private float sharkTimer = 20f;
 
 	private float[] allTimes;
 
 	private float m_LastAnchorTime;
 
-	float fishRand;
+    [SerializeField] private GameObject swimmerObject;
+    private GameObject shark;
+    private bool isSharkSpawned = false;
+    private SharkInstance sharkSpawnInstance;
+    private SwimmerCharacter2D swimmerCharacter;
+    private Swimmer2DUserControl swimmerControl;
+
+    float fishRand;
 	float anchorRand;
 	float mineRand;
 
 	// Use this for initialization
 	void Start () 
 	{
-		allTimes = new float[3];		
+		allTimes = new float[4];		
 
 		fishRand = Random.Range (fishTimer [0], fishTimer [1]);
 		anchorRand = Random.Range (fishTimer [0], fishTimer [1]);
@@ -51,7 +60,9 @@ public class SpawnTrash : MonoBehaviour {
 		for(int i=0;i<Random.Range(1,3);i++)
 			SpawnMine();
 
-		SpawnAnchor ();
+		SpawnAnchor();
+        PoolShark();
+        swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
 	}
 
 	// Update is called once per frame
@@ -81,7 +92,23 @@ public class SpawnTrash : MonoBehaviour {
 			mineRand = Random.Range (fishTimer [0], fishTimer [1]);
 			allTimes [2] = Time.time;
 		}
-			
+
+        if (swimmerCharacter.FishCount > 1)
+	    {
+	        sharkTimer--;
+	    }
+
+	    if (sharkTimer <= 0f && !isSharkSpawned)
+	    {
+	        SpawnShark();
+        }
+
+        if (isSharkSpawned)
+        {
+            StartSharkInstance();
+            ResetSharkSpawnTime();
+        }
+        
 	}
 
 
@@ -138,4 +165,66 @@ public class SpawnTrash : MonoBehaviour {
 	{
 		
 	}
+
+    void ResetSharkSpawnTime()
+    {
+        sharkTimer = 30f;
+    }
+
+    void PoolShark()
+    {
+        shark = Instantiate(m_Shark, Vector3.zero, Quaternion.identity);
+        sharkSpawnInstance = shark.GetComponent<SharkInstance>();
+        isSharkSpawned = false;
+        shark.SetActive(isSharkSpawned);
+    }
+
+    void SpawnShark()
+    {
+        isSharkSpawned = true;
+        shark.SetActive(isSharkSpawned);
+        Debug.Log("Spawn Shark");
+    }
+
+    void StartSharkInstance()
+    {
+        //: Shark Spawn Instance
+        //do
+        //{
+        if (isSharkSpawned)
+        {
+            switch (sharkSpawnInstance.SharkState)
+            {
+                case 0:
+                    //: approaching
+                    swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
+                    sharkSpawnInstance.FindPlayerPosition(swimmerCharacter.PlayerPosition);
+                    sharkSpawnInstance.SpawnPreAttackState();
+                    break;
+                case 1:
+                    //: attacking
+                    sharkSpawnInstance.SpawnAttackState();
+                    break;
+                case 2:
+                    //: go away and defeated
+                    //sharkSpawnInstance.SpawnGoAwayState();
+                    DeSpawnShark();
+                    //ResetSharkSpawnTime();
+                    break;
+            }
+        }
+        //} while (isSharkSpawned);
+    }
+
+    public void SharkTakeDamage()
+    {
+        shark.GetComponent<SharkInstance>().SharkHealth--;
+    }
+
+    public void DeSpawnShark()
+    {
+        isSharkSpawned = false;
+        shark.SetActive(isSharkSpawned);
+        Debug.Log("Spawn Shark");
+    }
 }

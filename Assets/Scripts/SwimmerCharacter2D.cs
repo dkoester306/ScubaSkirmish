@@ -21,7 +21,12 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	public int FishCount{get{return fishCount;}}
 	public int PlayerHealth{get{return m_PlayerHealth;}set{m_PlayerHealth = value;}}
 
-	void Awake()
+    public Vector3 PlayerPosition
+    {
+        get { return m_Position; }
+    }
+
+    void Awake()
 	{
 		// setting up the references
 		m_RigidBody =  GetComponent<Rigidbody2D>(); 
@@ -73,7 +78,7 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	void Update () {
 		UpdatePosition ();
 		if (m_PlayerHealth <= 0)
-			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+            CheckZeroHealth();
 			
 	}
 
@@ -82,8 +87,6 @@ public class SwimmerCharacter2D : MonoBehaviour {
 		BoundaryCollision ();
 	}
 
-
-
 	void BoundaryCollision()
 	{
 		Vector3 newPos = m_Position;
@@ -91,7 +94,6 @@ public class SwimmerCharacter2D : MonoBehaviour {
 		newPos.y = Mathf.Clamp (m_Position.y, m_MinY, m_MaxY);
 		this.transform.position = newPos;
 	}
-
 
 	void UpdatePosition()
 	{
@@ -107,8 +109,8 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	{
 		if(m_PlayerHealth<=0)
 		{
-			
-		}
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 	}
 		
 		
