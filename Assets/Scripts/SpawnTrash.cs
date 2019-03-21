@@ -27,7 +27,8 @@ public class SpawnTrash : MonoBehaviour {
 	[SerializeField] private float[] fishTimer = { 0.5f, 3f };
 	[SerializeField] private float[] mineTimer = { 1f, 4f };
 	[SerializeField] private float[] anchorTimer = { 1f, 3f };
-    private float sharkTimer = 20f;
+    private float sharkTimer = 0f;
+    private bool firstShark = false;
 
 	private float[] allTimes;
 
@@ -62,6 +63,7 @@ public class SpawnTrash : MonoBehaviour {
 
 		SpawnAnchor();
         PoolShark();
+        ResetSharkSpawnTime();
         swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
 	}
 
@@ -93,10 +95,15 @@ public class SpawnTrash : MonoBehaviour {
 			allTimes [2] = Time.time;
 		}
 
-        if (swimmerCharacter.FishCount > 1)
+	    if (sharkTimer > 0f)
 	    {
 	        sharkTimer--;
-	    }
+        }
+
+        //if (swimmerCharacter.FishCount > 1)
+        //{
+        //    firstShark = true;
+        //}
 
 	    if (sharkTimer <= 0f && !isSharkSpawned)
 	    {
@@ -106,7 +113,6 @@ public class SpawnTrash : MonoBehaviour {
         if (isSharkSpawned)
         {
             StartSharkInstance();
-            ResetSharkSpawnTime();
         }
         
 	}
@@ -193,26 +199,51 @@ public class SpawnTrash : MonoBehaviour {
         //{
         if (isSharkSpawned)
         {
-            switch (sharkSpawnInstance.SharkState)
+            //: approaching
+            if (sharkSpawnInstance.SharkState < 1)
             {
-                case 0:
-                    //: approaching
-                    swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
-                    sharkSpawnInstance.FindPlayerPosition(swimmerCharacter.PlayerPosition);
-                    sharkSpawnInstance.SpawnPreAttackState();
-                    break;
-                case 1:
-                    //: attacking
-                    sharkSpawnInstance.SpawnAttackState();
-                    break;
-                case 2:
-                    //: go away and defeated
-                    //sharkSpawnInstance.SpawnGoAwayState();
-                    DeSpawnShark();
-                    //ResetSharkSpawnTime();
-                    break;
+                swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
+                sharkSpawnInstance.FindPlayerPosition(swimmerCharacter.PlayerPosition);
+                sharkSpawnInstance.SpawnPreAttackState();
+                sharkSpawnInstance.SpawnAttackState();
+
             }
+            //: attacking
+            if (sharkSpawnInstance.SharkState == 1)
+            {
+
+            }
+            //: go away and defeated
+            else if (sharkSpawnInstance.SharkState > 1)
+            {
+                //sharkSpawnInstance.SpawnGoAwayState();
+                DeSpawnShark();
+                ResetSharkSpawnTime();
+            }
+
         }
+        //if (isSharkSpawned)
+        //{
+        //    switch (sharkSpawnInstance.SharkState)
+        //    {
+        //        case 0:
+        //            //: approaching
+        //            swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
+        //            sharkSpawnInstance.FindPlayerPosition(swimmerCharacter.PlayerPosition);
+        //            sharkSpawnInstance.SpawnPreAttackState();
+        //            break;
+        //        case 1:
+        //            //: attacking
+        //            sharkSpawnInstance.SpawnAttackState();
+        //            break;
+        //        case 2:
+        //            //: go away and defeated
+        //            //sharkSpawnInstance.SpawnGoAwayState();
+        //            DeSpawnShark();
+        //            //ResetSharkSpawnTime();
+        //            break;
+        //    }
+        //}
         //} while (isSharkSpawned);
     }
 
@@ -221,9 +252,15 @@ public class SpawnTrash : MonoBehaviour {
         shark.GetComponent<SharkInstance>().SharkHealth--;
     }
 
+    public void SharkReturnDamage()
+    {
+        shark.GetComponent<SharkInstance>().SharkHealth = 2;
+    }
+
     public void DeSpawnShark()
     {
         isSharkSpawned = false;
+        sharkSpawnInstance.SharkState = 0;
         shark.SetActive(isSharkSpawned);
         Debug.Log("Spawn Shark");
     }
