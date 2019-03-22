@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class SharkInstance : MonoBehaviour
 {
@@ -54,12 +55,33 @@ public class SharkInstance : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sharkAnimator = gameObject.GetComponent<Animator>();
-        sharkAudioSource = gameObject.GetComponent<AudioSource>();
+     
         startingPosition = new Vector3(-10.21f, 0, 0);
         sharkstate = 0;
         health = 3;
         start = true;
+    }
+
+    public void ResetSharkHealth()
+    {
+        health = 3;
+    }
+
+    public void ResetSharkStates()
+    {
+        //health = 3;
+        sharkstate = 0;
+        postattackDoneSpan = false;
+        attackDoneSpan = false;
+        preattackDoneSpan = false;
+        sharkDamaged = false;
+        sharkDamage = false;
+    }
+
+    public void GetComponentRefs()
+    {
+        sharkAnimator = gameObject.GetComponent<Animator>();
+        sharkAudioSource = gameObject.GetComponent<AudioSource>();
     }
 
     private void CapturingBoxColliders()
@@ -89,86 +111,71 @@ public class SharkInstance : MonoBehaviour
     void Update()
     {
         //transform.position = position
-        CapturingBoxColliders();
         if (attackDoneSpan == false)
         {
+            CapturingBoxColliders();
             CheckIntersect();
         }
 
         //: works to move shark forward
-        if (!attackDoneSpan)
+        if (attackDoneSpan == false)
         {
-            Vector3 shootVector = new Vector3(.1f, 0, 0);
+            Vector3 shootVector = new Vector3(.2f, 0, 0);
             position = shootVector;
             transform.position += position;
         }
 
-        while (sharkstate == 1)
+        //: interaction
+        if (sharkDamage)
         {
+            //GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
+            //sharkDamage = false;
+            sharkDamage = false;
+        }
 
-            //: interaction
-            if (sharkDamage)
+        //: player attack
+        if (sharkDamaged && attackDoneSpan == false)
+        {
+            health--;
+            if (health <= 0)
             {
-                GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
-                sharkDamage = false;
-            }
-
-            //: player attack
-            if (sharkDamaged)
-            {
-                health--;
-                if (health <= 0)
-                {
-                    sharkstate = 2;
-                }
-            }
-
-           
-
-            int randomInt = UnityEngine.Random.Range(0, 3);
-            if (randomInt == 0)
-            {
-                //sharkstate = 0;
-            }
-            else if (randomInt == 1)
-            {
-                //sharkstate = 1;
-            }
-            else
-            {
-                //sharkstate = 2;
+                InstantGoAwayState();
             }
         }
     }
 
     public void SpawnPreAttackState()
     {
-        sharkstate = 0;
-        postattackDoneSpan = false;
-        attackDoneSpan = false;
+        GetComponentRefs();
+        ResetSharkStates();
         preattackDoneSpan = false;
-
         //: Call Find Player Position (Called Already)
 
         //: Call Animation from Animator ( Background Swimming )
-        //sharkAnimator.SetBool("preattack",true);
-        preattackDoneSpan = true;
-
+        StartCoroutine(DeSpawnPreAttackState());
 
         //: Check if Shark Reached Other Side of the Screen
         // if so switch to attack state
         if (true)
         {
-            //sharkAnimator.SetBool("preattack", false);
             //sharkstate = 1;
         }
-
         //position = this.transform.position;
+        preattackDoneSpan = true;
+    }
+
+    public IEnumerator DeSpawnPreAttackState()
+    {
+        sharkAnimator.SetBool("preattack", true);
+        yield return new WaitForSeconds(5f);
+        sharkAnimator.SetBool("preattack", false);
+        sharkAnimator.SetBool("attack", true);
+        sharkstate = 1;
     }
 
     public void SpawnAttackState()
-    {
-        //sharkAnimator.SetBool("attack", true);
+    {   
+        sharkAnimator.SetBool("attack", true);
 
         if (start)
         {
@@ -185,7 +192,6 @@ public class SharkInstance : MonoBehaviour
         //SpawnSharkAttackState();
 
         //attackDoneSpan = true;
-        //sharkAnimator.SetBool("attack", false);
         //attackDoneSpan = true;
         if (attackDoneSpan == false)
         {
@@ -205,9 +211,9 @@ public class SharkInstance : MonoBehaviour
     //? Possible IEnumerator Method
     public IEnumerator SpawnDamagedState()
     {
-        //sharkAnimator.SetBool("damaged", true);
-        yield return new WaitForSeconds(2f);
-        //sharkAnimator.SetBool("damaged", false);
+        sharkAnimator.SetBool("damaged", true);
+        yield return new WaitForSeconds(5f);
+        sharkAnimator.SetBool("damaged", false);
     }
 
     public void SpawnGoAwayState()
@@ -220,17 +226,27 @@ public class SharkInstance : MonoBehaviour
         StartCoroutine(SpawnSharkGoAwayState());
     }
 
-    public IEnumerator SpawnSharkGoAwayState()
+    public void InstantGoAwayState()
     {
-        //sharkAnimator.SetBool("damaged", true);
-        yield return new WaitForSeconds(5f);
-        //sharkAnimator.SetBool("damaged", false);
+        sharkAnimator.SetBool("attack", false);
         attackDoneSpan = true;
+        sharkAnimator.SetBool("postattack", true);
         postattackDoneSpan = true;
         sharkstate = 2;
         start = true;
     }
 
+    public IEnumerator SpawnSharkGoAwayState()
+    {
+        //sharkAnimator.SetBool("damaged", true);
+        yield return new WaitForSeconds(5f);
+        sharkAnimator.SetBool("attack", false);
+        attackDoneSpan = true;
+        sharkAnimator.SetBool("postattack", true);
+        postattackDoneSpan = true;
+        sharkstate = 2;
+        start = true;
+    }
 
     public void FindPlayerPosition(Vector3 playerPosition)
     {
@@ -242,46 +258,53 @@ public class SharkInstance : MonoBehaviour
     // return a true statement
     private void CheckIntersect()
     {
+        // Outside Collider
+        bool maxXOut = m_MinX[1] < playerpositionRef.x;
+        bool minXOut = m_MaxX[1] > playerpositionRef.x;
+        bool maxYOut = m_MinY[1] < playerpositionRef.y;
+        bool minYOut = m_MaxY[1] > playerpositionRef.y;
+
+        bool playerAttack = GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack;
+        if (maxXOut && minXOut && maxYOut && minYOut && playerAttack)
+        {
+            health--;
+            StartCoroutine(SpawnDamagedState());
+            sharkDamage = true;
+            Debug.Log("Hit Outside Box");
+            Debug.Log("Shark Health " + health);
+        }
+
         // Inner Collider
         bool maxXIn = m_MinX[0] < playerpositionRef.x;
         bool minXIn = m_MaxX[0]> playerpositionRef.x;
-        bool maxIn =m_MinY[0] > playerpositionRef.y;
-        bool minIn = m_MaxY[0] < playerpositionRef.y;
+        bool maxIn =m_MinY[0] < playerpositionRef.y;
+        bool minIn = m_MaxY[0] > playerpositionRef.y;
 
-        if (maxXIn && minXIn && maxIn && minIn)
+        if (maxXIn && minXIn && maxIn && minIn && !sharkDamaged)
         {
-            sharkDamage = true;
-            Debug.Log("Hit");
-        }
-
-        bool maxXOut = m_MinX[1] < playerpositionRef.x;
-        bool minXOut = m_MaxX[1] > playerpositionRef.x;
-        bool maxYOut = m_MinY[1] > playerpositionRef.y;
-        bool minYOut = m_MaxY[1] < playerpositionRef.y;
-
-        if (maxXOut && minXOut && maxYOut && minYOut)
-        {
+            GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
             sharkDamaged = true;
-            Debug.Log("Hit");
+            Debug.Log("Hit Inside Box");
+            Debug.Log("Interacted with Shark " + GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
         }
+
+        
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack = false;
-            if (GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack && attackDoneSpan == false)
+            bool playerAttack = GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack;
+            if (playerAttack && attackDoneSpan == false)
             {
-                sharkDamaged = true;
-                health--;
-                Debug.Log("Shark Health " + health );
+                //sharkDamaged = true;
+                //Debug.Log("Shark Health " + health );
             }
             else if(attackDoneSpan == false)
             {
-                sharkDamage = true;
-                GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
-                Debug.Log("Interacted with Shark " + GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
+                //sharkDamage = true;
+                //Debug.Log("Interacted with Shark " + GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
             }
             
         }
