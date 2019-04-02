@@ -29,6 +29,7 @@ public class SpawnTrash : MonoBehaviour {
 	[SerializeField] private float[] mineTimer = { 1f, 4f };
 	[SerializeField] private float[] anchorTimer = { 1f, 3f };
     private float sharkTimer = 0f;
+    private float despawnsharkTimer = 0f;
     private bool firstShark = false;
 
 	private float[] allTimes;
@@ -39,10 +40,11 @@ public class SpawnTrash : MonoBehaviour {
     [SerializeField] private GameObject m_sharkIndicator;
     private GameObject shark;
     private bool isSharkSpawned = false;
+    private bool resetShark = false;
     private SharkInstance sharkSpawnInstance;
     private SwimmerCharacter2D swimmerCharacter;
     private Swimmer2DUserControl swimmerControl;
-    private  Vector3 overrideStartingPosition = new Vector3(-10.21f, 0, 0);
+    private  Vector3 parentInstantiatePosition = new Vector3(-10.21f, 0, 0);
     private GameObject SharkIndicator;
 
     float fishRand;
@@ -138,6 +140,11 @@ public class SpawnTrash : MonoBehaviour {
         {
             StartSharkInstance();
         }
+
+        if (despawnsharkTimer <= 0f)
+        {
+            DeSpawnShark();
+        }
         
 	}
 
@@ -199,11 +206,12 @@ public class SpawnTrash : MonoBehaviour {
     void ResetSharkSpawnTime()
     {
         sharkTimer =500f;
+        despawnsharkTimer = 500f;
     }
 
     void PoolShark()
     {
-        shark = Instantiate(m_Shark, overrideStartingPosition, Quaternion.identity);
+        shark = Instantiate(m_Shark, parentInstantiatePosition, Quaternion.identity);
         sharkSpawnInstance = shark.GetComponent<SharkInstance>();
         isSharkSpawned = false;
         shark.SetActive(isSharkSpawned);
@@ -224,6 +232,7 @@ public class SpawnTrash : MonoBehaviour {
         //{
         if (isSharkSpawned)
         {
+            
             //: approaching
             if (sharkSpawnInstance.SharkState < 1)
             {
@@ -237,13 +246,12 @@ public class SpawnTrash : MonoBehaviour {
                 sharkSpawnInstance.SpawnAttackState();
             }
             //: go away and defeated
-            else if (sharkSpawnInstance.SharkState > 1)
+            if (sharkSpawnInstance.SharkState == 2)
             {
-                //sharkSpawnInstance.SpawnGoAwayState();
-                DeSpawnShark();
+                despawnsharkTimer--;
                 ResetSharkSpawnTime();
+                resetShark = true;
             }
-
         }
         //if (isSharkSpawned)
         //{
@@ -283,8 +291,7 @@ public class SpawnTrash : MonoBehaviour {
     public void DeSpawnShark()
     {
         isSharkSpawned = false;
-        sharkSpawnInstance.SharkState = 0;
         shark.SetActive(isSharkSpawned);
-        Debug.Log("Spawn Shark");
+        Debug.Log("DeSpawn Shark");
     }
 }
