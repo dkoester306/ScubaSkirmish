@@ -1,209 +1,322 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using System.Runtime.InteropServices;
 using UnityEngine;
-using Random = System.Random;
 
 public class SharkInstance : MonoBehaviour
 {
-    private int sharkstate;
-    private int health;
-    private Vector3 position;
-    private Vector3 playerpositionRef;
-    private Vector3 startingPosition;
-    private bool preattackDoneSpan; 
     private bool attackDoneSpan;
+    private BoxCollider2D[] boxColliders;
+    private float[] _mMaxX;
+    private float[] _mMaxY;
+    private float[] _mMinX;
+    private float[] _mMinY;
+    private int numberofColliders = 2;
+    private Vector3 startingPosition;
+    private Vector3 resetMovingPosition;
+    private Vector3 playerpositionRef;
+    private Vector3 position;
     private bool postattackDoneSpan;
-    private bool sharkDamage;
-    private bool sharkDamaged;
-    private bool start;
+    private bool preattackDoneSpan;
 
     private Animator sharkAnimator;
     private AudioSource sharkAudioSource;
-    private BoxCollider2D[] boxColliders;
-    private float[] m_MinX;
-    private float[] m_MaxX;
-    private float[] m_MinY;
-    private float[] m_MaxY;
-    private int numberofColliders = 2;
+    private SpriteRenderer sharkSpriteRenderer;
+    private int sharkState = 0;
+    private int sharkHealth = 0;
+    private bool sharkDamage;
+    private bool sharkDamaged;
+    private bool flip;
+    private bool start;
+    private bool preattackStart;
+    [SerializeField]
+    private float ienumeratorTimeConstant = 1.5f;
+    [SerializeField]
+    private float speedConstant = .3f;
 
     public int SharkState
     {
-        get { return sharkstate; }
-        set { sharkstate = value; }
+        get { return sharkState; }
+        set { sharkState = value; }
     }
 
-    public int SharkHealth
-    {
-        get { return health; }
-        set { health = value; }
-    }
+    public int SharkHealth { get; set; }
 
     public Vector3 StartingPosition
     {
-        get
-        {
-            return startingPosition;
-        }
+        get { return startingPosition; }
+    }
 
-        set
-        {
-            startingPosition = value;
-        }
+    public bool Flip
+    {
+        get { return flip; }
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         startingPosition = new Vector3(-10.21f, 0, 0);
-        sharkstate = 0;
-        health = 3;
+        resetMovingPosition = new Vector3(-10.21f, 0, 0);
+        sharkState = 0;
+        SharkHealth = 3;
         start = true;
+        preattackStart = true;
     }
 
     public void ResetSharkHealth()
     {
-        health = 3;
+        SharkHealth = 3;
     }
 
     public void ResetSharkStates()
     {
         //health = 3;
-        sharkstate = 0;
-        postattackDoneSpan = false;
-        attackDoneSpan = false;
-        preattackDoneSpan = false;
+        sharkState = 0;
+        preattackDoneSpan = true;
+        attackDoneSpan = true;
+        postattackDoneSpan = true;
         sharkDamaged = false;
         sharkDamage = false;
-        //transform.position = startingPosition;
+        start = true;
+        preattackStart = true;
+        
+        int rand = Random.Range(0,2);
+        if (rand == 1)
+        {
+            flip = true;
+            sharkSpriteRenderer.flipX = false;
+        }
+        else
+        {
+            flip = false;
+            sharkSpriteRenderer.flipX = true;
+        }
+        if (flip)
+        {
+            startingPosition = new Vector3(10.21f, 0, 0);
+        }
+        else
+        {
+            startingPosition = new Vector3(-10.21f, 0, 0);
+        }
+        transform.position = startingPosition;
     }
 
     public void GetComponentRefs()
     {
         sharkAnimator = gameObject.GetComponent<Animator>();
         sharkAudioSource = gameObject.GetComponent<AudioSource>();
+        sharkSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
 
-    private void CapturingBoxColliders()
+    private void GetBoxColliders()
     {
         boxColliders = new BoxCollider2D[numberofColliders];
-        for (int i = 0; i < numberofColliders; i++)
+        for (var i = 0; i < numberofColliders; i++)
         {
             boxColliders[i] = gameObject.GetComponents<BoxCollider2D>()[i];
-            Debug.Log(boxColliders.Length);
         }
 
-        m_MinX = new float[2];
-        m_MaxX = new float[2];
-        m_MinY = new float[2];
-        m_MaxY = new float[2];
+        _mMinX = new float[2];
+        _mMaxX = new float[2];
+        _mMinY = new float[2];
+        _mMaxY = new float[2];
 
-        for (int i = 0; i < numberofColliders; i++)
+        for (var i = 0; i < numberofColliders; i++)
         {
-            m_MinX[i] = boxColliders[i].bounds.min.x;
-            m_MaxX[i] = boxColliders[i].bounds.max.x;
-            m_MinY[i] = boxColliders[i].bounds.min.y;
-            m_MaxY[i] = boxColliders[i].bounds.max.y;
+            _mMinX[i] = boxColliders[i].bounds.min.x;
+            _mMaxX[i] = boxColliders[i].bounds.max.x;
+            _mMinY[i] = boxColliders[i].bounds.min.y;
+            _mMaxY[i] = boxColliders[i].bounds.max.y;
         }
+    }
+
+    // Checks if these gameobjects are intersecting
+    // will retrieve both sprite renderers
+    // return a true statement
+    private void CheckIntersect()
+    {
+        // Inner Collider
+        var maxXIn = _mMinX[0] < playerpositionRef.x;
+        var minXIn = _mMaxX[0] > playerpositionRef.x;
+        var maxIn = _mMinY[0] < playerpositionRef.y;
+        var minIn = _mMaxY[0] > playerpositionRef.y;
+
+        if (maxXIn && minXIn && maxIn && minIn && !sharkDamaged)
+        {
+            GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
+            GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
+            sharkDamaged = true;
+            Debug.Log("Hit Inside Box");
+            Debug.Log("Interacted with Shark " +
+                      GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
+        }
+
+        // Outside Collider
+        var maxXOut = _mMinX[1] < playerpositionRef.x;
+        var minXOut = _mMaxX[1] > playerpositionRef.x;
+        var maxYOut = _mMinY[1] < playerpositionRef.y;
+        var minYOut = _mMaxY[1] > playerpositionRef.y;
+
+        var playerAttack = GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack;
+        if (maxXOut && minXOut && maxYOut && minYOut && playerAttack)
+        {
+            SharkHealth--;
+            StartCoroutine(SpawnDamagedState());
+            sharkDamage = true;
+            Debug.Log("Hit Outside Box");
+            Debug.Log("Shark Health " + SharkHealth);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            var playerAttack = GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack;
+            if (playerAttack && attackDoneSpan == false && !sharkDamage)
+            {
+                sharkDamage = true;
+                SharkHealth--;
+                StartCoroutine(SpawnDamagedState());
+                Debug.Log("Hit Outside Box");
+                Debug.Log("Shark Health " + SharkHealth);
+            }
+            else if (attackDoneSpan == false && !sharkDamaged && !playerAttack)
+            {
+                sharkDamaged = true;
+                GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth -= 2;
+                Debug.Log("Hit Inside Box");
+                Debug.Log("Interacted with Shark " +
+                          GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
+            }
+        }
+    }
+
+    public void FindPlayerPosition(Vector3 playerPosition)
+    {
+        playerpositionRef = playerPosition;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //: works to move shark forward
-        if (preattackDoneSpan == false && sharkstate == 0)
+        if (preattackDoneSpan == false && sharkState == 0)
         {
-            Vector3 shootVector = new Vector3(.2f, 0, 0);
-            position = shootVector;
-            transform.position += position;
+            if (flip)
+            {
+                var shootVector = new Vector3(-speedConstant, 0, 0);
+                position = shootVector;
+                transform.position += position;
+            }
+            else
+            {
+                var shootVector = new Vector3(speedConstant, 0, 0);
+                position = shootVector;
+                transform.position += position;
+            }
+            
         }
 
         //transform.position = position
-        if (attackDoneSpan == false && sharkstate == 1)
+        if (attackDoneSpan == false && sharkState == 1)
         {
-            CapturingBoxColliders();
-            CheckIntersect();
+            GetBoxColliders();
+            //CheckIntersect();
         }
 
         //: works to move shark forward
-        if (attackDoneSpan == false && sharkstate == 1)
+        if (attackDoneSpan == false && sharkState == 1)
         {
-            Vector3 shootVector = new Vector3(.2f, 0, 0);
-            position = shootVector;
-            transform.position += position;
-        }
-
-        //: interaction
-        if (sharkDamage && sharkstate == 1)
-        {
-            //GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
-            //sharkDamage = false;
-            sharkDamage = false;
-        }
-
-        //: player attack
-        if (sharkDamaged && attackDoneSpan == false && sharkstate == 1)
-        {
-            if (health <= 0)
+            if (flip)
             {
-                //InstantGoAwayState();
+                var shootVector = new Vector3(-speedConstant, 0, 0);
+                position = shootVector;
+                transform.position += position;
+            }
+            else
+            {
+                var shootVector = new Vector3(speedConstant, 0, 0);
+                position = shootVector;
+                transform.position += position;
             }
         }
 
-        if (postattackDoneSpan == false && sharkstate == 2)
+        if (postattackDoneSpan == false && sharkState == 2)
         {
-            Vector3 shootVector = new Vector3(0, 0, 0);
+            var shootVector = new Vector3(0, 0, 0);
             position = shootVector;
             transform.position = position;
         }
+
+        //: player attack
+        //if (sharkDamaged && attackDoneSpan == false && SharkState == 1)
+        if (SharkHealth <= 0)
+        {
+            InstantGoAwayState();
+            ResetSharkHealth();
+        }
     }
+
+    #region Shark States
 
     public void SpawnPreAttackState()
     {
+
         GetComponentRefs();
-        ResetSharkStates();
-        sharkAnimator.SetBool("preattack", true);
-        //: Call Find Player Position (Called Already)
-
-        //: Call Animation from Animator ( Background Swimming )
-        StartCoroutine(DeSpawnPreAttackState());
-
-        //: Check if Shark Reached Other Side of the Screen
-        // if so switch to attack state
-        if (true)
+        if (preattackStart)
         {
-            //sharkstate = 1;
+            ResetSharkStates();
+            //preattackStart = false;
+
+            sharkAnimator.SetBool("preattack", true);
+            //: Call Find Player Position (Called Already)
+            
+            //: Call Animation from Animator ( Background Swimming )
+            preattackStart = false;
+            preattackDoneSpan = false;
+            sharkSpriteRenderer.sortingLayerName = "BehindBackground";
+            StartCoroutine(DeSpawnPreAttackState());
         }
-        //position = this.transform.position;
-        
     }
 
     public IEnumerator DeSpawnPreAttackState()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(ienumeratorTimeConstant);
+        Debug.Log("Ended PreAttack");
         sharkAnimator.SetBool("preattack", false);
         sharkAnimator.SetBool("attack", true);
         preattackDoneSpan = true;
-        sharkstate = 1;
+        sharkState = 1;
     }
 
     public void SpawnAttackState()
     {
-        attackDoneSpan = false;
         sharkAnimator.SetBool("attack", true);
 
         if (start)
         {
-            Vector3 sharkStartPosition = startingPosition;
+            var sharkStartPosition = startingPosition;
             //position = sharkStartPosition;
             //transform.position = sharkStartPosition;
-            Vector3 newSharkPosition = new Vector3(sharkStartPosition.x, playerpositionRef.y, playerpositionRef.z);
+            Vector3 newSharkPosition;
+            if (flip)
+            {
+                newSharkPosition = new Vector3(sharkStartPosition.x, playerpositionRef.y, playerpositionRef.z);
+            }
+            else
+            {
+                newSharkPosition = new Vector3(sharkStartPosition.x, playerpositionRef.y, playerpositionRef.z);
+            }
+            
             position = newSharkPosition;
             transform.position = position;
             //position = Vector3.zero;
 
-            SpawnGoAwayState();
             start = false;
+            attackDoneSpan = false;
+            sharkSpriteRenderer.sortingLayerName = "Foreground";
+            StartCoroutine(DeSpawnAttackState());
         }
 
         //SpawnSharkAttackState();
@@ -212,21 +325,27 @@ public class SharkInstance : MonoBehaviour
         //attackDoneSpan = true;
     }
 
-    //: works to move shark forward
-    public void SpawnSharkAttackState()
+    public IEnumerator DeSpawnAttackState()
     {
-        Vector3 newSharkPosition = new Vector3(.1f, 0, 0);
-        position = newSharkPosition;
-        transform.position += position;
-        //position = Vector3.zero;
+        yield return new WaitForSeconds(ienumeratorTimeConstant);
+        Debug.Log("Ended Attack");
+        sharkAnimator.SetBool("attack", false);
+        sharkAnimator.SetBool("postattack", true);
+        attackDoneSpan = true;
+        sharkState = 2;
+        start = true;
+        preattackStart = true;
     }
 
-    //? Possible IEnumerator Method
     public IEnumerator SpawnDamagedState()
     {
         sharkAnimator.SetBool("damaged", true);
-        yield return new WaitForSeconds(5f);
-        sharkAnimator.SetBool("damaged", false);
+        yield return new WaitForSeconds(ienumeratorTimeConstant);
+        sharkAnimator.SetBool("postattack", true);
+        attackDoneSpan = true;
+        sharkState = 2;
+        start = true;
+        preattackStart = true;
     }
 
     public void SpawnGoAwayState()
@@ -235,93 +354,49 @@ public class SharkInstance : MonoBehaviour
         //sharkAnimator.SetBool("goaway", true);
         //sharkAnimator.SetBool("goaway", false);
         postattackDoneSpan = false;
-        StartCoroutine(SpawnSharkGoAwayState());
+        sharkSpriteRenderer.sortingLayerName = "BehindBackground";
+        StartCoroutine(DeSpawnGoAwayState());
+    }
+
+    public IEnumerator DeSpawnGoAwayState()
+    {
+        //sharkAnimator.SetBool("damaged", true);
+        yield return new WaitForSeconds(ienumeratorTimeConstant);
+        Debug.Log("Ended PostAttack");
+        sharkAnimator.SetBool("postattack", false);
+        postattackDoneSpan = true;
+        start = true;
+        preattackStart = true;
+        sharkState = 0;
+        Debug.Log("SharkEventGoAway");
     }
 
     public void InstantGoAwayState()
     {
-        sharkAnimator.SetBool("attack", false);
-        attackDoneSpan = true;
         sharkAnimator.SetBool("postattack", true);
-        postattackDoneSpan = true;
-        sharkstate = 2;
+        sharkSpriteRenderer.sortingLayerName = "BehindBackground";
+        attackDoneSpan = true;
+        postattackDoneSpan = false;
+        sharkState = 2;
         start = true;
+        preattackStart = true;
         Debug.Log("InstantGoAway");
     }
 
-    public IEnumerator SpawnSharkGoAwayState()
+    //: works to move shark forward
+    //: Can be sued for:
+    //@ PreAttack
+    //@ Attack
+    public void StartSharkMovement()
     {
-        //sharkAnimator.SetBool("damaged", true);
-        yield return new WaitForSeconds(5f);
-        sharkAnimator.SetBool("attack", false);
-        attackDoneSpan = true;
-        sharkAnimator.SetBool("postattack", true);
-        postattackDoneSpan = true;
-        sharkstate = 2;
-        start = true;
-        Debug.Log("EventGoAway");
+        var newSharkPosition = new Vector3(speedConstant, 0, 0);
+        position = newSharkPosition;
+        transform.position += position;
+        //position = Vector3.zero;
     }
 
-    public void FindPlayerPosition(Vector3 playerPosition)
-    {
-        playerpositionRef = playerPosition;
-    }
+    #endregion
 
-    // Checks if these gameobjects are intersecting
-    // will retrieve both sprite renderers
-    // return a true statement
-    private void CheckIntersect()
-    {
-        // Outside Collider
-        bool maxXOut = m_MinX[1] < playerpositionRef.x;
-        bool minXOut = m_MaxX[1] > playerpositionRef.x;
-        bool maxYOut = m_MinY[1] < playerpositionRef.y;
-        bool minYOut = m_MaxY[1] > playerpositionRef.y;
 
-        bool playerAttack = GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack;
-        if (maxXOut && minXOut && maxYOut && minYOut && !playerAttack)
-        {
-            //health--;
-            StartCoroutine(SpawnDamagedState());
-            //sharkDamage = true;
-            Debug.Log("Hit Outside Box");
-            Debug.Log("Shark Health " + health);
-        }
 
-        // Inner Collider
-        bool maxXIn = m_MinX[0] < playerpositionRef.x;
-        bool minXIn = m_MaxX[0]> playerpositionRef.x;
-        bool maxIn =m_MinY[0] < playerpositionRef.y;
-        bool minIn = m_MaxY[0] > playerpositionRef.y;
-
-        if (maxXIn && minXIn && maxIn && minIn && !sharkDamaged)
-        {
-            //GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
-            //sharkDamaged = true;
-            Debug.Log("Hit Inside Box");
-            Debug.Log("Interacted with Shark " + GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
-        }
-
-        
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            bool playerAttack = GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack;
-            if (playerAttack && attackDoneSpan == false)
-            {
-                //sharkDamaged = true;
-                //Debug.Log("Shark Health " + health );
-            }
-            else if(attackDoneSpan == false)
-            {
-                //sharkDamage = true;
-                //Debug.Log("Interacted with Shark " + GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
-            }
-            
-        }
-
-    }
 }
