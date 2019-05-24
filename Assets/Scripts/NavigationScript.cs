@@ -11,7 +11,10 @@ public class NavigationScript : MonoBehaviour {
 
     private void Awake()
     {
-        NavigationCanvas.enabled = true;
+        if (NavigationCanvas != null) 
+        {
+            NavigationCanvas.enabled = true;
+        }
     }
 
     public void StartPlay()
@@ -38,5 +41,15 @@ public class NavigationScript : MonoBehaviour {
         NavigationCanvas.enabled = true;
         OptionsCanvas.enabled = false;
         HelpCanvas.enabled = false;
+    }
+
+    public void EndButtonRestart()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void EndButtonExit()
+    {
+        Application.Quit();
     }
 }

@@ -210,7 +210,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: goaway
-  m_Speed: 1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101152242023091384}
@@ -223,7 +223,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a85b83172506ea6499dcd1b2a6e56022, type: 2}
+  m_Motion: {fileID: 7400000, guid: 129e4c0a244223d48a499ead0c287114, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -250,7 +250,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4b2445c887dc61447877a8273b6a4532, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5c00c3ce8e52b854cbbe950d510b627f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -23,4 +23,9 @@ public class GameRestart : MonoBehaviour {
             SceneManager.LoadScene(0);
         }
     }
+
+    public void ButtonRestart()
+    {
+       SceneManager.LoadScene(0);
+    }
 }

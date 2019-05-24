@@ -109,7 +109,8 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	{
 		if(m_PlayerHealth<=0)
 		{
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(2);  // Game Over Scene
         }
 	}
 		

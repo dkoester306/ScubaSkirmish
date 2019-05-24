@@ -14,7 +14,12 @@ public class SharkInstance : MonoBehaviour
     private Vector3 startingPosition;
     private Vector3 resetMovingPosition;
     private Vector3 playerpositionRef;
-    private Vector3 position;
+    private Vector3 position = default(Vector3);
+    private Vector3 acceleration = default(Vector3);
+    private Vector3 direction = default(Vector3);
+    private Vector3 velocity = default(Vector3);
+    private float accelerationRate;
+    float maximumSpeed =.2f;
     private bool postattackDoneSpan;
     private bool preattackDoneSpan;
 
@@ -56,6 +61,7 @@ public class SharkInstance : MonoBehaviour
     {
         startingPosition = new Vector3(-10.21f, 0, 0);
         resetMovingPosition = new Vector3(-10.21f, 0, 0);
+        accelerationRate = .5f * Time.deltaTime;
         sharkState = 0;
         SharkHealth = 3;
         start = true;
@@ -71,6 +77,7 @@ public class SharkInstance : MonoBehaviour
     {
         //health = 3;
         sharkState = 0;
+        velocity = default(Vector3);
         preattackDoneSpan = true;
         attackDoneSpan = true;
         postattackDoneSpan = true;
@@ -203,18 +210,19 @@ public class SharkInstance : MonoBehaviour
         //: works to move shark forward
         if (preattackDoneSpan == false && sharkState == 0)
         {
-            if (flip)
-            {
-                var shootVector = new Vector3(-speedConstant, 0, 0);
-                position = shootVector;
-                transform.position += position;
-            }
-            else
-            {
-                var shootVector = new Vector3(speedConstant, 0, 0);
-                position = shootVector;
-                transform.position += position;
-            }
+            StartSharkMovement();
+            //if (flip)
+            //{
+            //    var shootVector = new Vector3(-speedConstant, 0, 0);
+            //    position = shootVector;
+            //    transform.position += position;
+            //}
+            //else
+            //{
+            //    var shootVector = new Vector3(speedConstant, 0, 0);
+            //    position = shootVector;
+            //    transform.position += position;
+            //}
             
         }
 
@@ -228,18 +236,19 @@ public class SharkInstance : MonoBehaviour
         //: works to move shark forward
         if (attackDoneSpan == false && sharkState == 1)
         {
-            if (flip)
-            {
-                var shootVector = new Vector3(-speedConstant, 0, 0);
-                position = shootVector;
-                transform.position += position;
-            }
-            else
-            {
-                var shootVector = new Vector3(speedConstant, 0, 0);
-                position = shootVector;
-                transform.position += position;
-            }
+            StartSharkMovement();
+            //if (flip)
+            //{
+            //    var shootVector = new Vector3(-speedConstant, 0, 0);
+            //    position = shootVector;
+            //    transform.position = position;
+            //}
+            //else
+            //{
+            //    var shootVector = new Vector3(speedConstant, 0, 0);
+            //    position = shootVector;
+            //    transform.position += position;
+            //}
         }
 
         if (postattackDoneSpan == false && sharkState == 2)
@@ -389,10 +398,33 @@ public class SharkInstance : MonoBehaviour
     //@ Attack
     public void StartSharkMovement()
     {
-        var newSharkPosition = new Vector3(speedConstant, 0, 0);
-        position = newSharkPosition;
-        transform.position += position;
+        direction = new Vector3(1f, 0, 0);
+        //var newSharkPosition = new Vector3(speedConstant, 0, 0);
+        //position = newSharkPosition;
+        //transform.position += position;
         //position = Vector3.zero;
+
+        // accelerationRate
+
+        // maxSpeed
+
+        // Acceleration = direction * accelerationRate
+        acceleration = direction;
+        // Vector += Acceleration
+        velocity += acceleration;
+        // Velocity = Clamp Velocity, MaxSpeed
+        velocity = Vector3.ClampMagnitude(velocity, maximumSpeed);
+
+        position = new Vector3(velocity.x, 0, 0);
+
+        if (Flip)
+        {
+            transform.position -= position;
+        }
+        else
+        {
+            transform.position += position;
+        }
     }
 
     #endregion

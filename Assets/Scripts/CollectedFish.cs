@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// deprecated script
 public class CollectedFish : MonoBehaviour {
 
 	// Use this for initialization
