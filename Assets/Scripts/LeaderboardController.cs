@@ -68,30 +68,38 @@ public class LeaderboardController : MonoBehaviour
         return new Player() {fishCount = fishCount, playerName = "New Player"};
     }
 
+    private Player playerRef;
     void CalculateNewLeaderboard()
     {
         // read in last leaderboard.json file
         if (FindLeadboardFile())
         {
             var leaderboards = JsonUtility.FromJson<Leaderboards>("leaderboards.json");
-            players = leaderboards.leaderboardDictionary;
+            players = leaderboards.leaderboardplayerList;
         }
         // gets fishcount
         // calculates if potential leaderboard
-        Player playerRef = CreateNewPlayer(leaderboardfishCount);
+        playerRef = CreateNewPlayer(leaderboardfishCount);
         if (LeaderboardCalculator.leaderboardEligible(playerRef, players))
         {
-
-            // edit leaderboard with new player
-            LeaderboardCalculator.insertOntoLeaderBoard(playerRef, players);
+            newhighscore = true;
         }
-        // write down to leaderboard.json
-        WriteToLeaderboardFile(players);
-        // update UI assets
-        UpdateLeaderboardUI();
+        
     }
 
+    public void UserSubmitedHighScore()
+    {
+        if (newhighscore)
+        {
+            // edit leaderboard with new player
+            LeaderboardCalculator.insertOntoLeaderBoard(playerRef, players);
 
+            // write down to leaderboard.json
+            WriteToLeaderboardFile(players);
+            // update UI assets
+            UpdateLeaderboardUI();
+        }
+    }
 
     private void UpdateLeaderboardUI()
     {
@@ -132,8 +140,7 @@ public class LeaderboardController : MonoBehaviour
     public class Leaderboards
     {
         public TimeSpan LeaderboparTimeStamp;
-        //@ List or Dictionary????
-        public List<Player> leaderboardDictionary;
+        public List<Player> leaderboardplayerList;
     }
 
     [System.Serializable]

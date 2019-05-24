@@ -5,7 +5,7 @@ using UnityEngine;
 public static class LeaderboardCalculator
 {
     // return if playercount is greater than a leaderboardCount
-    static bool leaderboardEligible(Player newPlayer, List<Player> leaderboard)
+    public static bool leaderboardEligible(Player newPlayer, List<Player> leaderboard)
     {
         if ((leaderboard[3] == null) || (newPlayer.fishCount > leaderboard[3].fishCount))
         {
@@ -15,7 +15,7 @@ public static class LeaderboardCalculator
     }
 
     // add player count to leaderboardDict
-    static List<Player> insertOntoLeaderBoard(Player newPlayer, List<Player> leaderboard)
+    public static List<Player> insertOntoLeaderBoard(Player newPlayer, List<Player> leaderboard)
     {
         if (leaderboard == null)
         {
