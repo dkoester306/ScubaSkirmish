@@ -9,7 +9,7 @@ public class LeaderboardController : MonoBehaviour
 {
     private int leaderboardfishCount;
 
-    private bool newhighscore;
+    private bool newhighscore = true;
     // when of game over
 
     // read in(if so)the pre-existing local leaderboard file
@@ -28,14 +28,14 @@ public class LeaderboardController : MonoBehaviour
 
     private Player playerRef;
     private List<Player> players = new List<Player>();
-    public List<Text> leaderboardObjects = new List<Text>();
+    public List<Text> leaderboardTextObjects = new List<Text>();
 
     // update UI elements
 
     // Start is called before the first frame update
     private void Start()
     {
-        NewHighScorePanel.SetActive(false);
+        NewHighScorePanel.SetActive(true);
         var leaderboards = new List<Player>();
         leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
         leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
@@ -60,11 +60,14 @@ public class LeaderboardController : MonoBehaviour
     public void CalculateNewLeaderboard()
     {
         ReadLeaderboardFile(players);
-
+        NewHighScorePanel.SetActive(true);
         // Create PlayerRef
         playerRef = CreateNewPlayer(leaderboardfishCount);
         // Calculate if PlayerRef is Leaderboard Eligible
-        if (LeaderboardCalculator.leaderboardEligible(playerRef, players)) newhighscore = true;
+        if (LeaderboardCalculator.leaderboardEligible(playerRef, players))
+        {
+            newhighscore = true;
+        }
     }
 
     public void UserSubmitedHighScore()
@@ -86,7 +89,10 @@ public class LeaderboardController : MonoBehaviour
 
     private void UpdateLeaderboardUI()
     {
-        throw new NotImplementedException();
+        for (int i = 0; i < players.Count; i++)
+        {
+            leaderboardTextObjects[i].text = players[i].playerName + " Fish Caught: " + players[i].fishCount;
+        }
     }
 
     private static bool FindLeadboardFile()
