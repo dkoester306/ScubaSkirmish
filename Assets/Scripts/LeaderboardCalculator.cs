@@ -5,9 +5,9 @@ using UnityEngine;
 public static class LeaderboardCalculator
 {
     // return if playercount is greater than a leaderboardCount
-    static bool leaderboardEligible(int playercount, int leadercount)
+    static bool leaderboardEligible(Player newPlayer, List<Player> leaderboard)
     {
-        if (playercount > leadercount)
+        if (newPlayer.fishCount > leaderboard[3].fishCount)
         {
             return true;
         }
@@ -15,27 +15,21 @@ public static class LeaderboardCalculator
     }
 
     // add player count to leaderboardDict
-    static void insertOntoLeaderBoard(List<Player> leaderboard, int playerCount, int index)
+    static List<Player> insertOntoLeaderBoard(Player newPlayer, List<Player> leaderboard)
     {
-        foreach (Player leaderboardObject in leaderboard)
+        if (leaderboard == null)
         {
-            if (playerCount > leaderboardObject.fishCount)
-            {
-                
-            }
+            leaderboard.Add(newPlayer);
+            return leaderboard;
         }
-    }
-
-    static bool findLeadboardFile()
-    {
-        //@ find if file exists: return true
-        return false;
-    }
-
-    static bool writeToLeaderboardFile()
-    {
-        //@ try and write to a leaderboard.json
-        return false;
+            
+        else if (leaderboardEligible(newPlayer, leaderboard))
+        {
+            leaderboard[3] = newPlayer;
+            leaderboard.Sort((player, player1) => player.fishCount.CompareTo(player1.fishCount));
+            return leaderboard;
+        }
+        return leaderboard;
     }
 
 }
