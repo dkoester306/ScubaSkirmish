@@ -6,11 +6,17 @@ using UnityEngine.UI;
 
 public class GM : MonoBehaviour
 {
+    private SwimmerCharacter2D swimmerObject;
+    private LeaderboardController leaderboardController;
+    private GM thisGM;
+
     private static int fishCount = 0;
     public Text EndFishCount;
-    private SwimmerCharacter2D swimmerObject;
-    private GM thisGM;
-    private LeaderboardController leaderboardController;
+
+    public int FishCount
+    {
+        get { return fishCount; }
+    }
 
     // leaderboard connection information
     bool findInstance()
@@ -63,11 +69,10 @@ public class GM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(this.gameObject);
         if (thisGM == null)
         {
             thisGM = this.gameObject.GetComponent<GM>();
-
         }
     }
 
@@ -76,7 +81,7 @@ public class GM : MonoBehaviour
     {
         //@ replace search
         //@ sceneCount begins at 1?
-        if (swimmerObject != null) 
+        if (swimmerObject != null)
         {
             if (SceneManager.GetActiveScene().buildIndex == 1 && swimmerObject.PlayerHealth == 0)
             {
@@ -100,6 +105,7 @@ public class GM : MonoBehaviour
                 EndFishCount = textarray[i];
             }
         }
+
         EndFishCount.text = "Fish Count: " + fishCount.ToString();
     }
 }
