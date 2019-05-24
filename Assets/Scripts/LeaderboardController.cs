@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UI;
+
 //using Newtonsoft.Json;      //! actual issue
 
 public class LeaderboardController : MonoBehaviour
@@ -20,14 +23,18 @@ public class LeaderboardController : MonoBehaviour
     // then writes back to the local leaderboard file
 
     // activate highscore panel
-    public GameObject inputNewHighScore;
+    public GameObject NewHighScorePanel;
+    public InputField playerInputField;
+    private int leaderboardfishCount = 0;
+    private bool newhighscore = false;
+    List<Player> players = new List<Player>();
 
     // update UI elements
 
     // Start is called before the first frame update
     void Start()
     {
-        inputNewHighScore.SetActive(false);
+        NewHighScorePanel.SetActive(false);
 
         try
         {
@@ -58,19 +65,70 @@ public class LeaderboardController : MonoBehaviour
     //@ Int FishCount: GM.FishCount
     Player CreateNewPlayer(int fishCount)
     {
-        return new Player() {fishCount = fishCount,playerName = "New Player"};
+        return new Player() {fishCount = fishCount, playerName = "New Player"};
     }
 
     void CalculateNewLeaderboard()
     {
+        // read in last leaderboard.json file
+        if (FindLeadboardFile())
+        {
+            var leaderboards = JsonUtility.FromJson<Leaderboards>("leaderboards.json");
+            players = leaderboards.leaderboardDictionary;
+        }
+        // gets fishcount
+        // calculates if potential leaderboard
+        Player playerRef = CreateNewPlayer(leaderboardfishCount);
+        if (LeaderboardCalculator.leaderboardEligible(playerRef, players))
+        {
 
+            // edit leaderboard with new player
+            LeaderboardCalculator.insertOntoLeaderBoard(playerRef, players);
+        }
+        // write down to leaderboard.json
+        WriteToLeaderboardFile(players);
+        // update UI assets
+        UpdateLeaderboardUI();
     }
 
+
+
+    private void UpdateLeaderboardUI()
+    {
+        throw new NotImplementedException();
+    }
+
+    static bool FindLeadboardFile()
+    {
+        //@ find if file exists: return true
+        bool creds = File.Exists("leaderboards.json");
+        if (creds)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    static bool WriteToLeaderboardFile(object newleaderboards)
+    {
+        //@ try and write to a leaderboard.json
+        using (StreamWriter localLeaderboard = File.CreateText("leaderboards.json"))
+        {
+            string message = JsonConvert.SerializeObject(newleaderboards);
+            localLeaderboard.Write(message);
+        }
+        return false;
+    }
+
+    public void GetFishCount(int fishCount)
+    {
+        leaderboardfishCount = fishCount;
+    }
 }
 
 #region DataStructures
 
-    [System.Serializable]
+[System.Serializable]
     public class Leaderboards
     {
         public TimeSpan LeaderboparTimeStamp;
