@@ -29,8 +29,6 @@ public class GM : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-        
     }
 
     // called second
