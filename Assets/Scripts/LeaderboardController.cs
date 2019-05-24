@@ -27,6 +27,8 @@ public class LeaderboardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        inputNewHighScore.SetActive(false);
+
         try
         {
             using (var creds = File.CreateText("leaderboards.json"))
@@ -59,11 +61,11 @@ public class LeaderboardController : MonoBehaviour
     {
         public TimeSpan LeaderboparTimeStamp;
         //@ List or Dictionary????
-        public List<Leaderboard> leaderboardDictionary;
+        public List<Player> leaderboardDictionary;
     }
 
     [System.Serializable]
-    public class Leaderboard
+    public class Player
     {
         public string playerName;
         public int fishCount;

@@ -15,11 +15,14 @@ public static class LeaderboardCalculator
     }
 
     // add player count to leaderboardDict
-    static void insertOntoLeaderBoard(Dictionary<int, string> leaderboard, int playerCount, int index)
+    static void insertOntoLeaderBoard(List<Player> leaderboard, int playerCount, int index)
     {
-        foreach (KeyValuePair<int, string> keyValuePair in leaderboard)
+        foreach (Player leaderboardObject in leaderboard)
         {
-
+            if (playerCount > leaderboardObject.fishCount)
+            {
+                
+            }
         }
     }
 
