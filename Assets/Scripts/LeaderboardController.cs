@@ -52,9 +52,12 @@ public class LeaderboardController : MonoBehaviour
     //: Create Player object with Name and FishCount
     //@ InputField PlayerName: NewHighScore.InputField.Text
     //@ Int FishCount: GM.FishCount
-    private Player CreateNewPlayer(int fishCount)
+    public Player CreateNewPlayer(String name, int fishCount)
     {
-        return new Player {fishCount = fishCount, playerName = "New Player"};
+        Player newPlayer = new Player();
+        newPlayer.playerName = name;
+        newPlayer.fishCount = fishCount;
+        return newPlayer;
     }
 
     public void CalculateNewLeaderboard()
