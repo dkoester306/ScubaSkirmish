@@ -7,9 +7,8 @@ using UnityEngine.UI;
 
 public class LeaderboardController : MonoBehaviour
 {
-    private int leaderboardfishCount;
-
-    private bool newhighscore = true;
+    private int playerfishCount;
+    private bool newhighscore = false;
     // when of game over
 
     // read in(if so)the pre-existing local leaderboard file
@@ -23,6 +22,9 @@ public class LeaderboardController : MonoBehaviour
     // then writes back to the local leaderboard file
 
     // activate highscore panel
+
+    // update UI elements
+
     public GameObject NewHighScorePanel;
     public InputField playerInputField;
 
@@ -30,8 +32,7 @@ public class LeaderboardController : MonoBehaviour
     private List<Player> players = new List<Player>();
     public List<Text> leaderboardTextObjects = new List<Text>();
 
-    // update UI elements
-
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -52,10 +53,10 @@ public class LeaderboardController : MonoBehaviour
     //: Create Player object with Name and FishCount
     //@ InputField PlayerName: NewHighScore.InputField.Text
     //@ Int FishCount: GM.FishCount
-    public Player CreateNewPlayer(String name, int fishCount)
+    public Player CreateNewPlayer(int fishCount)
     {
         Player newPlayer = new Player();
-        newPlayer.playerName = name;
+        newPlayer.playerName = "Player Name";
         newPlayer.fishCount = fishCount;
         return newPlayer;
     }
@@ -63,13 +64,14 @@ public class LeaderboardController : MonoBehaviour
     public void CalculateNewLeaderboard()
     {
         ReadLeaderboardFile(players);
-        NewHighScorePanel.SetActive(true);
+
         // Create PlayerRef
-        playerRef = CreateNewPlayer(leaderboardfishCount);
+        playerRef = new Player() {fishCount = playerfishCount, playerName = "New Player"};
         // Calculate if PlayerRef is Leaderboard Eligible
         if (LeaderboardCalculator.leaderboardEligible(playerRef, players))
         {
             newhighscore = true;
+            NewHighScorePanel.SetActive(true);
         }
     }
 
@@ -77,6 +79,7 @@ public class LeaderboardController : MonoBehaviour
     {
         if (newhighscore)
         {
+            // set playerName inputField
             playerRef.playerName = playerInputField.text;
 
             // edit leaderboard with new player
@@ -132,7 +135,7 @@ public class LeaderboardController : MonoBehaviour
 
     public void GetFishCount(int fishCount)
     {
-        leaderboardfishCount = fishCount;
+        playerfishCount = fishCount;
     }
 }
 

@@ -48,6 +48,11 @@ public class GM : MonoBehaviour
             }
         }
 
+        if (scene.buildIndex == 1)
+        {
+            swimmerObject = FindObjectOfType<SwimmerCharacter2D>();
+        }
+
         if (scene.buildIndex == 2)
         {
             SetFishCountText();
@@ -56,11 +61,6 @@ public class GM : MonoBehaviour
             leaderboardController = FindObjectOfType<LeaderboardController>();
             leaderboardController.GetFishCount(fishCount);
             leaderboardController.CalculateNewLeaderboard();
-        }
-
-        if (scene.buildIndex == 1)
-        {
-            swimmerObject = FindObjectOfType<SwimmerCharacter2D>();
         }
     }
 
