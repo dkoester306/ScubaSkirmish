@@ -30,7 +30,6 @@ public class AudioSourceControl : MonoBehaviour {
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Something Happened");
         if (scene.buildIndex == 0)
         {
             if (findInstance())

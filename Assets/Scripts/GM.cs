@@ -29,12 +29,13 @@ public class GM : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        
     }
 
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Something Happened");
         if (scene.buildIndex == 0)
         {
             if (findInstance())
@@ -53,7 +54,10 @@ public class GM : MonoBehaviour
         {
             SetFishCountText();
             //: TODO Add LeadboardController Functionlity
+            //@ doesnt find leaderboardController
+            leaderboardController = FindObjectOfType<LeaderboardController>();
             leaderboardController.GetFishCount(fishCount);
+            leaderboardController.CalculateNewLeaderboard();
         }
 
         if (scene.buildIndex == 1)

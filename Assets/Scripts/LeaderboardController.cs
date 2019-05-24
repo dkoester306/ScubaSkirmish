@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
-
-//using Newtonsoft.Json;      //! actual issue
+//using Newtonsoft.Json;
 
 public class LeaderboardController : MonoBehaviour
 {
+    private int leaderboardfishCount;
+
+    private bool newhighscore;
     // when of game over
 
     // read in(if so)the pre-existing local leaderboard file
@@ -25,77 +25,60 @@ public class LeaderboardController : MonoBehaviour
     // activate highscore panel
     public GameObject NewHighScorePanel;
     public InputField playerInputField;
-    private int leaderboardfishCount = 0;
-    private bool newhighscore = false;
-    List<Player> players = new List<Player>();
+
+    private Player playerRef;
+    private List<Player> players = new List<Player>();
+    public List<Text> leaderboardObjects = new List<Text>();
 
     // update UI elements
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         NewHighScorePanel.SetActive(false);
-
-        try
-        {
-            using (var creds = File.CreateText("leaderboards.json"))
-            {
-                Dictionary<int, string> leaderboards = new Dictionary<int, string>();
-                leaderboards.Add(100, "John");
-                leaderboards.Add(89, "Adam");
-                leaderboards.Add(56, "Louis");
-                leaderboards.Add(34, "Beck");
-                //string message = JsonConvert.SerializeObject(leaderboards.ToString());
-                //creds.Write(message);
-            }
-        }
-        catch
-        {
-        }
+        var leaderboards = new List<Player>();
+        leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
+        leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
+        leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
+        leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
+        WriteToLeaderboardFile(leaderboards);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
     }
 
     //: Create Player object with Name and FishCount
     //@ InputField PlayerName: NewHighScore.InputField.Text
     //@ Int FishCount: GM.FishCount
-    Player CreateNewPlayer(int fishCount)
+    private Player CreateNewPlayer(int fishCount)
     {
-        return new Player() {fishCount = fishCount, playerName = "New Player"};
+        return new Player {fishCount = fishCount, playerName = "New Player"};
     }
 
-    private Player playerRef;
-    void CalculateNewLeaderboard()
+    public void CalculateNewLeaderboard()
     {
-        // read in last leaderboard.json file
-        if (FindLeadboardFile())
-        {
-            var leaderboards = JsonUtility.FromJson<Leaderboards>("leaderboards.json");
-            players = leaderboards.leaderboardplayerList;
-        }
-        // gets fishcount
-        // calculates if potential leaderboard
+        ReadLeaderboardFile(players);
+
+        // Create PlayerRef
         playerRef = CreateNewPlayer(leaderboardfishCount);
-        if (LeaderboardCalculator.leaderboardEligible(playerRef, players))
-        {
-            newhighscore = true;
-        }
-        
+        // Calculate if PlayerRef is Leaderboard Eligible
+        if (LeaderboardCalculator.leaderboardEligible(playerRef, players)) newhighscore = true;
     }
 
     public void UserSubmitedHighScore()
     {
         if (newhighscore)
         {
+            playerRef.playerName = playerInputField.text;
+
             // edit leaderboard with new player
             LeaderboardCalculator.insertOntoLeaderBoard(playerRef, players);
 
             // write down to leaderboard.json
             WriteToLeaderboardFile(players);
+
             // update UI assets
             UpdateLeaderboardUI();
         }
@@ -106,25 +89,35 @@ public class LeaderboardController : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    static bool FindLeadboardFile()
+    private static bool FindLeadboardFile()
     {
         //@ find if file exists: return true
-        bool creds = File.Exists("leaderboards.json");
-        if (creds)
-        {
-            return true;
-        }
+        var fileExists = File.Exists("leaderboards.json");
+        if (fileExists) return true;
         return false;
     }
 
-    static bool WriteToLeaderboardFile(object newleaderboards)
+    private static void ReadLeaderboardFile(List<Player> _players)
+    {
+        // read in last leaderboard.json file
+        if (FindLeadboardFile())
+        {
+            var leaderboards = JsonUtility.FromJson<Leaderboards>("leaderboards.json");
+            _players = leaderboards.leaderboardplayerList;
+        }
+    }
+
+    private static bool WriteToLeaderboardFile(List<Player> newleaderboards)
     {
         //@ try and write to a leaderboard.json
-        using (StreamWriter localLeaderboard = File.CreateText("leaderboards.json"))
+        using (var localLeaderboard = File.CreateText("leaderboards.json"))
         {
-            string message = JsonConvert.SerializeObject(newleaderboards);
-            localLeaderboard.Write(message);
+            Leaderboards newLeaderboards = new Leaderboards();
+            newLeaderboards.leaderboardplayerList = newleaderboards;
+            string leaderboards = JsonUtility.ToJson(newLeaderboards.leaderboardplayerList);
+            localLeaderboard.Write(leaderboards);
         }
+
         return false;
     }
 
@@ -136,24 +129,18 @@ public class LeaderboardController : MonoBehaviour
 
 #region DataStructures
 
-[System.Serializable]
-    public class Leaderboards
-    {
-        public TimeSpan LeaderboparTimeStamp;
-        public List<Player> leaderboardplayerList;
-    }
+[Serializable]
+public class Leaderboards
+{
+    public List<Player> leaderboardplayerList;
+    public TimeSpan LeaderboparTimeStamp;
+}
 
-    [System.Serializable]
-    public class Player
-    {
-        public string playerName;
-        public int fishCount;
-    }
+[Serializable]
+public class Player
+{
+    public int fishCount;
+    public string playerName;
+}
 
 #endregion
-
-
-
-
-
-
