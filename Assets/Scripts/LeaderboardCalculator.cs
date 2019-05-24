@@ -7,7 +7,7 @@ public static class LeaderboardCalculator
     // return if playercount is greater than a leaderboardCount
     static bool leaderboardEligible(Player newPlayer, List<Player> leaderboard)
     {
-        if (newPlayer.fishCount > leaderboard[3].fishCount)
+        if ((leaderboard[3] == null) || (newPlayer.fishCount > leaderboard[3].fishCount))
         {
             return true;
         }
