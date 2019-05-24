@@ -10,6 +10,7 @@ public class GM : MonoBehaviour
     public Text EndFishCount;
     private SwimmerCharacter2D swimmerObject;
     private GM thisGM;
+    private LeaderboardController leaderboardController;
 
     // leaderboard connection information
     bool findInstance()
@@ -50,6 +51,7 @@ public class GM : MonoBehaviour
         if (scene.buildIndex == 2)
         {
             SetFishCountText();
+            //: TODO Add LeadboardController Functionlity
         }
 
         if (scene.buildIndex == 1)
@@ -81,8 +83,6 @@ public class GM : MonoBehaviour
                 FindSwimmerCount();
             }
         }
-
-        
     }
 
     void FindSwimmerCount()
@@ -97,7 +97,6 @@ public class GM : MonoBehaviour
         {
             if (textarray[i].gameObject.name == "FishCount")
             {
-                Debug.Log("Found Text");
                 EndFishCount = textarray[i];
             }
         }

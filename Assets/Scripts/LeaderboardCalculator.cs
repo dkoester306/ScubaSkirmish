@@ -22,4 +22,17 @@ public static class LeaderboardCalculator
 
         }
     }
+
+    static bool findLeadboardFile()
+    {
+        //@ find if file exists: return true
+        return false;
+    }
+
+    static bool writeToLeaderboardFile()
+    {
+        //@ try and write to a leaderboard.json
+        return false;
+    }
+
 }
