@@ -38,8 +38,8 @@ public class LeaderboardController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        NewHighScorePanel.SetActive(true);
-        var leaderboards = new List<Player>();
+        NewHighScorePanel.SetActive(false);
+        List<Player> leaderboards = new List<Player>();
         leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
         leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
         leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
@@ -57,7 +57,7 @@ public class LeaderboardController : MonoBehaviour
     //@ Int FishCount: GM.FishCount
     public Player CreateNewPlayer(int fishCount)
     {
-        var newPlayer = new Player();
+        Player newPlayer = new Player();
         newPlayer.playerName = "Player Name";
         newPlayer.fishCount = fishCount;
         return newPlayer;
@@ -65,10 +65,11 @@ public class LeaderboardController : MonoBehaviour
 
     public void CalculateNewLeaderboard()
     {
-        ReadLeaderboardFile(players);
+        ReadInLeaderboardFile(players);
 
         // Create PlayerRef
         playerRef = new Player {fishCount = playerfishCount, playerName = "New Player"};
+        playerRef = CreateNewPlayer(playerfishCount);
         // Calculate if PlayerRef is Leaderboard Eligible
         if (LeaderboardCalculator.leaderboardEligible(playerRef, players))
         {
@@ -97,19 +98,19 @@ public class LeaderboardController : MonoBehaviour
 
     private void UpdateLeaderboardUI()
     {
-        for (var i = 0; i < players.Count; i++)
+        for (int i = 0; i < players.Count; i++)
             leaderboardTextObjects[i].text = players[i].playerName + " Fish Caught: " + players[i].fishCount;
     }
 
     private static bool FindLeadboardFile()
     {
         //@ find if file exists: return true
-        var fileExists = File.Exists("leaderboards.json");
+        bool fileExists = File.Exists("leaderboards.json");
         if (fileExists) return true;
         return false;
     }
 
-    private static void ReadLeaderboardFile(List<Player> _players)
+    private static void ReadInLeaderboardFile(List<Player> _players)
     {
         // read in last leaderboard.json file
         if (FindLeadboardFile())
@@ -119,18 +120,15 @@ public class LeaderboardController : MonoBehaviour
         }
     }
 
-    private static bool WriteToLeaderboardFile(List<Player> newleaderboards)
+    private static void WriteToLeaderboardFile(List<Player> newleaderboards)
     {
         //@ try and write to a leaderboard.json
         using (var localLeaderboard = File.CreateText("leaderboards.json"))
         {
-            var newLeaderboards = new Leaderboards();
+            Leaderboards newLeaderboards = new Leaderboards();
             newLeaderboards.leaderboardplayerList = newleaderboards;
-            var leaderboards = JsonUtility.ToJson(newLeaderboards.leaderboardplayerList);
-            localLeaderboard.Write(leaderboards);
+            localLeaderboard.Write(JsonUtility.ToJson(newLeaderboards.LeaderboparTimeStamp));
         }
-
-        return false;
     }
 
     public void GetFishCount(int fishCount)

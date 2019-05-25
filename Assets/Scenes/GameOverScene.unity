@@ -498,7 +498,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1878244255
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: df7b2603dd9c34d45932381c8bc21cd5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1757,9 +1757,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e004c5c85398e5342b0c5c36e13c4cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leaderboardTextObjects: []
   NewHighScorePanel: {fileID: 847092124}
   playerInputField: {fileID: 1570759869}
-  leaderboardTextObjects: []
 --- !u!4 &853764131
 Transform:
   m_ObjectHideFlags: 0
@@ -2171,7 +2171,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1878244255
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d0489b247e19abd4d8cbdd582ba0c337, type: 3}
   m_Color: {r: 0.6179246, g: 0.84239393, b: 1, a: 1}

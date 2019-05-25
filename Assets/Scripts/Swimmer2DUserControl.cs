@@ -32,9 +32,9 @@ public class Swimmer2DUserControl : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Return) && !attack)
         {
-            StartCoroutine(SwimmerPunchInputPressed());
+            StartCoroutine(ISwimmerPunchInputPressed());
         }
-        else if (Input.GetKeyUp(KeyCode.Return))
+        else if (Input.GetKeyUp(KeyCode.Return) && attack)
         {
             StartCoroutine(ISwimmerPunchInputUnPressed());
         }
@@ -58,7 +58,7 @@ public class Swimmer2DUserControl : MonoBehaviour {
     // This will be activated by a Shark gameobject inside of SpawnAttackState
     // bool SharkAttackInput
 
-    IEnumerator SwimmerPunchInputPressed()
+    IEnumerator ISwimmerPunchInputPressed()
     {
         
         attack = true;
