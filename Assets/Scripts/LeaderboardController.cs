@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+
 //using Newtonsoft.Json;
 
 public class LeaderboardController : MonoBehaviour
 {
-    private int playerfishCount;
-    private bool newhighscore = false;
+    public List<Text> leaderboardTextObjects = new List<Text>();
+
+    private bool newhighscore;
     // when of game over
 
     // read in(if so)the pre-existing local leaderboard file
@@ -26,22 +28,22 @@ public class LeaderboardController : MonoBehaviour
     // update UI elements
 
     public GameObject NewHighScorePanel;
+    private int playerfishCount;
     public InputField playerInputField;
 
     private Player playerRef;
-    private List<Player> players = new List<Player>();
-    public List<Text> leaderboardTextObjects = new List<Text>();
+    private readonly List<Player> players = new List<Player>();
 
-    
+
     // Start is called before the first frame update
     private void Start()
     {
         NewHighScorePanel.SetActive(true);
         var leaderboards = new List<Player>();
-        leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
-        leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
-        leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
-        leaderboards.Add(new Player { fishCount = 0, playerName = "New Player" });
+        leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
+        leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
+        leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
+        leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
         WriteToLeaderboardFile(leaderboards);
     }
 
@@ -55,7 +57,7 @@ public class LeaderboardController : MonoBehaviour
     //@ Int FishCount: GM.FishCount
     public Player CreateNewPlayer(int fishCount)
     {
-        Player newPlayer = new Player();
+        var newPlayer = new Player();
         newPlayer.playerName = "Player Name";
         newPlayer.fishCount = fishCount;
         return newPlayer;
@@ -66,7 +68,7 @@ public class LeaderboardController : MonoBehaviour
         ReadLeaderboardFile(players);
 
         // Create PlayerRef
-        playerRef = new Player() {fishCount = playerfishCount, playerName = "New Player"};
+        playerRef = new Player {fishCount = playerfishCount, playerName = "New Player"};
         // Calculate if PlayerRef is Leaderboard Eligible
         if (LeaderboardCalculator.leaderboardEligible(playerRef, players))
         {
@@ -95,10 +97,8 @@ public class LeaderboardController : MonoBehaviour
 
     private void UpdateLeaderboardUI()
     {
-        for (int i = 0; i < players.Count; i++)
-        {
+        for (var i = 0; i < players.Count; i++)
             leaderboardTextObjects[i].text = players[i].playerName + " Fish Caught: " + players[i].fishCount;
-        }
     }
 
     private static bool FindLeadboardFile()
@@ -124,9 +124,9 @@ public class LeaderboardController : MonoBehaviour
         //@ try and write to a leaderboard.json
         using (var localLeaderboard = File.CreateText("leaderboards.json"))
         {
-            Leaderboards newLeaderboards = new Leaderboards();
+            var newLeaderboards = new Leaderboards();
             newLeaderboards.leaderboardplayerList = newleaderboards;
-            string leaderboards = JsonUtility.ToJson(newLeaderboards.leaderboardplayerList);
+            var leaderboards = JsonUtility.ToJson(newLeaderboards.leaderboardplayerList);
             localLeaderboard.Write(leaderboards);
         }
 

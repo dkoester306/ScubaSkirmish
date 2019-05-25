@@ -220,8 +220,6 @@ public class SpawnTrash : MonoBehaviour {
     {
         isSharkSpawned = true;
         shark.SetActive(isSharkSpawned);
-        //sharkSpawnInstance.ResetSharkStates();
-        Debug.Log("Spawn Shark");
     }
 
     void StartSharkInstance()
@@ -274,6 +272,5 @@ public class SpawnTrash : MonoBehaviour {
         postcheck = 0;
         sharkSpawnInstance.SharkState = 0;
         ResetSharkSpawnTime();
-        Debug.Log("DeSpawn Shark");
     }
 }

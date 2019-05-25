@@ -30,9 +30,13 @@ public class Swimmer2DUserControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && !attack)
         {
             StartCoroutine(SwimmerPunchInputPressed());
+        }
+        else if (Input.GetKeyUp(KeyCode.Return))
+        {
+            StartCoroutine(ISwimmerPunchInputUnPressed());
         }
     }
 
@@ -59,9 +63,15 @@ public class Swimmer2DUserControl : MonoBehaviour {
         
         attack = true;
         swimmerAnimator.SetBool("attack",attack);
-        Debug.Log("Attack");
+        yield return new WaitForSeconds(.8f);
+        attack = false;
+
+    }
+
+    IEnumerator ISwimmerPunchInputUnPressed()
+    {
+
         yield return new WaitForSeconds(.3f);
-        
         SwimmerPunchInputUnPressed();
     }
 
@@ -69,6 +79,5 @@ public class Swimmer2DUserControl : MonoBehaviour {
     {
         attack = false;
         swimmerAnimator.SetBool("attack", attack);
-        Debug.Log("Swim");
     }
 }

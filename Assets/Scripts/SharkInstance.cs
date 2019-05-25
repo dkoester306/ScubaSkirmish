@@ -185,14 +185,12 @@ public class SharkInstance : MonoBehaviour
                 sharkDamage = true;
                 SharkHealth--;
                 StartCoroutine(SpawnDamagedState());
-                Debug.Log("Hit Outside Box");
                 Debug.Log("Shark Health " + SharkHealth);
             }
             else if (attackDoneSpan == false && !sharkDamaged && !playerAttack)
             {
                 sharkDamaged = true;
                 GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth -= 2;
-                Debug.Log("Hit Inside Box");
                 Debug.Log("Interacted with Shark " +
                           GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
             }
@@ -211,19 +209,6 @@ public class SharkInstance : MonoBehaviour
         if (preattackDoneSpan == false && sharkState == 0)
         {
             StartSharkMovement();
-            //if (flip)
-            //{
-            //    var shootVector = new Vector3(-speedConstant, 0, 0);
-            //    position = shootVector;
-            //    transform.position += position;
-            //}
-            //else
-            //{
-            //    var shootVector = new Vector3(speedConstant, 0, 0);
-            //    position = shootVector;
-            //    transform.position += position;
-            //}
-            
         }
 
         //transform.position = position
@@ -237,18 +222,6 @@ public class SharkInstance : MonoBehaviour
         if (attackDoneSpan == false && sharkState == 1)
         {
             StartSharkMovement();
-            //if (flip)
-            //{
-            //    var shootVector = new Vector3(-speedConstant, 0, 0);
-            //    position = shootVector;
-            //    transform.position = position;
-            //}
-            //else
-            //{
-            //    var shootVector = new Vector3(speedConstant, 0, 0);
-            //    position = shootVector;
-            //    transform.position += position;
-            //}
         }
 
         if (postattackDoneSpan == false && sharkState == 2)
@@ -276,7 +249,6 @@ public class SharkInstance : MonoBehaviour
         if (preattackStart)
         {
             ResetSharkStates();
-            //preattackStart = false;
 
             sharkAnimator.SetBool("preattack", true);
             //: Call Find Player Position (Called Already)
@@ -292,7 +264,6 @@ public class SharkInstance : MonoBehaviour
     public IEnumerator DeSpawnPreAttackState()
     {
         yield return new WaitForSeconds(ienumeratorTimeConstant);
-        Debug.Log("Ended PreAttack");
         sharkAnimator.SetBool("preattack", false);
         sharkAnimator.SetBool("attack", true);
         preattackDoneSpan = true;
@@ -306,8 +277,7 @@ public class SharkInstance : MonoBehaviour
         if (start)
         {
             var sharkStartPosition = startingPosition;
-            //position = sharkStartPosition;
-            //transform.position = sharkStartPosition;
+
             Vector3 newSharkPosition;
             if (flip)
             {
@@ -320,11 +290,10 @@ public class SharkInstance : MonoBehaviour
             
             position = newSharkPosition;
             transform.position = position;
-            //position = Vector3.zero;
 
             start = false;
             attackDoneSpan = false;
-            sharkSpriteRenderer.sortingLayerName = "Foreground";
+            sharkSpriteRenderer.sortingLayerName = "Shark";
             StartCoroutine(DeSpawnAttackState());
         }
 
@@ -337,7 +306,6 @@ public class SharkInstance : MonoBehaviour
     public IEnumerator DeSpawnAttackState()
     {
         yield return new WaitForSeconds(ienumeratorTimeConstant);
-        Debug.Log("Ended Attack");
         sharkAnimator.SetBool("attack", false);
         sharkAnimator.SetBool("postattack", true);
         attackDoneSpan = true;
@@ -359,9 +327,6 @@ public class SharkInstance : MonoBehaviour
 
     public void SpawnGoAwayState()
     {
-        //StartCoroutine(SpawnSharkGoAwayState());
-        //sharkAnimator.SetBool("goaway", true);
-        //sharkAnimator.SetBool("goaway", false);
         postattackDoneSpan = false;
         sharkSpriteRenderer.sortingLayerName = "BehindBackground";
         StartCoroutine(DeSpawnGoAwayState());
@@ -389,7 +354,6 @@ public class SharkInstance : MonoBehaviour
         sharkState = 2;
         start = true;
         preattackStart = true;
-        Debug.Log("InstantGoAway");
     }
 
     //: works to move shark forward
@@ -398,11 +362,8 @@ public class SharkInstance : MonoBehaviour
     //@ Attack
     public void StartSharkMovement()
     {
+        //set direction
         direction = new Vector3(1f, 0, 0);
-        //var newSharkPosition = new Vector3(speedConstant, 0, 0);
-        //position = newSharkPosition;
-        //transform.position += position;
-        //position = Vector3.zero;
 
         // accelerationRate
 
