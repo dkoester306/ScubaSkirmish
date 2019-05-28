@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class AudioSourceControl : MonoBehaviour {
 
-    public AudioSource musicSource;
+    AudioSource musicSource;
     public AudioController audioController;
     private AudioSourceControl thissourceControl;
 
@@ -43,10 +43,12 @@ public class AudioSourceControl : MonoBehaviour {
                 }
             }
         }
+        audioController = FindObjectOfType<AudioController>();
     }
 
     // Use this for initialization
     void Start () {
+        musicSource = this.gameObject.GetComponent<AudioSource>();
         DontDestroyOnLoad(this.gameObject);
         //@ find better check
         if (thissourceControl == null)
@@ -62,14 +64,14 @@ public class AudioSourceControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        musicSource.volume = audioController.musicVolume;
+        musicSource.volume = AudioController.musicVolume;
 
         CheckMute();
     }
 
     private void CheckMute()
     {
-        if (!audioController.musicplay)
+        if (!AudioController.musicplay)
         {
             musicSource.Pause();
         }

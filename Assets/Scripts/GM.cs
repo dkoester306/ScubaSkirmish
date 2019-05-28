@@ -11,7 +11,7 @@ public class GM : MonoBehaviour
     private GM thisGM;
 
     private static int fishCount = 0;
-    public Text EndFishCount;
+    private Text EndFishCount;
 
     // leaderboard connection information
     bool findInstance()
@@ -56,11 +56,10 @@ public class GM : MonoBehaviour
         if (scene.buildIndex == 2)
         {
             SetFishCountText();
+
             //: TODO Add LeadboardController Functionlity
-            //@ doesnt find leaderboardController
             leaderboardController = FindObjectOfType<LeaderboardController>();
             leaderboardController.GetFishCount(fishCount);
-            leaderboardController.CalculateNewLeaderboard();
         }
     }
 

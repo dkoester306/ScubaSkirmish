@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-
-//using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 public class LeaderboardController : MonoBehaviour
 {
@@ -32,24 +31,29 @@ public class LeaderboardController : MonoBehaviour
     public InputField playerInputField;
 
     private Player playerRef;
-    private readonly List<Player> players = new List<Player>();
+    private List<Player> players = new List<Player>();
+    private List<Player> leaderboards = new List<Player>();
 
 
     // Start is called before the first frame update
     private void Start()
     {
         NewHighScorePanel.SetActive(false);
-        List<Player> leaderboards = new List<Player>();
-        leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
-        leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
-        leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
-        leaderboards.Add(new Player {fishCount = 0, playerName = "New Player"});
-        WriteToLeaderboardFile(leaderboards);
+        CalculateNewLeaderboard();
     }
 
     // Update is called once per frame
     private void Update()
     {
+    }
+
+    public void FillLeaderboards(List<Player> _players)
+    {
+        _players.Add(new Player { fishCount = 10, playerName = "Davey Jones" });
+        _players.Add(new Player { fishCount = 20, playerName = "Scuba Steve" });
+        _players.Add(new Player { fishCount = 35, playerName = "Flying Duchman" });
+        _players.Add(new Player { fishCount = 50, playerName = "Ghost of Captain Cutler" });
+        LeaderboardCalculator.sortLeadboard(_players);
     }
 
     //: Create Player object with Name and FishCount
@@ -65,11 +69,14 @@ public class LeaderboardController : MonoBehaviour
 
     public void CalculateNewLeaderboard()
     {
-        ReadInLeaderboardFile(players);
+        players = ReadInLeaderboardFile(players);
+
+        UpdateLeaderboardUI();
 
         // Create PlayerRef
         playerRef = new Player {fishCount = playerfishCount, playerName = "New Player"};
         playerRef = CreateNewPlayer(playerfishCount);
+
         // Calculate if PlayerRef is Leaderboard Eligible
         if (LeaderboardCalculator.leaderboardEligible(playerRef, players))
         {
@@ -93,41 +100,54 @@ public class LeaderboardController : MonoBehaviour
 
             // update UI assets
             UpdateLeaderboardUI();
+
+            // deactivate highscore panel
+            NewHighScorePanel.SetActive(false);
         }
     }
 
     private void UpdateLeaderboardUI()
     {
-        for (int i = 0; i < players.Count; i++)
-            leaderboardTextObjects[i].text = players[i].playerName + " Fish Caught: " + players[i].fishCount;
+        for (int i = leaderboardTextObjects.Count - 1; i >= 0; i--)
+        {
+            leaderboardTextObjects[i].text 
+                = (i+1).ToString() + ". " + players[i].playerName + " Fish Caught: " + players[i].fishCount;
+        }
     }
 
-    private static bool FindLeadboardFile()
+    // find if file exists: return true else false
+    private bool FindLeadboardFile()
     {
-        //@ find if file exists: return true
         bool fileExists = File.Exists("leaderboards.json");
         if (fileExists) return true;
         return false;
     }
 
-    private static void ReadInLeaderboardFile(List<Player> _players)
+    // read in last leaderboard.json file
+    private List<Player> ReadInLeaderboardFile(List<Player> _players)
     {
-        // read in last leaderboard.json file
         if (FindLeadboardFile())
         {
-            var leaderboards = JsonUtility.FromJson<Leaderboards>("leaderboards.json");
-            _players = leaderboards.leaderboardplayerList;
+            string playerListString = File.ReadAllText("leaderboards.json");
+            Leaderboards readInleaderboard = JsonConvert.DeserializeObject<Leaderboards>(playerListString);
+            _players = readInleaderboard.LeaderboardplayerList;
         }
+        else
+        {
+            _players = new List<Player>();
+            FillLeaderboards(_players);
+        }
+        return _players;
     }
 
+    // try and write to a leaderboard.json
     private static void WriteToLeaderboardFile(List<Player> newleaderboards)
     {
-        //@ try and write to a leaderboard.json
         using (var localLeaderboard = File.CreateText("leaderboards.json"))
         {
             Leaderboards newLeaderboards = new Leaderboards();
-            newLeaderboards.leaderboardplayerList = newleaderboards;
-            localLeaderboard.Write(JsonUtility.ToJson(newLeaderboards.LeaderboparTimeStamp));
+            newLeaderboards.LeaderboardplayerList = newleaderboards;
+            localLeaderboard.Write(JsonConvert.SerializeObject(newLeaderboards));
         }
     }
 
@@ -142,7 +162,7 @@ public class LeaderboardController : MonoBehaviour
 [Serializable]
 public class Leaderboards
 {
-    public List<Player> leaderboardplayerList;
+    public List<Player> LeaderboardplayerList;
     public TimeSpan LeaderboparTimeStamp;
 }
 

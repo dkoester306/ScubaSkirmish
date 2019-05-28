@@ -7,17 +7,30 @@ public static class LeaderboardCalculator
     // return if playercount is greater than a leaderboardCount
     public static bool leaderboardEligible(Player player, List<Player> leaderboard)
     {
-        if ((leaderboard[3] == null) || (player.fishCount > leaderboard[3].fishCount))
+        if (leaderboard.Count == 0 || leaderboard == null)
         {
             return true;
         }
-        return false;
+        else
+        {
+            if ((player.fishCount > leaderboard[leaderboard.Count - 1].fishCount))
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public static List<Player> sortLeadboard(List<Player> leaderboard)
+    {
+        leaderboard.Sort((player, player1) => player1.fishCount.CompareTo(player.fishCount));
+        return leaderboard;
     }
 
     // add player count to leaderboardDict
     public static List<Player> insertOntoLeaderBoard(Player newPlayer, List<Player> leaderboard)
     {
-        if (leaderboard == null)
+        if (leaderboard == null || leaderboard.Count == 0)
         {
             leaderboard.Add(newPlayer);
             return leaderboard;
@@ -25,8 +38,8 @@ public static class LeaderboardCalculator
             
         else if (leaderboardEligible(newPlayer, leaderboard))
         {
-            leaderboard[3] = newPlayer;
-            leaderboard.Sort((player, player1) => player.fishCount.CompareTo(player1.fishCount));
+            leaderboard[leaderboard.Count - 1] = newPlayer;
+            leaderboard.Sort((player, player1) => player1.fishCount.CompareTo(player.fishCount));
             return leaderboard;
         }
         return leaderboard;
