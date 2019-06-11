@@ -66,7 +66,7 @@ public class GM : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
         if (thisGM == null)
         {
             thisGM = this.gameObject.GetComponent<GM>();
@@ -105,4 +105,5 @@ public class GM : MonoBehaviour
 
         EndFishCount.text = "Fish Count: " + fishCount.ToString();
     }
+
 }

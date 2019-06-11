@@ -13,6 +13,7 @@ public class Swimmer2DUserControl : MonoBehaviour {
     private Animator swimmerAnimator;
     private Animation swimmerAnimaton;
     private bool attack = false;
+    private bool damaged = false;
 
     public bool Attack
     {
@@ -30,11 +31,11 @@ public class Swimmer2DUserControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.Return) && !attack)
+        if (Input.GetKeyDown(KeyCode.Return) && !attack && !damaged)
         {
             StartCoroutine(ISwimmerPunchInputPressed());
         }
-        else if (Input.GetKeyUp(KeyCode.Return) && attack)
+        else if (Input.GetKeyUp(KeyCode.Return) && attack && !damaged)
         {
             StartCoroutine(ISwimmerPunchInputUnPressed());
         }
@@ -58,6 +59,20 @@ public class Swimmer2DUserControl : MonoBehaviour {
     // This will be activated by a Shark gameobject inside of SpawnAttackState
     // bool SharkAttackInput
 
+    IEnumerator ISwimmerDamaged()
+    {
+        damaged = true;
+        swimmerAnimator.SetBool("damaged", damaged);
+        yield return new WaitForSeconds(.3f);
+        damaged = false;
+        swimmerAnimator.SetBool("damaged", damaged);
+    }
+
+    public void SwimmerDamaged()
+    {
+        StartCoroutine(ISwimmerDamaged());
+    }
+
     IEnumerator ISwimmerPunchInputPressed()
     {
         
@@ -65,7 +80,6 @@ public class Swimmer2DUserControl : MonoBehaviour {
         swimmerAnimator.SetBool("attack",attack);
         yield return new WaitForSeconds(.8f);
         attack = false;
-
     }
 
     IEnumerator ISwimmerPunchInputUnPressed()

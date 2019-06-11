@@ -14,13 +14,18 @@ public class SpawnTrash : MonoBehaviour {
 	private List<GameObject> m_Anchors;
 
 	// bounds for the mine and fish objects
-	[SerializeField] private float m_MinX;
-	[SerializeField] private float m_MaxX;
-	[SerializeField] private float m_MinY;
-	[SerializeField] private float m_MaxY;
+	[SerializeField] private float m_MineMinX;
+	[SerializeField] private float m_MineMaxX;
+	[SerializeField] private float m_MineMinY;
+	[SerializeField] private float m_MineMaxY;
 
-	// bounds for the anchor
-	[SerializeField] private float m_AnchorMinX;
+    [SerializeField] private float m_FishMinX;
+    [SerializeField] private float m_FishMaxX;
+    [SerializeField] private float m_FishMinY;
+    [SerializeField] private float m_FishMaxY;
+
+    // bounds for the anchor
+    [SerializeField] private float m_AnchorMinX;
 	[SerializeField] private float m_AnchorMaxX;
 	[SerializeField] private float m_AnchorMinY;
 	[SerializeField] private float m_AnchorMaxY;
@@ -54,15 +59,19 @@ public class SpawnTrash : MonoBehaviour {
 
     private IEnumerator SpawnIndicator()
     {
-        //Vector3 targetScreenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 targetScreenPoint = Camera.main.WorldToScreenPoint(swimmerObject.transform.position);
         Vector3 indicatorPosition;
+        Canvas ParentCanvas = m_sharkIndicator.GetComponentInParent<Canvas>();
+        float CanvasViewportX = ParentCanvas.pixelRect.xMax;
         if (sharkSpawnInstance.Flip)
         {
-            indicatorPosition = new Vector3(7.5f, swimmerObject.transform.position.y, m_sharkIndicator.transform.position.z);
+            indicatorPosition = new Vector3(CanvasViewportX, swimmerObject.transform.position.y, m_sharkIndicator.transform.position.z);
+            //rectTransform.anchorMin = viewportPoint;
+            //rectTransform.anchorMax = viewportPoint;
         }
         else
         {
-            indicatorPosition = new Vector3(-7.5f, swimmerObject.transform.position.y, m_sharkIndicator.transform.position.z);
+            indicatorPosition = new Vector3(-CanvasViewportX, swimmerObject.transform.position.y, m_sharkIndicator.transform.position.z);
         }
 
         m_sharkIndicator.transform.position = indicatorPosition;
@@ -150,14 +159,14 @@ public class SpawnTrash : MonoBehaviour {
 
 	GameObject SpawnFish()
 	{
-		Vector3 newPos = RandomPosition ();
+		Vector3 newPos = RandomPositionFish();
 		GameObject temp = Instantiate (m_Fish, newPos,this.transform.rotation);
 		return temp;
 	}
 
 	GameObject SpawnMine()
 	{
-		Vector3 newPos = RandomPosition ();
+		Vector3 newPos = RandomPositionMine();
 		GameObject temp = Instantiate (m_Mine, newPos,new Quaternion(0,0,0,0));
 		return temp;
 	}
@@ -169,15 +178,23 @@ public class SpawnTrash : MonoBehaviour {
 		return temp;
 	}
 
-	Vector3 RandomPosition()
+	Vector3 RandomPositionFish()
 	{
-		float x = Random.Range (m_MinX, m_MaxX);
-		float y = Random.Range (m_MinY, m_MaxY);
+		float x = Random.Range (m_FishMinX, m_FishMaxX);
+		float y = Random.Range (m_FishMinY, m_FishMaxY);
 		Vector3 newPos = new Vector3 (x, y, 0);
 		return newPos;
 	}
 
-	Vector3 RandomPositionAnchor()
+    Vector3 RandomPositionMine()
+    {
+        float x = Random.Range(m_MineMinX, m_MineMaxX);
+        float y = Random.Range(m_MineMinY, m_MineMaxY);
+        Vector3 newPos = new Vector3(x, y, 0);
+        return newPos;
+    }
+
+    Vector3 RandomPositionAnchor()
 	{
 		float x = Random.Range (m_AnchorMinX, m_AnchorMaxX);
 		float y = Random.Range (m_AnchorMinY, m_AnchorMaxY);
@@ -205,6 +222,12 @@ public class SpawnTrash : MonoBehaviour {
     void ResetSharkSpawnTime()
     {
         sharkTimer = 500f;
+        despawnsharkTimer = 90f;
+    }
+
+    void ResetSharkSpawnTime1()
+    {
+        sharkTimer = 10000f;
         despawnsharkTimer = 90f;
     }
 
@@ -242,7 +265,7 @@ public class SpawnTrash : MonoBehaviour {
                 sharkSpawnInstance.SpawnAttackState();
             }
             //: go away and defeated
-            if (sharkSpawnInstance.SharkState == 2)
+            if (sharkSpawnInstance.SharkState == 2 || sharkSpawnInstance.SharkState == 3)
             {
                 despawnsharkTimer--;
                 if (postcheck == 0)
@@ -251,6 +274,7 @@ public class SpawnTrash : MonoBehaviour {
                     postcheck = 1;
                 }
             }
+            
         }
     }
 
@@ -270,7 +294,17 @@ public class SpawnTrash : MonoBehaviour {
         isSharkSpawned = false;
         shark.SetActive(isSharkSpawned);
         postcheck = 0;
-        sharkSpawnInstance.SharkState = 0;
-        ResetSharkSpawnTime();
+        //sharkSpawnInstance.SharkState = 0;
+        if (sharkSpawnInstance.SharkState == 3)
+        {
+            ResetSharkSpawnTime1();
+        }
+        else
+        {
+            ResetSharkSpawnTime();
+        }
+
+        
+
     }
 }

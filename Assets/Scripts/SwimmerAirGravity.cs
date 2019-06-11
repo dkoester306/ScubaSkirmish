@@ -14,7 +14,6 @@ public class SwimmerAirGravity : MonoBehaviour {
     private Rigidbody2D swimmersRigidbody;
 
     private Vector3 airGravityScale;
-    private float y;
 
     // int to change gravity
     private float gravityScale;
@@ -33,7 +32,7 @@ public class SwimmerAirGravity : MonoBehaviour {
         swimmersRigidbody = gameObject.GetComponent<Rigidbody2D>();
 
         // set gravity scale
-        GravityScale = y = 30.0f;
+        gravityScale = 30.0f;
 
         // set checkInAir
         checkInAIr = false;
@@ -46,7 +45,7 @@ public class SwimmerAirGravity : MonoBehaviour {
         if (collision.gameObject.tag == "Air")
         {
             // set swimmers rigidbody to gravity scale
-            swimmersRigidbody.gravityScale = GravityScale * Time.deltaTime * 7.0f;
+            swimmersRigidbody.gravityScale = gravityScale * Time.deltaTime * 5.0f;
 
             checkInAIr = true;
         }

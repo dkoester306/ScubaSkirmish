@@ -8,6 +8,7 @@ public class NavigationScript : MonoBehaviour {
     public Canvas NavigationCanvas;
     public Canvas OptionsCanvas;
     public Canvas HelpCanvas;
+    public Canvas AboutCanvas;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class NavigationScript : MonoBehaviour {
         NavigationCanvas.enabled = false;
         OptionsCanvas.enabled = true;
         HelpCanvas.enabled = false;
+        AboutCanvas.enabled = false;
     }
 
     public void StartHelp()
@@ -34,6 +36,7 @@ public class NavigationScript : MonoBehaviour {
         NavigationCanvas.enabled = false;
         OptionsCanvas.enabled = false;
         HelpCanvas.enabled = true;
+        AboutCanvas.enabled = false;
     }
 
     public void StartBack()
@@ -41,6 +44,20 @@ public class NavigationScript : MonoBehaviour {
         NavigationCanvas.enabled = true;
         OptionsCanvas.enabled = false;
         HelpCanvas.enabled = false;
+        AboutCanvas.enabled = false;
+    }
+
+    public void StartAbout()
+    {
+        NavigationCanvas.enabled = false;
+        OptionsCanvas.enabled = false;
+        HelpCanvas.enabled = false;
+        AboutCanvas.enabled = true;
+    }
+
+    public void OpenPlaytstForm()
+    {
+        Application.OpenURL("https://forms.gle/uwRVruCuFCPyNFZr9");
     }
 
     public void EndButtonRestart()

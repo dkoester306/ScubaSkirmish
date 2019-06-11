@@ -17,6 +17,7 @@ public class SwimmerCharacter2D : MonoBehaviour {
 
 	private int fishCount;
 	private int m_PlayerHealth;
+    private bool attack;
 
 	public int FishCount{get{return fishCount;}}
 	public int PlayerHealth{get{return m_PlayerHealth;}set{m_PlayerHealth = value;}}
