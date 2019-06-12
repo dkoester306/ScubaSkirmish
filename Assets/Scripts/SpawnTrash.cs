@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpawnTrash : MonoBehaviour {
-	[SerializeField] private GameObject m_Mine;
-	[SerializeField] private GameObject m_Fish;
-	[SerializeField] private GameObject m_Anchor;
+public class SpawnTrash : MonoBehaviour
+{
+    [SerializeField] private GameObject m_Mine;
+    [SerializeField] private GameObject m_Fish;
+    [SerializeField] private GameObject m_Anchor;
     [SerializeField] private GameObject m_Shark;
 
-	private List<GameObject> m_Mines;
-	private List<GameObject> m_Fishes;
-	private List<GameObject> m_Anchors;
+    private List<GameObject> m_Mines;
+    private List<GameObject> m_Fishes;
+    private List<GameObject> m_Anchors;
 
-	// bounds for the mine and fish objects
-	[SerializeField] private float m_MineMinX;
-	[SerializeField] private float m_MineMaxX;
-	[SerializeField] private float m_MineMinY;
-	[SerializeField] private float m_MineMaxY;
+    // bounds for the mine and fish objects
+    [SerializeField] private float m_MineMinX;
+    [SerializeField] private float m_MineMaxX;
+    [SerializeField] private float m_MineMinY;
+    [SerializeField] private float m_MineMaxY;
 
     [SerializeField] private float m_FishMinX;
     [SerializeField] private float m_FishMaxX;
@@ -26,165 +27,134 @@ public class SpawnTrash : MonoBehaviour {
 
     // bounds for the anchor
     [SerializeField] private float m_AnchorMinX;
-	[SerializeField] private float m_AnchorMaxX;
-	[SerializeField] private float m_AnchorMinY;
-	[SerializeField] private float m_AnchorMaxY;
+    [SerializeField] private float m_AnchorMaxX;
+    [SerializeField] private float m_AnchorMinY;
+    [SerializeField] private float m_AnchorMaxY;
 
-	[SerializeField] private float[] fishTimer = { 0.5f, 3f };
-	[SerializeField] private float[] mineTimer = { 1f, 4f };
-	[SerializeField] private float[] anchorTimer = { 1f, 3f };
+    [SerializeField] private float[] fishTimer = {0.5f, 3f};
+    [SerializeField] private float[] mineTimer = {1f, 4f};
+    [SerializeField] private float[] anchorTimer = {1f, 3f};
     private float sharkTimer = 0f;
     private float despawnsharkTimer = 0f;
-    private bool firstShark = false;
-
-	private float[] allTimes;
-
-	private float m_LastAnchorTime;
+    private float[] allTimes;
+    private float m_LastAnchorTime;
 
     [SerializeField] private GameObject swimmerObject;
     [SerializeField] private GameObject m_sharkIndicator;
-    private GameObject shark;
-    private bool isSharkSpawned = false;
-    private bool resetShark = false;
-    private SharkInstance sharkSpawnInstance;
     private SwimmerCharacter2D swimmerCharacter;
-    private Swimmer2DUserControl swimmerControl;
-    private  Vector3 parentInstantiatePosition = new Vector3(-10.21f, 0, 0);
-    private GameObject SharkIndicator;
-    int postcheck = 0;
+    private GameObject shark;
+    private Shark sharkSpawnInstance;
+    private bool isSharkSpawned = false;
+    private bool firstShark = false;
+    private bool resetShark = false;
+    private int postcheck = 0;
 
     float fishRand;
-	float anchorRand;
-	float mineRand;
-
-    private IEnumerator SpawnIndicator()
-    {
-        Vector3 targetScreenPoint = Camera.main.WorldToScreenPoint(swimmerObject.transform.position);
-        Vector3 indicatorPosition;
-        Canvas ParentCanvas = m_sharkIndicator.GetComponentInParent<Canvas>();
-        float CanvasViewportX = ParentCanvas.pixelRect.xMax;
-        if (sharkSpawnInstance.Flip)
-        {
-            indicatorPosition = new Vector3(CanvasViewportX, swimmerObject.transform.position.y, m_sharkIndicator.transform.position.z);
-            //rectTransform.anchorMin = viewportPoint;
-            //rectTransform.anchorMax = viewportPoint;
-        }
-        else
-        {
-            indicatorPosition = new Vector3(-CanvasViewportX, swimmerObject.transform.position.y, m_sharkIndicator.transform.position.z);
-        }
-
-        m_sharkIndicator.transform.position = indicatorPosition;
-        yield return new WaitForSeconds(.3f);
-        m_sharkIndicator.SetActive(true);
-    }
-
-    private void DeSpawnIndicator()
-    {
-        m_sharkIndicator.SetActive(false);
-    }
+    float anchorRand;
+    float mineRand;
 
     // Use this for initialization
-    void Start ()
-	{
-	    
-		allTimes = new float[4];		
+    void Start()
+    {
+        allTimes = new float[4];
 
-		fishRand = Random.Range (fishTimer [0], fishTimer [1]);
-		anchorRand = Random.Range (fishTimer [0], fishTimer [1]);
-		mineRand = Random.Range (fishTimer [0], fishTimer [1]);
+        fishRand = Random.Range(fishTimer[0], fishTimer[1]);
+        anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
+        mineRand = Random.Range(fishTimer[0], fishTimer[1]);
 
-		// spawn fish
-		for(int i=0;i<Random.Range(1,3);i++)
-			SpawnFish ();
-		// spawn mine
-		for(int i=0;i<Random.Range(1,3);i++)
-			SpawnMine();
+        // spawn fish
+        for (int i = 0; i < Random.Range(1, 3); i++)
+            SpawnFish();
+        // spawn mine
+        for (int i = 0; i < Random.Range(1, 3); i++)
+            SpawnMine();
 
-		//SpawnAnchor();
+        SpawnAnchor();
         PoolShark();
         ResetSharkSpawnTime();
         swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
     }
 
-	// Update is called once per frame
-	void Update () 
-	{
-		// if timer goes over, spawn new fish
-		if (Time.time>=allTimes[0]+fishRand)
-		{
-			
-			SpawnFish ();
-			fishRand = Random.Range (fishTimer [0], fishTimer [1]);
-			allTimes [0] = Time.time;
-		}
+    // Update is called once per frame
+    void Update()
+    {
+        // if timer goes over, spawn new fish
+        if (Time.time >= allTimes[0] + fishRand)
+        {
+            SpawnFish();
+            fishRand = Random.Range(fishTimer[0], fishTimer[1]);
+            allTimes[0] = Time.time;
+        }
 
-		// spawn new mine if timer runs over
-		if (Time.time>=allTimes[1]+mineRand)
-		{
-			SpawnMine ();
-			anchorRand = Random.Range (fishTimer [0], fishTimer [1]);
-			allTimes [1] = Time.time;
-		}
+        // spawn new mine if timer runs over
+        if (Time.time >= allTimes[1] + mineRand)
+        {
+            SpawnMine();
+            anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
+            allTimes[1] = Time.time;
+        }
 
-		// spawn the anchors if timer goes over
-		if (Time.time>=allTimes[2]+anchorRand)
-		{
-			SpawnAnchor ();
-			mineRand = Random.Range (fishTimer [0], fishTimer [1]);
-			allTimes [2] = Time.time;
-		}
+        // spawn the anchors if timer goes over
+        if (Time.time >= allTimes[2] + anchorRand)
+        {
+            SpawnAnchor();
+            mineRand = Random.Range(fishTimer[0], fishTimer[1]);
+            allTimes[2] = Time.time;
+        }
 
         #region SharkUpdateConditionals
 
-	    if (sharkTimer > 0f)
-	    {
-	        sharkTimer--;
-	    }
-	    if (sharkTimer <= 0f && !isSharkSpawned)
-	    {
-	        SpawnShark();
-	    }
-	    if (isSharkSpawned)
-	    {
-	        StartSharkInstance();
-	    }
-	    if (despawnsharkTimer <= 0f)
-	    {
-	        DeSpawnShark();
-	    }
+        if (sharkTimer > 0f)
+        {
+            sharkTimer--;
+        }
+
+        if (sharkTimer <= 0f && !isSharkSpawned)
+        {
+            SpawnShark();
+        }
+
+        if (isSharkSpawned)
+        {
+            StartSharkInstance();
+        }
+
+        if (despawnsharkTimer <= 0f)
+        {
+            DeSpawnShark();
+        }
 
         #endregion
     }
 
-	GameObject SpawnFish()
-	{
-		Vector3 newPos = RandomPositionFish();
-		GameObject temp = Instantiate (m_Fish, newPos,this.transform.rotation);
-		return temp;
-	}
+    GameObject SpawnFish()
+    {
+        Vector3 newPos = RandomPositionFish();
+        GameObject temp = Instantiate(m_Fish, newPos, this.transform.rotation);
+        return temp;
+    }
 
-	GameObject SpawnMine()
-	{
-		Vector3 newPos = RandomPositionMine();
-		GameObject temp = Instantiate (m_Mine, newPos,new Quaternion(0,0,0,0));
-		return temp;
-	}
+    GameObject SpawnMine()
+    {
+        Vector3 newPos = RandomPositionMine();
+        GameObject temp = Instantiate(m_Mine, newPos, new Quaternion(0, 0, 0, 0));
+        return temp;
+    }
 
-	GameObject SpawnAnchor()
-	{
-		Vector3 newPos = RandomPositionAnchor ();
-		GameObject temp = Instantiate (m_Anchor, newPos,this.transform.rotation);
-		return temp;
-	}
+    GameObject SpawnAnchor()
+    {
+        Vector3 newPos = RandomPositionAnchor();
+        GameObject temp = Instantiate(m_Anchor, newPos, this.transform.rotation);
+        return temp;
+    }
 
-	Vector3 RandomPositionFish()
-	{
-		float x = Random.Range (m_FishMinX, m_FishMaxX);
-		float y = Random.Range (m_FishMinY, m_FishMaxY);
-		Vector3 newPos = new Vector3 (x, y, 0);
-		return newPos;
-	}
+    Vector3 RandomPositionFish()
+    {
+        float x = Random.Range(m_FishMinX, m_FishMaxX);
+        float y = Random.Range(m_FishMinY, m_FishMaxY);
+        Vector3 newPos = new Vector3(x, y, 0);
+        return newPos;
+    }
 
     Vector3 RandomPositionMine()
     {
@@ -195,35 +165,37 @@ public class SpawnTrash : MonoBehaviour {
     }
 
     Vector3 RandomPositionAnchor()
-	{
-		float x = Random.Range (m_AnchorMinX, m_AnchorMaxX);
-		float y = Random.Range (m_AnchorMinY, m_AnchorMaxY);
-		Vector3 newPos = new Vector3 (x, y, 0);
-		return newPos;
-	}
+    {
+        float x = Random.Range(m_AnchorMinX, m_AnchorMaxX);
+        float y = Random.Range(m_AnchorMinY, m_AnchorMaxY);
+        Vector3 newPos = new Vector3(x, y, 0);
+        return newPos;
+    }
 
-	// Creates a random time amount for each object
-	float RandomTime(float min,float max)
-	{
-		float rand = Random.Range (min,max);
-		return rand;
-	}
+    // Creates a random time amount for each object
+    float RandomTime(float min, float max)
+    {
+        float rand = Random.Range(min, max);
+        return rand;
+    }
 
-	void RemoveOffScreenObject()
-	{
-		
-	}
-		
-	void NewRandomTimers()
-	{
-		
-	}
+    void RemoveOffScreenObject()
+    {
+    }
 
+    void NewRandomTimers()
+    {
+    }
+
+    /// <summary>
+    /// Reset Shark Spawn Time and DeSpawn Timer
+    /// </summary>
     void ResetSharkSpawnTime()
     {
         sharkTimer = 500f;
         despawnsharkTimer = 90f;
     }
+
 
     void ResetSharkSpawnTime1()
     {
@@ -231,39 +203,50 @@ public class SpawnTrash : MonoBehaviour {
         despawnsharkTimer = 90f;
     }
 
+    /// <summary>
+    /// Create one new instance of a Shark
+    /// </summary>
     void PoolShark()
     {
+        Vector3 parentInstantiatePosition = new Vector3(-10.21f, 0, 0);
         shark = Instantiate(m_Shark, parentInstantiatePosition, Quaternion.identity);
-        sharkSpawnInstance = shark.GetComponent<SharkInstance>();
+        sharkSpawnInstance = shark.GetComponent<Shark>();
         isSharkSpawned = false;
         shark.SetActive(isSharkSpawned);
     }
 
+    /// <summary>
+    /// Activate the instance of the Shark
+    /// </summary>
     void SpawnShark()
     {
         isSharkSpawned = true;
         shark.SetActive(isSharkSpawned);
     }
 
+    /// <summary>
+    /// Instance used to control the loop of the Shark
+    /// PreAttack, Attack, PostAttack are all instantiated here
+    /// </summary>
     void StartSharkInstance()
     {
-        //: Shark Spawn Instance
         if (isSharkSpawned)
         {
             //: approaching
             if (sharkSpawnInstance.SharkState == 0)
             {
-                swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
                 sharkSpawnInstance.FindPlayerPosition(swimmerCharacter.PlayerPosition);
                 StartCoroutine(SpawnIndicator());
                 sharkSpawnInstance.SpawnPreAttackState();
             }
+
             //: attacking
             if (sharkSpawnInstance.SharkState == 1)
             {
                 DeSpawnIndicator();
                 sharkSpawnInstance.SpawnAttackState();
             }
+
             //: go away and defeated
             if (sharkSpawnInstance.SharkState == 2 || sharkSpawnInstance.SharkState == 3)
             {
@@ -274,21 +257,28 @@ public class SpawnTrash : MonoBehaviour {
                     postcheck = 1;
                 }
             }
-            
         }
     }
 
+    /// <summary>
+    /// Action for Shark to Take Damage
+    /// </summary>
     public void SharkTakeDamage()
     {
-        shark.GetComponent<SharkInstance>().SharkHealth--;
+        shark.GetComponent<Shark>().SharkHealth--;
     }
 
-    // I don't know what this does
-    public void SharkReturnDamage()
+    /// <summary>
+    /// Reset Shark Health
+    /// </summary>
+    public void ResetSharkHealth()
     {
-        shark.GetComponent<SharkInstance>().SharkHealth = 2;
+        shark.GetComponent<Shark>().SharkHealth = 3;
     }
 
+    /// <summary>
+    /// Deactivate Shark Instance
+    /// </summary>
     public void DeSpawnShark()
     {
         isSharkSpawned = false;
@@ -303,8 +293,38 @@ public class SpawnTrash : MonoBehaviour {
         {
             ResetSharkSpawnTime();
         }
+    }
 
-        
+    /// <summary>
+    /// Spawn Shark Indicator at SwimmerX Location
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpawnIndicator()
+    {
+        RectTransform parentRectCanvas = m_sharkIndicator.GetComponentInParent<RectTransform>();
+        Vector3 targetScreenPoint = Camera.main.WorldToScreenPoint(swimmerObject.transform.position);
+        Vector3 indicatorPosition = Vector3.zero;
+        float canvasViewportMinX = parentRectCanvas.rect.xMin;
+        float canvasViewportMaxX = parentRectCanvas.rect.xMax;
 
+        if (sharkSpawnInstance.Flip)
+        {
+            indicatorPosition = new Vector3(canvasViewportMinX, targetScreenPoint.y,
+                m_sharkIndicator.transform.position.z);
+        }
+        else
+        {
+            indicatorPosition = new Vector3(canvasViewportMaxX, targetScreenPoint.y,
+                m_sharkIndicator.transform.position.z);
+        }
+
+        m_sharkIndicator.transform.position = indicatorPosition;
+        yield return new WaitForSeconds(.3f);
+        m_sharkIndicator.SetActive(true);
+    }
+
+    private void DeSpawnIndicator()
+    {
+        m_sharkIndicator.SetActive(false);
     }
 }

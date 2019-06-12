@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class SharkInstance : MonoBehaviour
+public class Shark : MonoBehaviour
 {
     private BoxCollider2D[] boxColliders;
     private float[] _mMaxX;
@@ -11,22 +11,21 @@ public class SharkInstance : MonoBehaviour
     private float[] _mMinY;
     private int numberofColliders = 2;
 
-    private Vector3 startingPosition;
-    private Vector3 resetMovingPosition;
-    private Vector3 playerpositionRef;
-    private Vector3 position = default(Vector3);
+    private Vector3 startingPosition = default(Vector3);
     private Vector3 acceleration = default(Vector3);
     private Vector3 direction = default(Vector3);
     private Vector3 velocity = default(Vector3);
+    private Vector3 position = default(Vector3);
+    private Vector3 playerpositionRef;
     private float accelerationRate;
     private float maximumSpeed =.2f;
     private bool attackDoneSpan;
     private bool postattackDoneSpan;
     private bool preattackDoneSpan;
 
+    private SpriteRenderer sharkSpriteRenderer;
     private Animator sharkAnimator;
     private AudioSource sharkAudioSource;
-    private SpriteRenderer sharkSpriteRenderer;
     private int sharkState = 0;
     private int sharkHealth = 3;
     private bool sharkDamage;
@@ -61,7 +60,6 @@ public class SharkInstance : MonoBehaviour
     private void Start()
     {
         startingPosition = new Vector3(-10.21f, 0, 0);
-        resetMovingPosition = new Vector3(-10.21f, 0, 0);
         accelerationRate = .5f * Time.deltaTime;
         sharkState = 0;
         sharkHealth = 3;
@@ -100,7 +98,7 @@ public class SharkInstance : MonoBehaviour
         }
         if (flip)
         {
-            startingPosition = new Vector3(10.21f, 0, 0);
+            startingPosition.x = 10.21f;
         }
         else
         {
@@ -119,7 +117,7 @@ public class SharkInstance : MonoBehaviour
     private void GetBoxColliders()
     {
         boxColliders = new BoxCollider2D[numberofColliders];
-        for (var i = 0; i < numberofColliders; i++)
+        for (int i = 0; i < numberofColliders; i++)
         {
             boxColliders[i] = gameObject.GetComponents<BoxCollider2D>()[i];
         }
@@ -129,7 +127,7 @@ public class SharkInstance : MonoBehaviour
         _mMinY = new float[2];
         _mMaxY = new float[2];
 
-        for (var i = 0; i < numberofColliders; i++)
+        for (int i = 0; i < numberofColliders; i++)
         {
             _mMinX[i] = boxColliders[i].bounds.min.x;
             _mMaxX[i] = boxColliders[i].bounds.max.x;
@@ -144,10 +142,10 @@ public class SharkInstance : MonoBehaviour
     private void CheckIntersect()
     {
         // Outside Collider
-        var maxXOut = _mMinX[1] < playerpositionRef.x;
-        var minXOut = _mMaxX[1] > playerpositionRef.x;
-        var maxYOut = _mMinY[1] < playerpositionRef.y;
-        var minYOut = _mMaxY[1] > playerpositionRef.y;
+        bool maxXOut = _mMinX[1] < playerpositionRef.x;
+        bool minXOut = _mMaxX[1] > playerpositionRef.x;
+        bool maxYOut = _mMinY[1] < playerpositionRef.y;
+        bool minYOut = _mMaxY[1] > playerpositionRef.y;
 
         bool playerAttack = GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().Attack;
         if (maxXOut && minXOut && maxYOut && minYOut && playerAttack)
@@ -160,10 +158,10 @@ public class SharkInstance : MonoBehaviour
         }
 
         // Inner Collider
-        var maxXIn = _mMinX[0] < playerpositionRef.x;
-        var minXIn = _mMaxX[0] > playerpositionRef.x;
-        var maxIn = _mMinY[0] < playerpositionRef.y;
-        var minIn = _mMaxY[0] > playerpositionRef.y;
+        bool maxXIn = _mMinX[0] < playerpositionRef.x;
+        bool minXIn = _mMaxX[0] > playerpositionRef.x;
+        bool maxIn = _mMinY[0] < playerpositionRef.y;
+        bool minIn = _mMaxY[0] > playerpositionRef.y;
 
         if (maxXIn && minXIn && maxIn && minIn && !sharkDamaged)
         {
@@ -209,20 +207,19 @@ public class SharkInstance : MonoBehaviour
     private void Update()
     {
         //: player attack
-        //if (sharkDamaged && attackDoneSpan == false && SharkState == 1)
         if (sharkHealth <= 0)
         {
             InstantGoAwayState();
             ResetSharkHealth();
         }
 
-        //: works to move shark forward
+        //: move shark forward
         if (preattackDoneSpan == false && sharkState == 0)
         {
-            StartSharkMovement();
+            StartSharkMovement(1f);
         }
 
-        //transform.position = position
+        //: 
         if (attackDoneSpan == false && sharkState == 1)
         {
             GetBoxColliders();
@@ -232,14 +229,15 @@ public class SharkInstance : MonoBehaviour
         //: works to move shark forward
         if (attackDoneSpan == false && sharkState == 1)
         {
-            StartSharkMovement();
+            StartSharkMovement(1f);
         }
 
         if (postattackDoneSpan == false && (sharkState == 2 || sharkState == 3))
         {
-            var shootVector = new Vector3(0, 0, 0);
-            position = shootVector;
-            transform.position = position;
+            StartSharkMovement(0f);
+            //var shootVector = new Vector3(0, 0, 0);
+            //position = shootVector;
+            //transform.position = position;
         }
     }
 
@@ -275,9 +273,9 @@ public class SharkInstance : MonoBehaviour
 
         if (start)
         {
-            var sharkStartPosition = startingPosition;
+            Vector3 sharkStartPosition = startingPosition;
+            Vector3 newSharkPosition = Vector3.zero;
 
-            Vector3 newSharkPosition;
             if (flip)
             {
                 newSharkPosition = new Vector3(sharkStartPosition.x, playerpositionRef.y, playerpositionRef.z);
@@ -348,29 +346,37 @@ public class SharkInstance : MonoBehaviour
         preattackStart = true;
     }
 
-    //: works to move shark forward
-    //: Can be sued for:
-    //@ PreAttack
-    //@ Attack
-    public void StartSharkMovement()
+    //: works to move shark in a certain Direction
+    public void StartSharkMovement(float directionf)
     {
-        //set direction
-        direction = new Vector3(1f, 0, 0);
+        // check direction float
+        if (directionf > 0f)
+        {
+            //set direction
+            direction = new Vector3(directionf, 0, 0);
 
-        // accelerationRate
+            // accelerationRate
 
-        // maxSpeed
+            // Acceleration = direction * accelerationRate
+            acceleration = direction;
 
-        // Acceleration = direction * accelerationRate
-        acceleration = direction;
-        // Vector += Acceleration
-        velocity += acceleration;
-        // Velocity = Clamp Velocity, MaxSpeed
-        velocity = Vector3.ClampMagnitude(velocity, maximumSpeed);
+            // Vector += Acceleration
+            velocity += acceleration;
 
-        position = new Vector3(velocity.x, 0, 0);
+            // Velocity = Clamp Velocity, MaxSpeed
+            velocity = Vector3.ClampMagnitude(velocity, maximumSpeed);
 
-        if (Flip)
+            // set the x Velocity to the Shark current position
+            position = new Vector3(velocity.x, 0, 0);
+        }
+        else
+        {
+            Vector3 shootVector = Vector3.zero;
+            position = shootVector;
+            transform.position = position;
+        }
+
+        if (flip)
         {
             transform.position -= position;
         }
