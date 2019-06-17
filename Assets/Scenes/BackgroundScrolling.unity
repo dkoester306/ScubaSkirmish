@@ -488,6 +488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 344894551}
   - component: {fileID: 344894550}
+  - component: {fileID: 344894552}
   m_Layer: 0
   m_Name: TrashSpawner
   m_TagString: Untagged
@@ -507,10 +508,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e177baff7c4f25947a5b364affdfc4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Mine: {fileID: 1297329356192060, guid: 8677fe320f8fdad4d93a965ca4ee9e99, type: 3}
-  m_Fish: {fileID: 1777938882072510, guid: b74e72453cbcb5e419be238cd1cc5d69, type: 3}
-  m_Anchor: {fileID: 1132286919364728, guid: 2ada94055a9ee294780cc36ecf57a0bf, type: 3}
-  m_Shark: {fileID: 1304711636820005854, guid: b12207a0a504e47438e6746d7d30a426, type: 3}
   m_MineMinX: 20
   m_MineMaxX: 42
   m_MineMinY: -3.9
@@ -548,6 +545,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &344894552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344894549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab378fe97d51364eb88fd4e7116b52a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObjects: []
+  itemsToPool:
+  - objectToPool: {fileID: 1777938882072510, guid: b74e72453cbcb5e419be238cd1cc5d69,
+      type: 3}
+    amountToPool: 10
+    shouldExpand: 1
+  - objectToPool: {fileID: 1297329356192060, guid: 8677fe320f8fdad4d93a965ca4ee9e99,
+      type: 3}
+    amountToPool: 10
+    shouldExpand: 1
+  - objectToPool: {fileID: 1132286919364728, guid: 2ada94055a9ee294780cc36ecf57a0bf,
+      type: 3}
+    amountToPool: 10
+    shouldExpand: 1
+  - objectToPool: {fileID: 1304711636820005854, guid: b12207a0a504e47438e6746d7d30a426,
+      type: 3}
+    amountToPool: 1
+    shouldExpand: 1
 --- !u!1 &439127628
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,6 +657,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1942585095210340, guid: 315470df908be9a4a9fd0d5ca10a28c2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4837442617704746, guid: 315470df908be9a4a9fd0d5ca10a28c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

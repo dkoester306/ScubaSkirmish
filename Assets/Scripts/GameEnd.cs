@@ -12,8 +12,11 @@ public class GameEnd : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		CheckExit();
-	}
+	    if (Input.anyKeyDown)
+	    {
+		    CheckExit();
+        }
+    }
 
     private void CheckExit()
     {

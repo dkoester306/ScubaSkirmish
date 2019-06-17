@@ -11,7 +11,6 @@ public class Swimmer2DUserControl : MonoBehaviour {
 
     private SwimmerAirGravity airGravity;
     private Animator swimmerAnimator;
-    private Animation swimmerAnimaton;
     private bool attack = false;
     private bool damaged = false;
 
@@ -30,28 +29,29 @@ public class Swimmer2DUserControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        if (Input.GetKeyDown(KeyCode.Return) && !attack && !damaged)
-        {
-            StartCoroutine(ISwimmerPunchInputPressed());
-        }
-        else if (Input.GetKeyUp(KeyCode.Return) && attack && !damaged)
-        {
-            StartCoroutine(ISwimmerPunchInputUnPressed());
-        }
+	    if (Input.anyKey)
+	    {
+	        if (Input.GetKeyDown(KeyCode.Space) && !attack && !damaged)
+	        {
+	            StartCoroutine(ISwimmerPunchInputPressed());
+	        }
+	        if (Input.GetKeyUp(KeyCode.Space) && attack && !damaged)
+	        {
+	            StartCoroutine(ISwimmerPunchInputUnPressed());
+	        }
+	    }
     }
 
 	void FixedUpdate()
 	{
-		float h = CrossPlatformInputManager.GetAxis ("Horizontal");
-		float v = CrossPlatformInputManager.GetAxis ("Vertical");
+	    float h = CrossPlatformInputManager.GetAxis("Horizontal");
+	    float v = CrossPlatformInputManager.GetAxis("Vertical");
+	    bool inAir = airGravity.checkInAIr;
 
-        bool inAir = airGravity.checkInAIr;
-
-        if (inAir == false)
-        {
-            m_Character.Move(h, v);
-        }
+	    if (!inAir)
+	    {
+	        m_Character.Move(h, v);
+	    }
 	}
 
     // Adding User Control of Attacking the Shark
@@ -78,8 +78,8 @@ public class Swimmer2DUserControl : MonoBehaviour {
         
         attack = true;
         swimmerAnimator.SetBool("attack",attack);
-        yield return new WaitForSeconds(.8f);
-        attack = false;
+        yield return new WaitForSeconds(.7f);
+        SwimmerPunchInputUnPressed();
     }
 
     IEnumerator ISwimmerPunchInputUnPressed()

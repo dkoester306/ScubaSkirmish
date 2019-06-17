@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Fish : MonoBehaviour {
 	private Rigidbody2D m_RigidBody;
+    private ObjectPooler sharedInstance;
 
 	[SerializeField] private float m_SpeedX;
 
@@ -16,9 +17,10 @@ public class Fish : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		m_RigidBody.velocity = new Vector2 (m_SpeedX, 0);
-		if (this.transform.position.x < -12f)
-			DestroyObject (gameObject);
+	    m_RigidBody.velocity = new Vector2 (m_SpeedX, 0);
+	    if (this.transform.position.x < -12f)
+	        //DestroyObject (gameObject);
+	        gameObject.SetActive(false);
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -26,8 +28,12 @@ public class Fish : MonoBehaviour {
 		if (other.tag == "Player")
 		{
 			GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().IncreaseFishCount ();
-			DestroyObject (this.gameObject);
-		}
+			//DestroyObject (this.gameObject);
+
+            //! Object Pooling
+		    gameObject.SetActive(false);
+
+        }
 			
 	}
 

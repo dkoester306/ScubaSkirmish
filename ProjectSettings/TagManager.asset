@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Background
   - Air
+  - Mine
+  - Anchor
+  - Swimmer
+  - Shark
+  - Fish
   layers:
   - Default
   - TransparentFX

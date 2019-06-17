@@ -20,27 +20,30 @@ public class InstructionsInput : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-	    
-	    if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+
+	    if (Input.anyKey)
 	    {
-	        buttons[0].color = highlightwhite;
-	    }
-	    else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-	    {
-	        buttons[1].color = highlightwhite;
-	    }
-	    else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-	    {
-	        buttons[2].color = highlightwhite;
-	    }
-	    else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-	    {
-	        buttons[3].color = highlightwhite;
-	    }
-        else if ((Input.GetKey(KeyCode.Return)))
-	    {
-	        enterbutton.color = highlightwhite;
-	    }
+	        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+	        {
+	            buttons[0].color = highlightwhite;
+	        }
+	        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+	        {
+	            buttons[1].color = highlightwhite;
+	        }
+	        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+	        {
+	            buttons[2].color = highlightwhite;
+	        }
+	        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+	        {
+	            buttons[3].color = highlightwhite;
+	        }
+	        else if ((Input.GetKey(KeyCode.Space)))
+	        {
+	            enterbutton.color = highlightwhite;
+	        }
+        }
 	    else
 	    {
 	        foreach (var button in buttons)
@@ -49,5 +52,5 @@ public class InstructionsInput : MonoBehaviour {
 	            enterbutton.color = nonwhite;
 	        }
 	    }
-	}
+    }
 }

@@ -86,7 +86,7 @@ public class Shark : MonoBehaviour
         preattackStart = true;
         
         int rand = Random.Range(0,2);
-        if (rand == 1)
+        if (rand > 0)
         {
             flip = true;
             sharkSpriteRenderer.flipX = false;
@@ -96,14 +96,7 @@ public class Shark : MonoBehaviour
             flip = false;
             sharkSpriteRenderer.flipX = true;
         }
-        if (flip)
-        {
-            startingPosition.x = 10.21f;
-        }
-        else
-        {
-            startingPosition = new Vector3(-10.21f, 0, 0);
-        }
+        startingPosition.x = flip ? 10.21f : -10.21f;
         transform.position = startingPosition;
     }
 
@@ -185,7 +178,7 @@ public class Shark : MonoBehaviour
                 StartCoroutine(SpawnDamagedState());
                 Debug.Log("Shark Health " + SharkHealth);
             }
-            else if (attackDoneSpan == false && !sharkDamaged && !playerAttack)
+            if (attackDoneSpan == false && !sharkDamaged && !playerAttack)
             {
                 sharkDamaged = true;
                 GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().SwimmerDamaged();
@@ -207,10 +200,11 @@ public class Shark : MonoBehaviour
     private void Update()
     {
         //: player attack
-        if (sharkHealth <= 0)
+        if (sharkHealth == 0)
         {
             InstantGoAwayState();
             ResetSharkHealth();
+            return;
         }
 
         //: move shark forward
@@ -235,9 +229,6 @@ public class Shark : MonoBehaviour
         if (postattackDoneSpan == false && (sharkState == 2 || sharkState == 3))
         {
             StartSharkMovement(0f);
-            //var shootVector = new Vector3(0, 0, 0);
-            //position = shootVector;
-            //transform.position = position;
         }
     }
 

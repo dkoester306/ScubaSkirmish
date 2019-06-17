@@ -13,14 +13,17 @@ public class GameRestart : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        CheckRestart();
-	}
+	    if (Input.anyKeyDown)
+	    {
+	        CheckRestart();
+	    }
+    }
 
     private void CheckRestart()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Return))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
         }
     }
 

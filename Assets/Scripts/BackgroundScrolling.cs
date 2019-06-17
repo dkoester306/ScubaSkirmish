@@ -26,10 +26,10 @@ public class BackgroundScrolling : MonoBehaviour {
 
 	void Update()
 	{
-		MoveBackgrounds ();
-		if (m_CameraTransform.position.x > (m_Layers [m_LeftIndex].transform.position.x + m_ViewZone))
-			ScrollLeft ();
-	}
+        MoveBackgrounds();
+        if (m_CameraTransform.position.x > (m_Layers[m_LeftIndex].transform.position.x + m_ViewZone))
+            ScrollLeft();
+    }
 
 	private void ScrollLeft()
 	{
