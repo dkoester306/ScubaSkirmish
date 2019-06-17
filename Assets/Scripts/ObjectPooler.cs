@@ -14,6 +14,17 @@ public class ObjectPooler : MonoBehaviour {
     private void Awake()
     {
         sharedInstance = this;
+
+        // * This will create the amountToPool amount of objects at the Start of runtime
+        pooledObjects = new List<GameObject>();
+        foreach (ObjectPoolItem item in itemsToPool)
+        {
+            // create gameobjects and set to fasle
+            for (int i = 0; i < item.amountToPool; i++)
+            {
+                CreatePooledObject(item, false);
+            }
+        }
     }
 
     // varaibles for pooling
@@ -23,16 +34,6 @@ public class ObjectPooler : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        // * This will create the amountToPool amount of objects at the Start of runtime
-        pooledObjects = new List<GameObject>();
-        foreach (ObjectPoolItem item in itemsToPool)
-        {
-            // create gameobjects and set to fasle
-            for (int i = 0; i < item.amountToPool; i++)
-            {
-                CreatePooledObject(item, false);                
-            }
-        }
         
 	}
 

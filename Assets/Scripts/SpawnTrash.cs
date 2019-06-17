@@ -219,7 +219,7 @@ public class SpawnTrash : MonoBehaviour
         //shark = Instantiate(m_Shark, parentInstantiatePosition, Quaternion.identity);
         //! Object Pooling
         shark = ObjectPooler.sharedInstance.GetPoolObject("Shark");
-        isSharkSpawned = true;
+        isSharkSpawned = false;
         shark.SetActive(isSharkSpawned);
         sharkInstance = shark.GetComponent<Shark>();
         ResetSharkSpawnTime(500f, 90f);
