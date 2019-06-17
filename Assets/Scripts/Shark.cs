@@ -26,7 +26,7 @@ public class Shark : MonoBehaviour
     private bool flip;
     private bool start;
     private bool preattackStart;
-    private float ienumeratorTimeConstant = 1.5f;
+    private float ienumeratorTimeConstant = 2f;
     private float speedConstant = .3f;
 
     public int SharkState
@@ -79,15 +79,13 @@ public class Shark : MonoBehaviour
         Vector3 targetScreenPoint = Camera.main.ScreenToWorldPoint(worldCanvas.pixelRect.position);
         if (flip)
         {
-            float canvasViewportMaxX = ( -1 *targetScreenPoint.x) + 3;
+            float canvasViewportMaxX = ( -1 *targetScreenPoint.x);
             startingPosition.x = canvasViewportMaxX;
-            Debug.Log("FLIP " +canvasViewportMaxX);
         }
         else
         {
-            float canvasViewportMinX = targetScreenPoint.x - 3;
+            float canvasViewportMinX = targetScreenPoint.x;
             startingPosition.x = canvasViewportMinX;
-            Debug.Log("NOFLIP "+ canvasViewportMinX);
 
         }
     }
@@ -241,28 +239,26 @@ public class Shark : MonoBehaviour
     {
         sharkAnimator.SetBool("attack", true);
 
-        if (start)
+        if (!start) return;
+        Vector3 sharkStartPosition = startingPosition;
+        Vector3 newSharkPosition = Vector3.zero;
+
+        if (flip)
         {
-            Vector3 sharkStartPosition = startingPosition;
-            Vector3 newSharkPosition = Vector3.zero;
-
-            if (flip)
-            {
-                newSharkPosition = new Vector3(sharkStartPosition.x, playerpositionRef.y, playerpositionRef.z);
-            }
-            else
-            {
-                newSharkPosition = new Vector3(sharkStartPosition.x, playerpositionRef.y, playerpositionRef.z);
-            }
-
-            position = newSharkPosition;
-            transform.position = position;
-
-            start = false;
-            attackDoneSpan = false;
-            sharkSpriteRenderer.sortingLayerName = "Shark";
-            StartCoroutine(DeSpawnAttackState());
+            newSharkPosition = new Vector3(sharkStartPosition.x, playerpositionRef.y, playerpositionRef.z);
         }
+        else
+        {
+            newSharkPosition = new Vector3(sharkStartPosition.x, playerpositionRef.y, playerpositionRef.z);
+        }
+
+        position = newSharkPosition;
+        transform.position = position;
+
+        start = false;
+        attackDoneSpan = false;
+        sharkSpriteRenderer.sortingLayerName = "Shark";
+        StartCoroutine(DeSpawnAttackState());
     }
 
     public IEnumerator DeSpawnAttackState()
@@ -326,7 +322,6 @@ public class Shark : MonoBehaviour
             direction = new Vector3(directionf, 0, 0);
 
             // accelerationRate
-
             // Acceleration = direction * accelerationRate
             acceleration = direction;
 

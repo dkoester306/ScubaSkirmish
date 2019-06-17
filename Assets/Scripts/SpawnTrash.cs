@@ -72,7 +72,6 @@ public class SpawnTrash : MonoBehaviour
         //    SpawnMine();
         //// spawn anchor
         //SpawnAnchor();
-
     }
 
     // Update is called once per frame
@@ -132,8 +131,6 @@ public class SpawnTrash : MonoBehaviour
     GameObject SpawnFish()
     {
         Vector3 newPos = RandomPositionFish();
-        //GameObject temp = Instantiate(m_Fish, newPos, this.transform.rotation);
-        //! Object Pooling
         GameObject tempFish = ObjectPooler.sharedInstance.GetPoolObject("Fish");
         tempFish.transform.position = newPos;
         tempFish.SetActive(true);
@@ -143,8 +140,6 @@ public class SpawnTrash : MonoBehaviour
     GameObject SpawnMine()
     {
         Vector3 newPos = RandomPositionMine();
-        //GameObject temp = Instantiate(m_Mine, newPos, new Quaternion(0, 0, 0, 0));
-        //! Object Pooling
         GameObject tempMine = ObjectPooler.sharedInstance.GetPoolObject("Mine");
         tempMine.transform.position = newPos;
         tempMine.SetActive(true);
@@ -154,8 +149,6 @@ public class SpawnTrash : MonoBehaviour
     GameObject SpawnAnchor()
     {
         Vector3 newPos = RandomPositionAnchor();
-        //GameObject temp = Instantiate(m_Anchor, newPos, this.transform.rotation);
-        //! Object Pooling
         GameObject tempAnchor = ObjectPooler.sharedInstance.GetPoolObject("Anchor");
         tempAnchor.transform.position = newPos;
         tempAnchor.SetActive(true);
@@ -215,14 +208,8 @@ public class SpawnTrash : MonoBehaviour
     /// </summary>
     void PoolShark()
     {
-        Vector3 parentInstantiatePosition = new Vector3(0, 0, 0);
-        //shark = Instantiate(m_Shark, parentInstantiatePosition, Quaternion.identity);
-        //! Object Pooling
         shark = ObjectPooler.sharedInstance.GetPoolObject("Shark");
-        //isSharkSpawned = false;
-        //shark.SetActive(isSharkSpawned);
         sharkInstance = shark.GetComponent<Shark>();
-        //shark.transform.position = parentInstantiatePosition;
         sharkInstance.GetWorldCanvas(ParentCanvas);
     }
 
@@ -232,8 +219,6 @@ public class SpawnTrash : MonoBehaviour
     void SpawnShark()
     {
         isSharkSpawned = true;
-        //! Object Pooling
-        //gameObject.SetActive(false);
         shark.SetActive(isSharkSpawned);
     }
 
@@ -296,8 +281,6 @@ public class SpawnTrash : MonoBehaviour
     public void DeSpawnShark()
     {
         isSharkSpawned = false;
-        //! Object Pooling
-        //gameObject.SetActive(false);
         shark.SetActive(isSharkSpawned);
         sharkInstance.SharkState = 0;
         postcheck = 0;
