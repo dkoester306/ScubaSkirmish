@@ -531,6 +531,7 @@ MonoBehaviour:
   - 3
   swimmerObject: {fileID: 1436307934}
   m_sharkIndicator: {fileID: 817435155}
+  ParentCanvas: {fileID: 169807035}
 --- !u!4 &344894551
 Transform:
   m_ObjectHideFlags: 0
@@ -561,20 +562,20 @@ MonoBehaviour:
   itemsToPool:
   - objectToPool: {fileID: 1777938882072510, guid: b74e72453cbcb5e419be238cd1cc5d69,
       type: 3}
-    amountToPool: 10
+    amountToPool: 5
     shouldExpand: 1
   - objectToPool: {fileID: 1297329356192060, guid: 8677fe320f8fdad4d93a965ca4ee9e99,
       type: 3}
-    amountToPool: 10
+    amountToPool: 5
     shouldExpand: 1
   - objectToPool: {fileID: 1132286919364728, guid: 2ada94055a9ee294780cc36ecf57a0bf,
       type: 3}
-    amountToPool: 10
+    amountToPool: 5
     shouldExpand: 1
   - objectToPool: {fileID: 1304711636820005854, guid: b12207a0a504e47438e6746d7d30a426,
       type: 3}
     amountToPool: 1
-    shouldExpand: 1
+    shouldExpand: 0
 --- !u!1 &439127628
 GameObject:
   m_ObjectHideFlags: 0

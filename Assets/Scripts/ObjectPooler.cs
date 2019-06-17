@@ -14,7 +14,15 @@ public class ObjectPooler : MonoBehaviour {
     private void Awake()
     {
         sharedInstance = this;
+    }
 
+    // varaibles for pooling
+    // can also use a dictionary<Gameobject, Stack<Pool>>
+    public List<GameObject> pooledObjects;
+    public List<ObjectPoolItem> itemsToPool;
+
+    // Use this for initialization
+    void Start () {
         // * This will create the amountToPool amount of objects at the Start of runtime
         pooledObjects = new List<GameObject>();
         foreach (ObjectPoolItem item in itemsToPool)
@@ -27,22 +35,13 @@ public class ObjectPooler : MonoBehaviour {
         }
     }
 
-    // varaibles for pooling
-    // can also use a dictionary<Gameobject, Stack<Pool>>
-    public List<GameObject> pooledObjects;
-    public List<ObjectPoolItem> itemsToPool;
-
-    // Use this for initialization
-    void Start () {
-        
-	}
-
     // creates a new instance of a specific gameobject
     private GameObject CreatePooledObject(ObjectPoolItem item, bool active)
     {
         GameObject obj = (GameObject)Instantiate(item.objectToPool); // set to Gameobject and Instantiate
-        obj.SetActive(active);   // set to false
         pooledObjects.Add(obj);   // add object to the list
+        obj.SetActive(active);   // set to false
+        obj.transform.SetParent(gameObject.transform);  // add TrashSpawner as parent
         return obj;
     }
 
@@ -67,10 +66,10 @@ public class ObjectPooler : MonoBehaviour {
                 // if there are no current active objects return null
                 if (item.shouldExpand)
                 {
-                    CreatePooledObject(item, true);
+                    return CreatePooledObject(item, true);
                 }
             }
-            
+
         }
 
         // return nothing 

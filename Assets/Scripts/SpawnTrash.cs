@@ -62,17 +62,17 @@ public class SpawnTrash : MonoBehaviour
         fishRand = Random.Range(fishTimer[0], fishTimer[1]);
         anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
         mineRand = Random.Range(fishTimer[0], fishTimer[1]);
+        ResetSharkSpawnTime(500f, 90f);
 
-        // spawn fish
-        for (int i = 0; i < Random.Range(1, 3); i++)
-            SpawnFish();
-        // spawn mine
-        for (int i = 0; i < Random.Range(1, 3); i++)
-            SpawnMine();
-        // spawn anchor
-        SpawnAnchor();
-        // spawn shark
-        PoolShark();
+        //// spawn fish
+        //for (int i = 0; i < Random.Range(1, 3); i++)
+        //    SpawnFish();
+        //// spawn mine
+        //for (int i = 0; i < Random.Range(1, 3); i++)
+        //    SpawnMine();
+        //// spawn anchor
+        //SpawnAnchor();
+
     }
 
     // Update is called once per frame
@@ -111,6 +111,7 @@ public class SpawnTrash : MonoBehaviour
 
         if (sharkTimer <= 0f && !isSharkSpawned)
         {
+            PoolShark();
             SpawnShark();
         }
 
@@ -121,6 +122,7 @@ public class SpawnTrash : MonoBehaviour
 
         if (despawnsharkTimer <= 0f)
         {
+            ResetSharkSpawnTime(sharkInstance.SharkState == 3 ? 1000f : 500f, 90f);
             DeSpawnShark();
         }
 
@@ -133,8 +135,8 @@ public class SpawnTrash : MonoBehaviour
         //GameObject temp = Instantiate(m_Fish, newPos, this.transform.rotation);
         //! Object Pooling
         GameObject tempFish = ObjectPooler.sharedInstance.GetPoolObject("Fish");
-        tempFish.SetActive(true);
         tempFish.transform.position = newPos;
+        tempFish.SetActive(true);
         return tempFish;
     }
 
@@ -144,8 +146,8 @@ public class SpawnTrash : MonoBehaviour
         //GameObject temp = Instantiate(m_Mine, newPos, new Quaternion(0, 0, 0, 0));
         //! Object Pooling
         GameObject tempMine = ObjectPooler.sharedInstance.GetPoolObject("Mine");
-        tempMine.SetActive(true);
         tempMine.transform.position = newPos;
+        tempMine.SetActive(true);
         return tempMine;
     }
 
@@ -155,8 +157,8 @@ public class SpawnTrash : MonoBehaviour
         //GameObject temp = Instantiate(m_Anchor, newPos, this.transform.rotation);
         //! Object Pooling
         GameObject tempAnchor = ObjectPooler.sharedInstance.GetPoolObject("Anchor");
-        tempAnchor.SetActive(true);
         tempAnchor.transform.position = newPos;
+        tempAnchor.SetActive(true);
         return tempAnchor;
     }
 
@@ -206,8 +208,6 @@ public class SpawnTrash : MonoBehaviour
     {
         sharkTimer = sharktimer;
         despawnsharkTimer = despawnTimer;
-        sharkInstance.SharkState = 0;
-        postcheck = 0;
     }
 
     /// <summary>
@@ -215,14 +215,15 @@ public class SpawnTrash : MonoBehaviour
     /// </summary>
     void PoolShark()
     {
-        Vector3 parentInstantiatePosition = new Vector3(-10.21f, 0, 0);
+        Vector3 parentInstantiatePosition = new Vector3(0, 0, 0);
         //shark = Instantiate(m_Shark, parentInstantiatePosition, Quaternion.identity);
         //! Object Pooling
         shark = ObjectPooler.sharedInstance.GetPoolObject("Shark");
-        isSharkSpawned = false;
-        shark.SetActive(isSharkSpawned);
+        //isSharkSpawned = false;
+        //shark.SetActive(isSharkSpawned);
         sharkInstance = shark.GetComponent<Shark>();
-        ResetSharkSpawnTime(500f, 90f);
+        //shark.transform.position = parentInstantiatePosition;
+        sharkInstance.GetWorldCanvas(ParentCanvas);
     }
 
     /// <summary>
@@ -236,6 +237,7 @@ public class SpawnTrash : MonoBehaviour
         shark.SetActive(isSharkSpawned);
     }
 
+    public Canvas ParentCanvas;
     /// <summary>
     /// Instance used to control the loop of the Shark
     /// PreAttack, Attack, PostAttack are all instantiated here
@@ -297,7 +299,8 @@ public class SpawnTrash : MonoBehaviour
         //! Object Pooling
         //gameObject.SetActive(false);
         shark.SetActive(isSharkSpawned);
-        ResetSharkSpawnTime(sharkInstance.SharkState == 3 ? 10000f : 500f, 90f);
+        sharkInstance.SharkState = 0;
+        postcheck = 0;
     }
 
     /// <summary>
