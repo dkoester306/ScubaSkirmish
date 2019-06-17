@@ -78,6 +78,7 @@ public class Swimmer2DUserControl : MonoBehaviour {
         
         attack = true;
         swimmerAnimator.SetBool("attack",attack);
+        GameAudio.PlaySwimmerDamaged();
         yield return new WaitForSeconds(.7f);
         SwimmerPunchInputUnPressed();
     }
