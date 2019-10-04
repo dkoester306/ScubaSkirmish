@@ -9,6 +9,7 @@ public class AudioSourceControl : MonoBehaviour {
     AudioSource musicSource;
     public AudioController audioController;
     private AudioSourceControl thissourceControl;
+    public UnityEngine.UI.Button muteButton;
 
     bool findInstance()
     {
@@ -50,7 +51,7 @@ public class AudioSourceControl : MonoBehaviour {
     void Start () {
         musicSource = this.gameObject.GetComponent<AudioSource>();
         DontDestroyOnLoad(this.gameObject);
-        //@ find better check
+        //! find better check
         if (thissourceControl == null)
         {
             thissourceControl = this.gameObject.GetComponent<AudioSourceControl>();
@@ -60,23 +61,31 @@ public class AudioSourceControl : MonoBehaviour {
         audioController = GameObject.Find("GM").GetComponent<AudioController>();
         musicSource = gameObject.GetComponent<AudioSource>();
         musicSource.Play();
+        muteButton = GameObject.Find("MuteButton").GetComponent<UnityEngine.UI.Button>();
+        muteButton.onClick.AddListener(delegate { SetAudioMute(); });
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         musicSource.volume = AudioController.musicVolume;
+        muteButton = GameObject.Find("MuteButton") ? GameObject.Find("MuteButton").GetComponent<UnityEngine.UI.Button>() : null;
 
-        CheckMute();
+        if (muteButton == null)
+        {
+            return;
+        }
+
+        muteButton.onClick.AddListener(delegate { SetAudioMute(); });
     }
 
-    private void CheckMute()
+    private void SetAudioMute()
     {
         if (!AudioController.musicplay)
         {
-            musicSource.Pause();
+            musicSource.mute = true;
         }
         else
-            musicSource.UnPause();
+            musicSource.mute = false;
     }
 
     

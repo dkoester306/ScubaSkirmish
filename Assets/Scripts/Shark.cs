@@ -162,6 +162,7 @@ public class Shark : MonoBehaviour
                 sharkDamage = true;
                 GameObject.Find("Swimmer").GetComponent<Swimmer2DUserControl>().SwimmerDamaged();
                 GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth -= 2;
+                GameAudio.PlaySwimmerDamaged();
                 Debug.Log("Interacted with Shark " +
                           GameObject.Find("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth);
             }
@@ -190,23 +191,28 @@ public class Shark : MonoBehaviour
         if (preattackDoneSpan == false && sharkState == 0)
         {
             StartSharkMovement(1f);
+            return;
         }
 
-        //: 
+        //: checks if Player and Shark have collided
         if (attackDoneSpan == false && sharkState == 1)
         {
             //CheckIntersect();
+            //return;
         }
 
         //: works to move shark forward
         if (attackDoneSpan == false && sharkState == 1)
         {
             StartSharkMovement(1f);
+            return;
         }
 
+        //: stop shark if shark is in post attack
         if (postattackDoneSpan == false && (sharkState == 2 || sharkState == 3))
         {
             StartSharkMovement(0f);
+            return;
         }
     }
 
@@ -352,4 +358,23 @@ public class Shark : MonoBehaviour
     }
 
     #endregion
+
+    //: TODO Allow State Transition
+    private bool StateTransition()
+    {
+        // check side shark entered : sharkPosition
+        Vector3 targetScreenPoint = Camera.main.ScreenToWorldPoint(worldCanvas.pixelRect.position);
+        if (flip)
+        {
+            // get other side 
+            float canvasViewportMaxX = (-1 * targetScreenPoint.x);
+        }
+        else
+        {
+            float canvasViewportMinX = targetScreenPoint.x;
+        }
+        // check if sharkPosition collides with other side of the screen : flip
+        // return true
+        return true;
+    }
 }

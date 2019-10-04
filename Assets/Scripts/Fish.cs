@@ -29,7 +29,7 @@ public class Fish : MonoBehaviour {
 		{
 			GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().IncreaseFishCount ();
 			//DestroyObject (this.gameObject);
-
+            GameAudio.PlayFishSound();
             //! Object Pooling
 		    gameObject.SetActive(false);
 

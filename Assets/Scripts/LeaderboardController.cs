@@ -93,7 +93,7 @@ public class LeaderboardController : MonoBehaviour
             playerRef.playerName = playerInputField.text;
 
             // edit leaderboard with new player
-            LeaderboardCalculator.insertOntoLeaderBoard(playerRef, players);
+            LeaderboardCalculator.insertIntoLeaderBoard(playerRef, players);
 
             // write down to leaderboard.json
             WriteToLeaderboardFile(players);

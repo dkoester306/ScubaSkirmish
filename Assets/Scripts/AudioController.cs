@@ -73,7 +73,6 @@ public class AudioController : MonoBehaviour {
 
     private void SliderEqualsVolume()
     {
-        
         if (musicBar != null)
         {
             lastVolume = musicBar.value;
@@ -83,6 +82,5 @@ public class AudioController : MonoBehaviour {
         {
             musicVolume = lastVolume;
         }
-        
     }
 }

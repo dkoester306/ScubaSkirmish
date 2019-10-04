@@ -378,10 +378,10 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -446,6 +446,7 @@ MonoBehaviour:
   NavigationCanvas: {fileID: 0}
   OptionsCanvas: {fileID: 0}
   HelpCanvas: {fileID: 0}
+  AboutCanvas: {fileID: 0}
 --- !u!1 &218618291
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,14 +596,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e177baff7c4f25947a5b364affdfc4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Mine: {fileID: 0}
-  m_Fish: {fileID: 0}
-  m_Anchor: {fileID: 0}
-  m_Shark: {fileID: 0}
-  m_MinX: 0
-  m_MaxX: 0
-  m_MinY: 0
-  m_MaxY: 0
+  m_MineMinX: 0
+  m_MineMaxX: 0
+  m_MineMinY: 0
+  m_MineMaxY: 0
+  m_FishMinX: 0
+  m_FishMaxX: 0
+  m_FishMinY: 0
+  m_FishMaxY: 0
   m_AnchorMinX: 0
   m_AnchorMaxX: 0
   m_AnchorMinY: 0
@@ -618,6 +619,7 @@ MonoBehaviour:
   - 3
   swimmerObject: {fileID: 0}
   m_sharkIndicator: {fileID: 0}
+  ParentCanvas: {fileID: 0}
 --- !u!4 &344894551
 Transform:
   m_ObjectHideFlags: 0
@@ -1542,7 +1544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0.000061035156, y: 0}
   m_SizeDelta: {x: 0.00012207, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &832980112
@@ -2800,7 +2802,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 66.9, y: -29.6}
+  m_AnchoredPosition: {x: 66.900024, y: -29.599976}
   m_SizeDelta: {x: 76.43, y: 28.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1798617549

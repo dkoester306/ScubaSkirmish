@@ -27,7 +27,7 @@ public class Mine : MonoBehaviour {
 		{
 			GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().PlayerHealth--;
 			//DestroyObject (this.gameObject);
-
+            GameAudio.PlayMineSound();
 		    //! Object Pooling
             gameObject.SetActive(false);
         }

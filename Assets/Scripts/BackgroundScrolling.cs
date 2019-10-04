@@ -17,9 +17,11 @@ public class BackgroundScrolling : MonoBehaviour {
 	{
 		m_CameraTransform = Camera.main.transform;
 		m_Layers = new Transform[transform.childCount];
+        // get children
 		for(int i =0;i<transform.childCount;i++)
 			m_Layers [i] = transform.GetChild (i);
 
+        // set indexes
 		m_LeftIndex = 0;
 		m_RightIndex = m_Layers.Length - 1;
 	}

@@ -48,6 +48,7 @@ public class SwimmerAirGravity : MonoBehaviour {
             swimmersRigidbody.gravityScale = gravityScale * Time.deltaTime * 5.0f;
 
             checkInAIr = true;
+
         }
     }
 
@@ -60,6 +61,8 @@ public class SwimmerAirGravity : MonoBehaviour {
             swimmersRigidbody.gravityScale = 0.0f;
 
             checkInAIr = false;
+
+            GameAudio.PlaySwimmerReEnterWater();
         }
     }
 }

@@ -31,7 +31,7 @@ public class GameAudio : MonoBehaviour
         }
     }
 
-    public static void PlaySwimmerDamaged()
+    public static void PlaySwimmerPunched()
     {
         PlayOneInstanceAudio(instanceAudioClips[0]);
     }
@@ -51,28 +51,45 @@ public class GameAudio : MonoBehaviour
         PlayOneInstanceAudio(instanceAudioClips[3]);
     }
 
-    public static void PlaySharkDamaged()
+    public static void PlaySwimmerReEnterWater()
     {
         PlayOneInstanceAudio(instanceAudioClips[4]);
     }
 
-    public static void PlaySharkPreAttack()
+    public static void PlayNewHighscore()
     {
         PlayOneInstanceAudio(instanceAudioClips[5]);
     }
 
-    public static void PlaySharkAttack()
+    public static void PlaySwimmerDamaged()
     {
         PlayOneInstanceAudio(instanceAudioClips[6]);
     }
 
+    public static void PlaySharkDamaged()
+    {
+        PlayOneInstanceAudio(instanceAudioClips[0]);
+    }
+
+    public static void PlaySharkPreAttack()
+    {
+        PlayOneInstanceAudio(instanceAudioClips[0]);
+    }
+
+    public static void PlaySharkAttack()
+    {
+        PlayOneInstanceAudio(instanceAudioClips[0]);
+    }
+
     public static void PlaySharkShortPostAttack()
     {
-        PlayOneInstanceAudio(instanceAudioClips[7]);
+        PlayOneInstanceAudio(instanceAudioClips[0]);
     }
 
     public static void PlaySharkLostPostAttack()
     {
-        PlayOneInstanceAudio(instanceAudioClips[8]);
+        PlayOneInstanceAudio(instanceAudioClips[0]);
     }
+
+    
 }

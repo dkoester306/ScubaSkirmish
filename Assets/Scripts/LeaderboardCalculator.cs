@@ -28,19 +28,16 @@ public static class LeaderboardCalculator
     }
 
     // add player count to leaderboardDict
-    public static List<Player> insertOntoLeaderBoard(Player newPlayer, List<Player> leaderboard)
+    public static List<Player> insertIntoLeaderBoard(Player newPlayer, List<Player> leaderboard)
     {
         if (leaderboard == null || leaderboard.Count == 0)
         {
             leaderboard.Add(newPlayer);
-            return leaderboard;
         }
-            
         else if (leaderboardEligible(newPlayer, leaderboard))
         {
             leaderboard[leaderboard.Count - 1] = newPlayer;
             leaderboard.Sort((player, player1) => player1.fishCount.CompareTo(player.fishCount));
-            return leaderboard;
         }
         return leaderboard;
     }

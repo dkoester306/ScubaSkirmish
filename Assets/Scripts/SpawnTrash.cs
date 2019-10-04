@@ -62,7 +62,7 @@ public class SpawnTrash : MonoBehaviour
         fishRand = Random.Range(fishTimer[0], fishTimer[1]);
         anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
         mineRand = Random.Range(fishTimer[0], fishTimer[1]);
-        ResetSharkSpawnTime(500f, 90f);
+        ResetSharkSpawnTime(750f, 90f);
 
         //// spawn fish
         //for (int i = 0; i < Random.Range(1, 3); i++)
@@ -121,7 +121,7 @@ public class SpawnTrash : MonoBehaviour
 
         if (despawnsharkTimer <= 0f)
         {
-            ResetSharkSpawnTime(sharkInstance.SharkState == 3 ? 1000f : 500f, 90f);
+            ResetSharkSpawnTime(sharkInstance.SharkState == 3 ? 1500f : 500f, 90f);
             DeSpawnShark();
         }
 
@@ -250,6 +250,7 @@ public class SpawnTrash : MonoBehaviour
             if (sharkInstance.SharkState == 2 || sharkInstance.SharkState == 3)
             {
                 despawnsharkTimer--;
+                DeSpawnIndicator();
                 if (postcheck == 0)
                 {
                     sharkInstance.SpawnGoAwayState();

@@ -10,6 +10,7 @@ public class Anchor : MonoBehaviour {
 		{
 			GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().PlayerHealth--;
             //DestroyObject (this.gameObject);
+            GameAudio.PlayAnchorSound();
 		    gameObject.SetActive(false);
         }
 			
