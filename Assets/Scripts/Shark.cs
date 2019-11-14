@@ -187,6 +187,8 @@ public class Shark : MonoBehaviour
             return;
         }
 
+        
+
         //: move shark forward
         if (preattackDoneSpan == false && sharkState == 0)
         {
@@ -197,6 +199,8 @@ public class Shark : MonoBehaviour
         //: checks if Player and Shark have collided
         if (attackDoneSpan == false && sharkState == 1)
         {
+            //: State Transitions
+            //StateTransition();
             //CheckIntersect();
             //return;
         }
@@ -318,6 +322,8 @@ public class Shark : MonoBehaviour
         preattackStart = true;
     }
 
+    #endregion
+
     //: works to move shark in a certain Direction
     public void StartSharkMovement(float directionf)
     {
@@ -357,24 +363,38 @@ public class Shark : MonoBehaviour
         }
     }
 
-    #endregion
-
     //: TODO Allow State Transition
     private bool StateTransition()
     {
         // check side shark entered : sharkPosition
+        // check if sharkPosition collides with other side of the screen : flip
+        // return true
         Vector3 targetScreenPoint = Camera.main.ScreenToWorldPoint(worldCanvas.pixelRect.position);
         if (flip)
         {
             // get other side 
             float canvasViewportMaxX = (-1 * targetScreenPoint.x);
+            float distance = canvasViewportMaxX - targetScreenPoint.x;
+            if (distance < 2)
+            {
+                attackDoneSpan = true;
+                Debug.Log(attackDoneSpan);
+                return true;
+            }
+            return false;
         }
         else
         {
             float canvasViewportMinX = targetScreenPoint.x;
+            float distance = canvasViewportMinX - targetScreenPoint.x;
+            if (distance < 2)
+            {
+                attackDoneSpan = true;
+                Debug.Log(attackDoneSpan);
+                return true;
+            }
+            return false;
         }
-        // check if sharkPosition collides with other side of the screen : flip
-        // return true
-        return true;
+        
     }
 }

@@ -11,6 +11,9 @@ public class AudioSourceControl : MonoBehaviour {
     private AudioSourceControl thissourceControl;
     public UnityEngine.UI.Button muteButton;
 
+    public AudioClip mainMenuMusic;
+    public AudioClip mainGameMusic;
+
     bool findInstance()
     {
         if (thissourceControl != null)
@@ -42,8 +45,24 @@ public class AudioSourceControl : MonoBehaviour {
                         Destroy(source.gameObject);
                     }
                 }
+
+                musicSource.clip = mainMenuMusic;
+                musicSource.Play();
             }
         }
+
+        if (scene.buildIndex == 1)
+        {
+            musicSource.clip = mainGameMusic;
+            musicSource.Play();
+        }
+
+        if (scene.buildIndex == 2)
+        {
+            musicSource.clip = mainMenuMusic;
+            musicSource.Play();
+        }
+
         audioController = FindObjectOfType<AudioController>();
     }
 

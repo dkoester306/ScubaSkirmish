@@ -12,7 +12,8 @@ public class AudioController : MonoBehaviour {
     public static bool musicplay = true;
     public static float musicVolume = .02f;
     float lastVolume = 0;
-    Color32 orange = new Color32(255, 116, 0, 255);
+    public Color32 customColor;
+    public Color32 whiteColor;
 
     // new load, find musicbar
     void OnEnable()
@@ -53,7 +54,11 @@ public class AudioController : MonoBehaviour {
     {
         if (musicplay == false)
         {
-            muteButtomImage.color = orange;
+            muteButtomImage.color = whiteColor;
+        }
+        else
+        {
+            muteButtomImage.color = customColor;
         }
     }
 
@@ -61,12 +66,12 @@ public class AudioController : MonoBehaviour {
     {
         if (musicplay)
         {
-            muteButtomImage.color = orange;
+            muteButtomImage.color = whiteColor;
             musicplay = !musicplay;
         }
         else
         {
-            muteButtomImage.color = Color.white;
+            muteButtomImage.color = customColor;
             musicplay = !musicplay;
         }
     }
