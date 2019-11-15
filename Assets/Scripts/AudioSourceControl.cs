@@ -55,12 +55,14 @@ public class AudioSourceControl : MonoBehaviour {
         {
             musicSource.clip = mainGameMusic;
             musicSource.Play();
+            musicSource.volume = AudioController.musicVolume;
         }
 
         if (scene.buildIndex == 2)
         {
             musicSource.clip = mainMenuMusic;
             musicSource.Play();
+            musicSource.volume = AudioController.musicVolume;
         }
 
         audioController = FindObjectOfType<AudioController>();

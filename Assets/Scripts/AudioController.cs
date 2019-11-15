@@ -10,7 +10,7 @@ public class AudioController : MonoBehaviour {
     public Slider musicBar;
     public Image muteButtomImage;
     public static bool musicplay = true;
-    public static float musicVolume = .02f;
+    public static float musicVolume = .25f;
     float lastVolume = 0;
     public Color32 customColor;
     public Color32 whiteColor;

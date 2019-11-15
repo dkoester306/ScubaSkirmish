@@ -47,6 +47,7 @@ public class LeaderboardController : MonoBehaviour
     {
     }
 
+    // Create Default Leaderboards
     public void FillLeaderboards(List<Player> _players)
     {
         _players.Add(new Player { fishCount = 10, playerName = "Davey Jones" });
