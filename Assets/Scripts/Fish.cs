@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Fish : MonoBehaviour {
 	private Rigidbody2D m_RigidBody;
-    private ObjectPooler sharedInstance;
 
 	[SerializeField] private float m_SpeedX;
 
