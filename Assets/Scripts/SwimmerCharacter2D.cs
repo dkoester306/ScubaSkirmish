@@ -80,10 +80,9 @@ public class SwimmerCharacter2D : MonoBehaviour {
 		UpdatePosition ();
 		if (m_PlayerHealth <= 0)
             CheckZeroHealth();
-			
-	}
+    }
 
-	void LateUpdate()
+    void LateUpdate()
 	{
 		BoundaryCollision ();
 	}

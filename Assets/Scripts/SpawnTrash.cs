@@ -31,9 +31,9 @@ public class SpawnTrash : MonoBehaviour
     [SerializeField] private float m_AnchorMinY;
     [SerializeField] private float m_AnchorMaxY;
 
-    [SerializeField] private float[] fishTimer = {0.5f, 3f};
+    [SerializeField] private float[] fishTimer = {0.3f, 3f};
     [SerializeField] private float[] mineTimer = {1f, 4f};
-    [SerializeField] private float[] anchorTimer = {1f, 3f};
+    [SerializeField] private float[] anchorTimer = {0f, 2f};
     private float sharkTimer;
     private float despawnsharkTimer;
     private float[] allTimes;
@@ -47,6 +47,8 @@ public class SpawnTrash : MonoBehaviour
     private bool isSharkSpawned = false;
     private bool firstShark = false;
     private bool resetShark = false;
+    private bool spawnChange = false;
+    private int spawnChangeValue = 0;
     private int postcheck = 0;
 
     float fishRand;
@@ -56,12 +58,14 @@ public class SpawnTrash : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        // 20 Change Spawn Rates
+
         swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
         allTimes = new float[4];
 
         fishRand = Random.Range(fishTimer[0], fishTimer[1]);
-        anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
-        mineRand = Random.Range(fishTimer[0], fishTimer[1]);
+        anchorRand = Random.Range(anchorTimer[0], anchorTimer[1]);
+        mineRand = Random.Range(mineTimer[0], mineTimer[1]);
         ResetSharkSpawnTime(750f, 90f);
 
         //// spawn fish
@@ -77,29 +81,90 @@ public class SpawnTrash : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if timer goes over, spawn new fish
-        if (Time.time >= allTimes[0] + fishRand)
+
+        if (swimmerCharacter.FishCount >= 15 &&  !spawnChange)
         {
-            SpawnFish();
+            spawnChange = true;
+            spawnChangeValue = 1;
+
+            fishTimer = new[] {0.6f, 3f};
+            anchorTimer = new[] {0.7f, 3f};
+            mineTimer = new[] {0.5f, 2f};
+
             fishRand = Random.Range(fishTimer[0], fishTimer[1]);
-            allTimes[0] = Time.time;
-        }
-
-        // spawn new mine if timer runs over
-        if (Time.time >= allTimes[1] + mineRand)
-        {
-            SpawnMine();
             anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
-            allTimes[1] = Time.time;
+            mineRand = Random.Range(fishTimer[0], fishTimer[1]);
         }
 
-        // spawn the anchors if timer goes over
-        if (Time.time >= allTimes[2] + anchorRand)
+        if (swimmerCharacter.FishCount >= 45 && spawnChange)
         {
-            SpawnAnchor();
+            spawnChange = true;
+            spawnChangeValue = 2;
+
+            fishTimer = new[] { 0.3f, 2f };
+            anchorTimer = new[] { 0.6f, 2.9f };
+            mineTimer = new[] { 0.3f, 1.75f };
+
+            fishRand = Random.Range(fishTimer[0], fishTimer[1]);
+            anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
             mineRand = Random.Range(fishTimer[0], fishTimer[1]);
-            allTimes[2] = Time.time;
         }
+
+
+        if (spawnChange)
+        {
+
+            // if timer goes over, spawn new fish
+            if (Time.time >= allTimes[0] + fishRand)
+            {
+                SpawnFish();
+                fishRand = Random.Range(fishTimer[0], fishTimer[1]);
+                allTimes[0] = Time.time;
+            }
+
+            // spawn new mine if timer runs over
+            if (Time.time >= allTimes[1] + fishRand)
+            {
+                SpawnMine();
+                mineRand = Random.Range(mineTimer[0], mineTimer[1]);
+                allTimes[1] = Time.time;
+            }
+
+            // spawn the anchors if timer goes over
+            if (Time.time >= allTimes[2] + fishRand)
+            {
+                SpawnAnchor();
+                anchorRand = Random.Range(anchorTimer[0], anchorTimer[1]);
+                allTimes[2] = Time.time;
+            }
+        }
+        else
+        {
+            // if timer goes over, spawn new fish
+            if (Time.time >= allTimes[0] + fishRand)
+            {
+                SpawnFish();
+                fishRand = Random.Range(fishTimer[0], fishTimer[1]);
+                allTimes[0] = Time.time;
+            }
+
+            // spawn new mine if timer runs over
+            if (Time.time >= allTimes[1] + mineRand)
+            {
+                SpawnMine();
+                mineRand = Random.Range(mineTimer[0], mineTimer[1]);
+                allTimes[1] = Time.time;
+            }
+
+            // spawn the anchors if timer goes over
+            if (Time.time >= allTimes[2] + anchorRand)
+            {
+                SpawnAnchor();
+                anchorRand = Random.Range(anchorTimer[0], anchorTimer[1]);
+                allTimes[2] = Time.time;
+            }
+        }
+        
 
         #region SharkUpdateConditionals
 
@@ -186,14 +251,6 @@ public class SpawnTrash : MonoBehaviour
         return rand;
     }
 
-    void RemoveOffScreenObject()
-    {
-    }
-
-    void NewRandomTimers()
-    {
-    }
-
     /// <summary>
     /// Reset Shark Spawn Time and DeSpawn Timer
     /// </summary>
@@ -229,33 +286,32 @@ public class SpawnTrash : MonoBehaviour
     /// </summary>
     void StartSharkInstance()
     {
-        if (isSharkSpawned)
+        if (!isSharkSpawned) return;
+
+        //: approaching
+        if (sharkInstance.SharkState == 0)
         {
-            //: approaching
-            if (sharkInstance.SharkState == 0)
-            {
-                sharkInstance.FindPlayerPosition(swimmerCharacter.PlayerPosition);
-                StartCoroutine(SpawnIndicator());
-                sharkInstance.SpawnPreAttackState();
-            }
+            sharkInstance.FindPlayerPosition(swimmerCharacter.PlayerPosition);
+            StartCoroutine(SpawnIndicator());
+            sharkInstance.SpawnPreAttackState();
+        }
 
-            //: attacking
-            if (sharkInstance.SharkState == 1)
-            {
-                DeSpawnIndicator();
-                sharkInstance.SpawnAttackState();
-            }
+        //: attacking
+        if (sharkInstance.SharkState == 1)
+        {
+            DeSpawnIndicator();
+            sharkInstance.SpawnAttackState();
+        }
 
-            //: go away and defeated
-            if (sharkInstance.SharkState == 2 || sharkInstance.SharkState == 3)
+        //: go away and defeated
+        if (sharkInstance.SharkState == 2 || sharkInstance.SharkState == 3)
+        {
+            despawnsharkTimer--;
+            DeSpawnIndicator();
+            if (postcheck == 0)
             {
-                despawnsharkTimer--;
-                DeSpawnIndicator();
-                if (postcheck == 0)
-                {
-                    sharkInstance.SpawnGoAwayState();
-                    postcheck = 1;
-                }
+                sharkInstance.SpawnGoAwayState();
+                postcheck = 1;
             }
         }
     }

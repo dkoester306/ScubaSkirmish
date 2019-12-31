@@ -40,9 +40,11 @@ public class Swimmer2DUserControl : MonoBehaviour {
 	            StartCoroutine(ISwimmerPunchInputUnPressed());
 	        }
 	    }
+
+
     }
 
-	void FixedUpdate()
+    void FixedUpdate()
 	{
 	    float h = CrossPlatformInputManager.GetAxis("Horizontal");
 	    float v = CrossPlatformInputManager.GetAxis("Vertical");
@@ -52,7 +54,9 @@ public class Swimmer2DUserControl : MonoBehaviour {
 	    {
 	        m_Character.Move(h, v);
 	    }
-	}
+
+
+    }
 
     // Adding User Control of Attacking the Shark
     // This will be input: Enter
