@@ -212,7 +212,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1042147870377294, guid: f39bd9566471e8345967fbb3f6647fe1, type: 3}
       propertyPath: m_Name
-      value: Particles (1)
+      value: Particles1
       objectReference: {fileID: 0}
     - target: {fileID: 1042147870377294, guid: f39bd9566471e8345967fbb3f6647fe1, type: 3}
       propertyPath: m_IsActive
@@ -773,7 +773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MineMinX: 20
   m_MineMaxX: 42
-  m_MineMinY: -3.9
+  m_MineMinY: -7
   m_MineMaxY: 1
   m_FishMinX: 20
   m_FishMaxX: 42
@@ -971,7 +971,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 79.48001, y: -66.45}
+  m_AnchoredPosition: {x: 79.47998, y: -66.450195}
   m_SizeDelta: {x: 101.609985, y: 25.429993}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &439127630

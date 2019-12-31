@@ -31,9 +31,9 @@ public class SpawnTrash : MonoBehaviour
     [SerializeField] private float m_AnchorMinY;
     [SerializeField] private float m_AnchorMaxY;
 
-    [SerializeField] private float[] fishTimer = {0.3f, 3f};
-    [SerializeField] private float[] mineTimer = {1f, 4f};
-    [SerializeField] private float[] anchorTimer = {0f, 2f};
+    [SerializeField] private float[] fishTimer = {0.3f, 2.5f};
+    [SerializeField] private float[] mineTimer = {.3f, 2.5f};
+    [SerializeField] private float[] anchorTimer = {0.2f, 2f};
     private float sharkTimer;
     private float despawnsharkTimer;
     private float[] allTimes;
@@ -87,27 +87,27 @@ public class SpawnTrash : MonoBehaviour
             spawnChange = true;
             spawnChangeValue = 1;
 
-            fishTimer = new[] {0.6f, 3f};
-            anchorTimer = new[] {0.7f, 3f};
-            mineTimer = new[] {0.5f, 2f};
+            fishTimer = new[] {0.5f, 2.2f};
+            anchorTimer = new[] {0.4f, 2.3f};
+            mineTimer = new[] {0.3f, 1.7f};
 
             fishRand = Random.Range(fishTimer[0], fishTimer[1]);
-            anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
-            mineRand = Random.Range(fishTimer[0], fishTimer[1]);
+            anchorRand = Random.Range(anchorTimer[0], anchorTimer[1]);
+            mineRand = Random.Range(mineTimer[0], mineTimer[1]);
         }
 
-        if (swimmerCharacter.FishCount >= 45 && spawnChange)
+        if (swimmerCharacter.FishCount >= 35 && spawnChange)
         {
             spawnChange = true;
             spawnChangeValue = 2;
 
-            fishTimer = new[] { 0.3f, 2f };
-            anchorTimer = new[] { 0.6f, 2.9f };
+            fishTimer = new[] { 0.4f, 2f };
+            anchorTimer = new[] { 0.5f, 2.3f };
             mineTimer = new[] { 0.3f, 1.75f };
 
             fishRand = Random.Range(fishTimer[0], fishTimer[1]);
-            anchorRand = Random.Range(fishTimer[0], fishTimer[1]);
-            mineRand = Random.Range(fishTimer[0], fishTimer[1]);
+            anchorRand = Random.Range(anchorTimer[0], anchorTimer[1]);
+            mineRand = Random.Range(mineTimer[0], mineTimer[1]);
         }
 
 
