@@ -11,6 +11,7 @@ TagManager:
   - Swimmer
   - Shark
   - Fish
+  - Boat
   layers:
   - Default
   - TransparentFX

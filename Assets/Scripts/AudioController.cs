@@ -14,6 +14,7 @@ public class AudioController : MonoBehaviour {
     float lastVolume = 0;
     public Color32 customColor;
     public Color32 whiteColor;
+    public bool setMusic;
 
     // new load, find musicbar
     void OnEnable()
@@ -37,6 +38,7 @@ public class AudioController : MonoBehaviour {
             musicBar.value = musicVolume;
             SetMute();
             muteButtomImage.gameObject.GetComponent<Button>().onClick.AddListener(CheckMute);
+            setMusic = false;
         }
     }
 
@@ -47,8 +49,12 @@ public class AudioController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        SliderEqualsVolume();
-	}
+        if (setMusic == false)
+        {
+            setMusic = true;
+            SliderEqualsVolume();
+        }
+    }
 
     public void SetMute()
     {

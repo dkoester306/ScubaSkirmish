@@ -33,6 +33,13 @@ public class ObjectPooler : MonoBehaviour {
                 CreatePooledObject(item, false);
             }
         }
+
+        for (int i = 0; i < 2 ; i++)
+        {
+            GameObject tempBoat = ObjectPooler.sharedInstance.GetPoolObject("Boat");
+            tempBoat.GetComponent<Boat>().newTarget = i;
+            tempBoat.SetActive(true);
+        }
     }
 
     // creates a new instance of a specific gameobject

@@ -10,9 +10,9 @@ public class SpawnTrash : MonoBehaviour
     //[SerializeField] private GameObject m_Anchor;
     //[SerializeField] private GameObject m_Shark;
 
-    private List<GameObject> m_Mines;
+    public List<GameObject> m_Mines;
     private List<GameObject> m_Fishes;
-    private List<GameObject> m_Anchors;
+    public static List<GameObject> m_Anchors;
 
     // bounds for the mine and fish objects
     [SerializeField] private float m_MineMinX;
@@ -62,6 +62,7 @@ public class SpawnTrash : MonoBehaviour
 
         swimmerCharacter = swimmerObject.GetComponent<SwimmerCharacter2D>();
         allTimes = new float[4];
+        m_Anchors = new List<GameObject>();
 
         fishRand = Random.Range(fishTimer[0], fishTimer[1]);
         anchorRand = Random.Range(anchorTimer[0], anchorTimer[1]);
@@ -76,6 +77,7 @@ public class SpawnTrash : MonoBehaviour
         //    SpawnMine();
         //// spawn anchor
         //SpawnAnchor();
+
     }
 
     // Update is called once per frame
@@ -168,22 +170,26 @@ public class SpawnTrash : MonoBehaviour
 
         #region SharkUpdateConditionals
 
+        // Shark Timer
         if (sharkTimer > 0f)
         {
             sharkTimer--;
         }
 
+        // Spawn Shark
         if (sharkTimer <= 0f && !isSharkSpawned)
         {
             PoolShark();
             SpawnShark();
         }
 
+        // Continue Shark Instance if Spawned
         if (isSharkSpawned)
         {
             StartSharkInstance();
         }
 
+        // Reset Shark Spawn Timer
         if (despawnsharkTimer <= 0f)
         {
             ResetSharkSpawnTime(sharkInstance.SharkState == 3 ? 1500f : 500f, 90f);
@@ -217,6 +223,7 @@ public class SpawnTrash : MonoBehaviour
         GameObject tempAnchor = ObjectPooler.sharedInstance.GetPoolObject("Anchor");
         tempAnchor.transform.position = newPos;
         tempAnchor.SetActive(true);
+        m_Anchors.Add(tempAnchor);
         return tempAnchor;
     }
 

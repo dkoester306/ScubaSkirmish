@@ -78,22 +78,29 @@ public class SwimmerCharacter2D : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		UpdatePosition ();
-		if (m_PlayerHealth <= 0)
+        BoundaryCollision ();
+        if (m_PlayerHealth <= 0)
             CheckZeroHealth();
     }
 
-    void LateUpdate()
-	{
-		BoundaryCollision ();
-	}
 
 	void BoundaryCollision()
 	{
 		Vector3 newPos = m_Position;
 		newPos.x = Mathf.Clamp (m_Position.x, m_MinX, m_MaxX);
 		newPos.y = Mathf.Clamp (m_Position.y, m_MinY, m_MaxY);
-		this.transform.position = newPos;
-	}
+
+        if (newPos.x <= m_MinX || newPos.x >= m_MaxX)
+        {
+		    this.transform.position = newPos;
+        }
+
+        if (newPos.y <= m_MinY || newPos.y >= m_MaxY)
+        {
+            this.transform.position = newPos;
+        }
+
+    }
 
 	void UpdatePosition()
 	{

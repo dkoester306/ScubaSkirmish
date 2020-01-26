@@ -79,7 +79,7 @@ public class AudioSourceControl : MonoBehaviour {
 
         }
 
-        audioController = GameObject.Find("GM").GetComponent<AudioController>();
+        audioController = GameObject.Find("GameManager").GetComponent<AudioController>();
         musicSource = gameObject.GetComponent<AudioSource>();
         musicSource.Play();
         muteButton = GameObject.Find("MuteButton").GetComponent<UnityEngine.UI.Button>();
