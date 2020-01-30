@@ -12,8 +12,11 @@ public class SwimmerAirGravity : MonoBehaviour {
 
     // get acces to swimmers position
     private Rigidbody2D swimmersRigidbody;
+    private Camera mainCamera;
 
     private Vector3 airGravityScale;
+    private Vector3 OGCamPosition;
+    private Vector3 playerPosition;
 
     // int to change gravity
     private float gravityScale;
@@ -36,6 +39,9 @@ public class SwimmerAirGravity : MonoBehaviour {
 
         // set checkInAir
         checkInAIr = false;
+
+        // get main camera
+        mainCamera = Camera.main;
     }
 
     // check if player collides with airgravitycollider
@@ -49,6 +55,10 @@ public class SwimmerAirGravity : MonoBehaviour {
 
             checkInAIr = true;
 
+            // Camera Lerp Movement to Player Medicated
+            // 
+            // journey distance
+            // disOfJoruney = 
         }
     }
 
@@ -63,6 +73,8 @@ public class SwimmerAirGravity : MonoBehaviour {
             checkInAIr = false;
 
             GameAudio.PlaySwimmerReEnterWater();
+
+            // Camera Lerp Movement to OGPosition
         }
     }
 }

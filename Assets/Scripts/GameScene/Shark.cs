@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -28,6 +30,8 @@ public class Shark : MonoBehaviour
     private bool preattackStart;
     private float ienumeratorTimeConstant = 2f;
     private float speedConstant = .3f;
+
+    private List<BoxCollider2D> boxColliders = new List<BoxCollider2D>();
 
     public int SharkState
     {
@@ -59,6 +63,8 @@ public class Shark : MonoBehaviour
         sharkHealth = 3;
         start = true;
         preattackStart = true;
+
+        boxColliders = gameObject.GetComponents<BoxCollider2D>().ToList();
     }
 
     public void GetComponentRefs()
