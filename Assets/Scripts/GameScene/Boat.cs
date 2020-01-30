@@ -17,81 +17,72 @@ public class Boat : MonoBehaviour
     private Vector3 lerpPosition = Vector3.zero;
     private Vector3 lastVector3;
     private Vector3 nextVector3;
+    private Vector3 offScreen = new Vector3(-3,0,0);
 
     // starting value for the Lerp
     private static float t = 0.0f;
     private GameObject pooledAnchor;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    void OnEnable()
-    {
-        //pooledAnchor = GameObject.FindGameObjectWithTag("Anchor");
-        //lerpPosition = pooledAnchor.transform.position;
-        //nextVector3 = new Vector3(lerpPosition.x, transform.position.y, transform.position.z);
-        //lastVector3 = transform.position;
-        //journey = Mathf.Abs(nextVector3.x - lastVector3.x);
-        //startTime = Time.time;
-        //disCovered = (Time.time - startTime) * 3f;
-        //fractionOfJourney = disCovered / journey;
-        //transform.position = Vector3.Lerp(lastVector3, nextVector3, fractionOfJourney);
-    }
-
+    // Lerping Variables
     public int newTarget = 0;
     private float journey;
     private float startTime;
     private float disCovered;
     private float fractionOfJourney;
-    private Vector3 farOff = new Vector3(-5,0,0);
+    private bool restartTime = false;
 
     // Update is called once per frame
     void Update()
     {
+        if (restartTime)
+        {
+            startTime = Time.time;
+            restartTime = false;
+        }
+
+        if (pooledAnchor == null)
+        {
+            pooledAnchor = SpawnTrash.m_Anchors[Random.Range(0, SpawnTrash.m_Anchors.Count - 1)].gameObject;
+            restartTime = true;
+        }
+        else if (!pooledAnchor.activeInHierarchy)
+        {
+            MoveToOffScreen();
+        }
+        else
+        {
+            MoveToAnchor();
+        }
+
+        if (journey <= .1f)
+        {
+            restartTime = true;
+        }
+    }
+
+    private void MoveToOffScreen()
+    {
+        lerpPosition = transform.position;
+        nextVector3 = new Vector3(offScreen.x, transform.position.y, transform.position.z);
+        disCovered = (Time.time - startTime) * 2f;
+        journey = Mathf.Abs(lerpPosition.x - nextVector3.x);
+        fractionOfJourney = disCovered / journey;
+        if (float.IsNaN(fractionOfJourney)) return;
+        transform.position = Vector3.Lerp(lerpPosition, nextVector3, fractionOfJourney);
+    }
+
+    public void MoveToAnchor()
+    {
         // now check if the interpolator has reached 1.0
         // and swap maximum and minimum so game object moves
         // in the opposite direction.
-        if (pooledAnchor == null)
-        {
-            pooledAnchor = SpawnTrash.m_Anchors[Random.Range(0, 3)].gameObject;
-
-            lerpPosition = pooledAnchor.transform.position;
-            nextVector3 = new Vector3(farOff.x, transform.position.y, transform.position.z);
-            lastVector3 = transform.position;
-            journey = Mathf.Abs(nextVector3.x - lastVector3.x);
-            startTime = Time.time;
-            transform.position = Vector3.Lerp(lastVector3, nextVector3, fractionOfJourney);
-        }
-
-        if (pooledAnchor.activeInHierarchy == false)
-        {
-            pooledAnchor = SpawnTrash.m_Anchors[Random.Range(0, 3)].gameObject;
-
-            lerpPosition = pooledAnchor.transform.position;
-            nextVector3 = new Vector3(farOff.x, transform.position.y, transform.position.z);
-            lastVector3 = transform.position;
-            journey = Mathf.Abs(nextVector3.x - lastVector3.x);
-            startTime = Time.time;
-            transform.position = Vector3.Lerp(lastVector3, nextVector3, fractionOfJourney);
-        }
-
         // animate the position of the game object...
-        disCovered = (Time.time - startTime) * 3f;
+        lerpPosition = transform.position;
+        nextVector3 = new Vector3(pooledAnchor.transform.position.x, transform.position.y, transform.position.z);
+        disCovered = (Time.time - startTime) * 2f;
+        journey = Mathf.Abs(lerpPosition.x - nextVector3.x);
         fractionOfJourney = disCovered / journey;
-        transform.position = Vector3.Lerp(lastVector3, nextVector3, fractionOfJourney);
-        Debug.Log(newTarget);
-
-        if (journey <= .01f) {
-            pooledAnchor = SpawnTrash.m_Anchors[Random.Range(0, 3)].gameObject;
-
-            lerpPosition = pooledAnchor.transform.position;
-            nextVector3 = new Vector3(farOff.x, transform.position.y, transform.position.z);
-            lastVector3 = transform.position;
-            journey = Mathf.Abs(nextVector3.x - lastVector3.x);
-            startTime = Time.time;
-        }
+        if (float.IsNaN(fractionOfJourney)) return;
+        transform.position = Vector3.Lerp(lerpPosition, nextVector3, fractionOfJourney);
     }
 }

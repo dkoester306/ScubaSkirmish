@@ -10,8 +10,7 @@ public class SpawnTrash : MonoBehaviour
     //[SerializeField] private GameObject m_Anchor;
     //[SerializeField] private GameObject m_Shark;
 
-    public List<GameObject> m_Mines;
-    private List<GameObject> m_Fishes;
+    public static List<GameObject> m_Mines;
     public static List<GameObject> m_Anchors;
 
     // bounds for the mine and fish objects
@@ -68,22 +67,11 @@ public class SpawnTrash : MonoBehaviour
         anchorRand = Random.Range(anchorTimer[0], anchorTimer[1]);
         mineRand = Random.Range(mineTimer[0], mineTimer[1]);
         ResetSharkSpawnTime(750f, 90f);
-
-        //// spawn fish
-        //for (int i = 0; i < Random.Range(1, 3); i++)
-        //    SpawnFish();
-        //// spawn mine
-        //for (int i = 0; i < Random.Range(1, 3); i++)
-        //    SpawnMine();
-        //// spawn anchor
-        //SpawnAnchor();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if (swimmerCharacter.FishCount >= 15 &&  !spawnChange)
         {
             spawnChange = true;

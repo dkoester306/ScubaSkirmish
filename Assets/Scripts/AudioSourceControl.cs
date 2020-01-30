@@ -2,28 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class AudioSourceControl : MonoBehaviour {
 
     AudioSource musicSource;
     public AudioController audioController;
-    private AudioSourceControl thissourceControl;
-    public UnityEngine.UI.Button muteButton;
+    private AudioSourceControl thisSourceControl;
+    public Button muteButton;
 
     public AudioClip mainMenuMusic;
     public AudioClip mainGameMusic;
 
     bool findInstance()
     {
-        if (thissourceControl != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return thisSourceControl != null;
     }
 
     void OnEnable()
@@ -73,23 +67,23 @@ public class AudioSourceControl : MonoBehaviour {
         musicSource = this.gameObject.GetComponent<AudioSource>();
         DontDestroyOnLoad(this.gameObject);
         //! find better check
-        if (thissourceControl == null)
+        if (thisSourceControl == null)
         {
-            thissourceControl = this.gameObject.GetComponent<AudioSourceControl>();
+            thisSourceControl = this.gameObject.GetComponent<AudioSourceControl>();
 
         }
 
         audioController = GameObject.Find("GameManager").GetComponent<AudioController>();
         musicSource = gameObject.GetComponent<AudioSource>();
         musicSource.Play();
-        muteButton = GameObject.Find("MuteButton").GetComponent<UnityEngine.UI.Button>();
+        muteButton = GameObject.Find("MuteButton").GetComponent<Button>();
         muteButton.onClick.AddListener(delegate { SetAudioMute(); });
     }
 
     // Update is called once per frame
     void Update () {
         musicSource.volume = AudioController.musicVolume;
-        muteButton = GameObject.Find("MuteButton") ? GameObject.Find("MuteButton").GetComponent<UnityEngine.UI.Button>() : null;
+        muteButton = GameObject.Find("MuteButton") ? GameObject.Find("MuteButton").GetComponent<Button>() : null;
 
         if (muteButton == null)
         {

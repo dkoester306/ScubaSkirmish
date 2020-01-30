@@ -34,6 +34,25 @@ public class ObjectPooler : MonoBehaviour {
             }
         }
 
+        // Add GameObjects to TrashLists
+        SpawnTrash.m_Anchors = new List<GameObject>();
+        foreach (var anchor in ObjectPooler.sharedInstance.pooledObjects)
+        {
+            if (anchor.GetComponent<Anchor>())
+            {
+                SpawnTrash.m_Anchors.Add(anchor);
+            }
+        }
+        SpawnTrash.m_Mines = new List<GameObject>();
+        foreach (var mine in ObjectPooler.sharedInstance.pooledObjects)
+        {
+            if (mine.GetComponent<Mine>())
+            {
+                SpawnTrash.m_Mines.Add(mine);
+            }
+        }
+
+        // Create Boats
         for (int i = 0; i < 2 ; i++)
         {
             GameObject tempBoat = ObjectPooler.sharedInstance.GetPoolObject("Boat");
