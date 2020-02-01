@@ -13,13 +13,22 @@ public class GameAudio : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        audioSource = FindObjectOfType<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = Instantiate(new AudioSource());
+        }
         instanceAudioClips = audioClips;
     }
 
     //: Base Single Audio Instance
     static void PlayOneInstanceAudio(AudioClip audioClip)
     {
+        if (audioClip == null)
+        {
+            return;
+        }
+
         try
         {
             audioSource.PlayOneShot(audioClip);

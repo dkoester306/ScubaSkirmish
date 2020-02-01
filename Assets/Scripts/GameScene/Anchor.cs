@@ -8,21 +8,16 @@ public class Anchor : MonoBehaviour {
 	{
 		if (other.tag == "Player")
 		{
-			GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D> ().PlayerHealth--;
-            //DestroyObject (this.gameObject);
+			GameObject.Find ("Swimmer").GetComponent<SwimmerCharacter2D>().PlayerHealth--;
             GameAudio.PlayAnchorSound();
 		    gameObject.SetActive(false);
         }
-			
 	}
 
 	void Update()
 	{
 		if (this.transform.position.y < -6f)
-            //DestroyObject (gameObject);
 		    gameObject.SetActive(false);
-
-        //! Object Pooling
     }
 
 }
