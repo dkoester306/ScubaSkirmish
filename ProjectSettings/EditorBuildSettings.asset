@@ -4,12 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TitleScreen.unity
+    path: Assets/Scenes/Build/TitleScreen.unity
     guid: 04f9c1eabb132ac4cbd9921a7d4e93d5
   - enabled: 1
-    path: Assets/Scenes/BackgroundScrolling.unity
+    path: Assets/Scenes/Build/GameScene.unity
     guid: 175362bf84205a244b8a814ce07a74ab
+  - enabled: 1
+    path: Assets/Scenes/Build/GameOverScene.unity
+    guid: ca7adaa3f4143d54e9d825f0a7d76758
   m_configObjects: {}

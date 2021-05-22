@@ -6,6 +6,12 @@ TagManager:
   tags:
   - Background
   - Air
+  - Mine
+  - Anchor
+  - Swimmer
+  - Shark
+  - Fish
+  - Boat
   layers:
   - Default
   - TransparentFX
@@ -46,10 +52,18 @@ TagManager:
   - name: Background
     uniqueID: 774284149
     locked: 0
+  - name: BehindBackground
+    uniqueID: 4084496905
+    locked: 0
+  - name: MidGround
+    uniqueID: 3837757799
+    locked: 0
+  - name: Shark
+    uniqueID: 1933645087
+    locked: 0
   - name: Player
     uniqueID: 1659082187
     locked: 0
-  - name: Foreground
+  - name: Objects
     uniqueID: 1878244255
     locked: 0
-
