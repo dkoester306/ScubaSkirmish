@@ -10,8 +10,9 @@ public class SpawnTrash : MonoBehaviour
     //[SerializeField] private GameObject m_Anchor;
     //[SerializeField] private GameObject m_Shark;
 
-    public static List<GameObject> m_Mines;
-    public static List<GameObject> m_Anchors;
+    public static List<GameObject> m_Mines = new List<GameObject>();
+    public static List<GameObject> m_Anchors = new List<GameObject>();
+    public static int boatAmount = 2;
 
     // bounds for the mine and fish objects
     [SerializeField] private float m_MineMinX;
@@ -66,7 +67,7 @@ public class SpawnTrash : MonoBehaviour
         fishRand = Random.Range(fishTimer[0], fishTimer[1]);
         anchorRand = Random.Range(anchorTimer[0], anchorTimer[1]);
         mineRand = Random.Range(mineTimer[0], mineTimer[1]);
-        ResetSharkSpawnTime(750f, 90f);
+        ResetSharkSpawnTime(750f, 100f);
     }
 
     // Update is called once per frame
@@ -154,35 +155,11 @@ public class SpawnTrash : MonoBehaviour
                 allTimes[2] = Time.time;
             }
         }
-        
+
 
         #region SharkUpdateConditionals
 
-        // Shark Timer
-        if (sharkTimer > 0f)
-        {
-            sharkTimer--;
-        }
-
-        // Spawn Shark
-        if (sharkTimer <= 0f && !isSharkSpawned)
-        {
-            PoolShark();
-            SpawnShark();
-        }
-
-        // Continue Shark Instance if Spawned
-        if (isSharkSpawned)
-        {
-            StartSharkInstance();
-        }
-
-        // Reset Shark Spawn Timer
-        if (despawnsharkTimer <= 0f)
-        {
-            ResetSharkSpawnTime(sharkInstance.SharkState == 3 ? 1500f : 500f, 90f);
-            DeSpawnShark();
-        }
+        SharkUpdate();
 
         #endregion
     }
@@ -270,6 +247,7 @@ public class SpawnTrash : MonoBehaviour
     /// </summary>
     void SpawnShark()
     {
+        PoolShark();
         isSharkSpawned = true;
         shark.SetActive(isSharkSpawned);
     }
@@ -299,16 +277,41 @@ public class SpawnTrash : MonoBehaviour
         }
 
         //: go away and defeated
-        if (sharkInstance.SharkState == 2 || sharkInstance.SharkState == 3)
+        if (sharkInstance.SharkState != 2 && sharkInstance.SharkState != 3) return;
+        despawnsharkTimer--;
+        DeSpawnIndicator();
+
+        if (postcheck != 0) return;
+        sharkInstance.SpawnGoAwayState();
+        postcheck = 1;
+    }
+
+    void SharkUpdate()
+    {
+        // Shark Timer
+        if (sharkTimer > 0f)
         {
-            despawnsharkTimer--;
-            DeSpawnIndicator();
-            if (postcheck == 0)
-            {
-                sharkInstance.SpawnGoAwayState();
-                postcheck = 1;
-            }
+            sharkTimer--;
         }
+
+        // Spawn Shark
+        if (sharkTimer <= 0f && !isSharkSpawned)
+        {
+            SpawnShark();
+        }
+
+        // Continue Shark Instance if Spawned
+        if (isSharkSpawned)
+        {
+            StartSharkInstance();
+        }
+
+        // Reset Shark Spawn Timer
+        if (!(despawnsharkTimer <= 0f)) return;
+        // Reset Shark Spawn Timer
+        ResetSharkSpawnTime(sharkInstance.SharkState == 3 ? 1500f : 500f, 90f);
+        // Despawn Shark
+        DeSpawnShark();
     }
 
     /// <summary>
@@ -344,12 +347,14 @@ public class SpawnTrash : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SpawnIndicator()
     {
+        // Get Canvas and Positions of Needed UI Positions
         Canvas parentCanvas = m_sharkIndicator.gameObject.GetComponentInParent<Canvas>();
         Vector3 targetScreenPoint = Camera.main.WorldToScreenPoint(swimmerObject.transform.position);
         Vector3 indicatorPosition = Vector3.zero;
         float canvasViewportMinX = parentCanvas.pixelRect.min.x;
         float canvasViewportMaxX = parentCanvas.pixelRect.max.x;
 
+        // Position Indicator On Shark Flip bool
         if (sharkInstance.Flip)
         {
             indicatorPosition = new Vector3(canvasViewportMaxX - 50, targetScreenPoint.y,
@@ -361,11 +366,15 @@ public class SpawnTrash : MonoBehaviour
                 m_sharkIndicator.transform.position.z);
         }
 
+        // Set Indicator Position and Activate in Hierarchy 
         m_sharkIndicator.transform.position = indicatorPosition;
         yield return new WaitForSeconds(.3f);
         m_sharkIndicator.SetActive(true);
     }
 
+    /// <summary>
+    /// Make Shark Indicator InActive
+    /// </summary>
     private void DeSpawnIndicator()
     {
         m_sharkIndicator.SetActive(false);

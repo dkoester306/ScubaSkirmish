@@ -48,33 +48,21 @@ public class SwimmerAirGravity : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // check if tag is Air
-        if (collision.gameObject.tag == "Air")
-        {
-            // set swimmers rigidbody to gravity scale
-            swimmersRigidbody.gravityScale = gravityScale * Time.deltaTime * 5.0f;
+        if (collision.gameObject.tag != "Air") return;
 
-            checkInAIr = true;
-
-            // Camera Lerp Movement to Player Medicated
-            // 
-            // journey distance
-            // disOfJoruney = 
-        }
+        // set swimmers rigidbody to gravity scale
+        swimmersRigidbody.gravityScale = gravityScale * Time.deltaTime * 5.0f;
+        checkInAIr = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         // check if tag is Air
-        if (collision.gameObject.tag == "Air")
-        {
-            // set swimmers rigidbody to gravity scale
-            swimmersRigidbody.gravityScale = 0.0f;
+        if (collision.gameObject.tag != "Air") return;
 
-            checkInAIr = false;
-
-            GameAudio.PlaySwimmerReEnterWater();
-
-            // Camera Lerp Movement to OGPosition
-        }
+        // set swimmers rigidbody to gravity scale
+        swimmersRigidbody.gravityScale = 0.0f;
+        checkInAIr = false;
+        GameAudio.PlaySwimmerReEnterWater();
     }
 }

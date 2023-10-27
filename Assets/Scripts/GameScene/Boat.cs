@@ -60,6 +60,12 @@ public class Boat : MonoBehaviour
         }
     }
 
+    public void SetIndexAndState(int index, bool state)
+    {
+        newTarget = index;
+        gameObject.SetActive(state);
+    }
+
     private void MoveToOffScreen()
     {
         lerpPosition = transform.position;

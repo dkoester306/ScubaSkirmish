@@ -13,7 +13,7 @@ public class Shark : MonoBehaviour
     private Vector3 position = default(Vector3);
     private Vector3 playerpositionRef;
     private float accelerationRate;
-    private float maximumSpeed = .2f;
+    private float maximumSpeed = 10f;
     private bool attackDoneSpan;
     private bool postattackDoneSpan;
     private bool preattackDoneSpan;
@@ -28,7 +28,7 @@ public class Shark : MonoBehaviour
     private bool flip;
     private bool start;
     private bool preattackStart;
-    private float ienumeratorTimeConstant = 2f;
+    private float ienumeratorTimeConstant = 3f;
     private float speedConstant = .3f;
 
     private List<BoxCollider2D> boxColliders = new List<BoxCollider2D>();
@@ -58,7 +58,8 @@ public class Shark : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        accelerationRate = .5f * Time.deltaTime;
+        // Removed multiplication by Time.deltaTime here
+        accelerationRate = .5f;
         sharkState = 0;
         sharkHealth = 3;
         start = true;
@@ -88,7 +89,7 @@ public class Shark : MonoBehaviour
         Vector3 targetScreenPoint = Camera.main.ScreenToWorldPoint(worldCanvas.pixelRect.position);
         if (flip)
         {
-            float canvasViewportMaxX = ( -1 *targetScreenPoint.x);
+            float canvasViewportMaxX = (-1 * targetScreenPoint.x);
             startingPosition.x = canvasViewportMaxX;
         }
         else
@@ -137,6 +138,7 @@ public class Shark : MonoBehaviour
         SetStartingPosition();
         transform.position = startingPosition;
     }
+
 
     /// <summary>
     /// Checks Interaction Between Player and Shark
@@ -220,15 +222,16 @@ public class Shark : MonoBehaviour
             //set direction
             direction = new Vector3(directionf, 0, 0);
 
-            // accelerationRate
             // Acceleration = direction * accelerationRate
-            acceleration = direction;
+            // Multiplied the entire expression by Time.deltaTime
+            acceleration = direction * accelerationRate * Time.deltaTime;
 
             // Vector += Acceleration
             velocity += acceleration;
 
             // Velocity = Clamp Velocity, MaxSpeed
-            velocity = Vector3.ClampMagnitude(velocity, maximumSpeed);
+            // Multiplied maxSpeed by Time.deltaTime
+            velocity = Vector3.ClampMagnitude(velocity, maximumSpeed * Time.deltaTime);
 
             // set the x Velocity to the Shark current position
             position = new Vector3(velocity.x, 0, 0);
@@ -281,7 +284,7 @@ public class Shark : MonoBehaviour
             }
             return false;
         }
-        
+
 
     }
 

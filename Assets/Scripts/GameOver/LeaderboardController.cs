@@ -51,7 +51,7 @@ public class LeaderboardController : MonoBehaviour
     public void FillLeaderboards(List<Player> _players)
     {
         _players.Add(new Player { fishCount = 10, playerName = "Davey Jones" });
-        _players.Add(new Player { fishCount = 20, playerName = "Scuba Steve" });
+        _players.Add(new Player { fishCount = 20, playerName = "Patrick Star" });
         _players.Add(new Player { fishCount = 35, playerName = "Flying Duchman" });
         _players.Add(new Player { fishCount = 50, playerName = "Ghost of Captain Cutler" });
         LeaderboardCalculator.sortLeadboard(_players);
